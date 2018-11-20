@@ -1,0 +1,23 @@
+{
+  "name": "birthdatetoweek",
+  "version": "1.0.0",
+  "description": "Basic application for calculating child age in weeks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/index.js",
+    "start:watch": "nodemon ./server/index.js",
+    "build:dev": "NODE_ENV=development node ./server/index.js",
+    "build:prod": "NODE_ENV=production node ./server/index.js"
+  },
+  "author": "Łukasz Lach",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "express": "4.16.4",
+    "express-session": "1.15.6",
+    "mongodb": "3.1.10",
+    "webpack": "4.25.1",
+    "webpack-cli": "3.1.2"
+  }
+}
