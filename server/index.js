@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 const expressSession = require('express-session');
@@ -12,6 +13,9 @@ const {
     envName
 } = config;
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, '..', 'client/dist'));
+app.use(express.static(path.resolve(__dirname, '..', 'client/dist')));
 app.use(bodyParser.json());
 app.use(expressSession(config.sessionConfig));
 app.use(router);

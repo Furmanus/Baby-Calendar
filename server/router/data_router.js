@@ -14,12 +14,13 @@ router.get('/data', async (req, res) => {
 router.put('/data', async (req, res) => {
     const {
         userId
-    } = req.body;
+    } = req.session;
     const {
         childName,
         birthDate,
         childWeightEntry,
-        childPoopEntry
+        childPoopEntry,
+        childInoculationEntry
     } = req.body;
 
     databaseHelper.updateUserData({
@@ -27,6 +28,56 @@ router.put('/data', async (req, res) => {
         birthDate,
         childWeightEntry,
         childPoopEntry,
+        childInoculationEntry,
+        userId
+    }, (statusCode, response) => {
+        res.status(statusCode).send(response);
+    });
+});
+router.delete('/data', async (req, res) => {
+    const {
+        userId
+    } = req.session;
+    const {
+        childName,
+        birthDate,
+        childWeightEntry,
+        childPoopEntry,
+        childInoculationEntry,
+    } = req.body;
+
+    databaseHelper.deleteUserData({
+        childName,
+        birthDate,
+        childWeightEntry,
+        childPoopEntry,
+        childInoculationEntry,
+        userId
+    }, (statusCode, response) => {
+        res.status(statusCode).send(response);
+    })
+});
+router.put('/data_replace', async (req, res) => {
+    const {
+        userId
+    } = req.session;
+
+    const {
+        childWeightEntry,
+        originalChildWeightEntry,
+        childPoopEntry,
+        originalChildPoopEntry,
+        inoculationEntry,
+        originalInoculationEntry
+    } = req.body;
+
+    databaseHelper.replaceUserRecord({
+        childWeightEntry,
+        originalChildWeightEntry,
+        childPoopEntry,
+        originalChildPoopEntry,
+        inoculationEntry,
+        originalInoculationEntry,
         userId
     }, (statusCode, response) => {
         res.status(statusCode).send(response);
