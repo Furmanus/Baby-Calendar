@@ -1,4 +1,4 @@
-server/config/config.js
+server/config
 node_modules
 .idea
 client/dist
