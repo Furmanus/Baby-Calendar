@@ -1,0 +1,17 @@
+export const LOGOUT = 'logout';
+export const LOGOUT_SUCCESS = 'logout_success';
+export const LOGOUT_FAILURE = 'logout_failure';
+export const FETCH_USER_DATA = 'fetch_user_data';
+export const FETCH_USER_DATA_SUCCESS = 'fetch_user_data_success';
+export const FETCH_USER_DATA_FAILURE = 'fetch_user_data_failure';
+export const UPDATE_USER_DATA = 'update_user_data';
+export const UPDATE_USER_DATA_SUCCESS = 'update_user_data_success';
+export const UPDATE_USER_DATA_FAILURE = 'update_user_data_failure';
+export const CHANGE_ACTIVE_TAB = 'change_active_tab';
+export const DELETE_USER_RECORD = 'delete_user_record';
+export const DELETE_USER_RECORD_SUCCESS = 'delete_user_record_success';
+export const DELETE_USER_RECORD_FAILURE = 'delete_user_record_failure';
+export const REPLACE_USER_DATA = 'replace_user_data';
+export const REPLACE_USER_DATA_SUCCESS = 'replace_user_data_success';
+export const REPLACE_USER_DATA_FAILURE = 'replace_user_data_failure';
+export const HIDE_ERROR = 'hide_error';

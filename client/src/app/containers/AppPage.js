@@ -1,0 +1,83 @@
+import React from 'react';
+import {connect} from 'react-redux';
+import {AppHeader} from '../components/AppHeader';
+import {AppNavbar} from './AppNavbar';
+import {Loader} from '../components/Loader';
+import {AppInfoComponent} from '../components/AppInfoComponent';
+import {
+    DIAPER,
+    INFO,
+    INOCULATIONS,
+    SETTINGS,
+    WEIGHT
+} from '../constants/app_tabs';
+import autobind from 'autobind-decorator';
+import {fetchUserData} from '../actions/app_actions';
+import {AppSettingsContainer} from './AppSettingsContainer';
+import {AppWeightTable} from './AppWeightTable';
+import {AppDiaperTable} from './AppDiaperTable';
+import {AppError} from './AppError';
+import {AppInoculationsTable} from './AppInoculationsTable';
+
+@connect(state => {
+    return {
+        childName: state.childName,
+        birthdate: state.birthdate,
+        isFetchingData: state.isFetchingData,
+        activeTab: state.activeTab,
+        error: state.error
+    };
+}, dispatch => {
+    return {
+        fetchUserData: () => {
+            dispatch(fetchUserData());
+        }
+    };
+})
+export class AppPage extends React.Component {
+    componentDidMount() {
+        const {
+            fetchUserData
+        } = this.props;
+
+        fetchUserData();
+    }
+    @autobind
+    renderActiveTab() {
+        const {
+            activeTab,
+            childName,
+            birthdate
+        } = this.props;
+
+        switch (activeTab) {
+            case INFO:
+                return <AppInfoComponent childName={childName} birthdate={birthdate}/>;
+            case WEIGHT:
+                return <AppWeightTable/>;
+            case DIAPER:
+                return <AppDiaperTable/>;
+            case SETTINGS:
+                return <AppSettingsContainer/>;
+            case INOCULATIONS:
+                return <AppInoculationsTable/>;
+        }
+    }
+    render() {
+        const {
+            isFetchingData,
+            error
+        } = this.props;
+
+        return (
+            <div className="page-wrapper">
+                <AppHeader/>
+                <AppNavbar/>
+                <div className="page-content-wrapper">
+                    {isFetchingData ? <Loader/> : this.renderActiveTab()}
+                </div>
+                {error ? <AppError/> : null}
+            </div>
+        );
+    }
+}

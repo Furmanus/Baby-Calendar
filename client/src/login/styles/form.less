@@ -1,0 +1,32 @@
+.form {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+    height: 70%;
+    padding: 30px 60px;
+
+    @media @smartphone {
+      width: 100%;
+      padding: 10px 20px;
+    }
+  }
+  &-container {
+    width: 40%;
+
+    @media @smartphone {
+      width: 80%;
+    }
+  }
+  &-hint {
+    margin: 2px auto;
+    font-size: 12px;
+    min-height: 18px;
+    font-weight: bold;
+  }
+  &-group {
+    margin-bottom: 2px;
+  }
+}

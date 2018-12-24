@@ -1,0 +1,10 @@
+export const LOGIN_CHANGE_TAB = 'login_change_tab';
+export const LOGIN_CHANGE_LOGIN_INPUT_VALUE = 'login_change_login_input_value';
+export const LOGIN_CHANGE_LOGIN_PASSWORD_INPUT_VALUE = 'login_change_login_password_input_value';
+export const LOGIN_CHANGE_LOGIN_INPUT_ERROR = 'login_change_login_input_error';
+export const lOGIN_CHANGE_LOGIN_PASSWORD_INPUT_ERROR = 'login_change_login_password_input_error';
+export const LOGIN_CHANGE_LOGIN_INPUT_ERROR_HINT = 'login_change_login_error_hint';
+export const LOGIN_CHANGE_PASSWORD_INPUT_ERROR_HINT = 'login_password_input_error_hint';
+export const LOGIN_SUBMIT = 'login_submit';
+export const LOGIN_SUBMIT_SUCCESS = 'login_submit_success';
+export const LOGIN_SUBMIT_ERROR = 'login_submit_error';
