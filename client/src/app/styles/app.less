@@ -2,6 +2,7 @@
 @import "../../common/styles/common";
 @import "navbar";
 @import "loader";
+@import "modal";
 
 html, body {
   width: 100%;
@@ -180,6 +181,7 @@ body {
       align-items: center;
       max-height: 100%;
       padding-top: 40px;
+      margin-left: 20px;
 
       p {
         text-align: center;
@@ -206,11 +208,28 @@ body {
 .diaper {
   &-wrapper {
     display: flex;
+    flex-direction: column;
     justify-items: center;
     align-items: center;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+    height: 100%;
+
+    input {
+      margin: auto 5px;
+
+      @media @smartphone {
+        margin: 2px auto;
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+  &-button {
+    width: fit-content;
   }
 }
 .emptydata {
@@ -221,7 +240,10 @@ body {
     text-align: center;
 
     margin-bottom: 40px;
-    margin-right: 20px;
+
+    span {
+      font-size: 32px;
+    }
   }
 }
 .icon {

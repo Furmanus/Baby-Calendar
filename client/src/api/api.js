@@ -23,7 +23,7 @@ export async function updateUserData(data) {
         childName: data.childname,
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
-        childPoopsEntry: data.childPoopEntry,
+        childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry
     });
 }
@@ -32,7 +32,7 @@ export async function deleteUserData(data) {
         childName: data.childname,
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
-        childPoopsEntry: data.childPoopEntry,
+        childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry
     });
 }
