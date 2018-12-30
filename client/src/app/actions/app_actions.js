@@ -77,7 +77,7 @@ function fetchUserDataSuccess(userData) {
         childName,
         birthDate: birthdate,
         childWeightEntries,
-        childPoopEntries,
+        childPoopsEntries,
         childInoculationsEntries
     } = userData;
 
@@ -87,7 +87,7 @@ function fetchUserDataSuccess(userData) {
         childName,
         birthdate,
         childWeightEntries,
-        childPoopEntries,
+        childPoopsEntries,
         childInoculationsEntries
     };
 }
@@ -117,7 +117,7 @@ function updateUserDataSuccess(data) {
         childName: data.childName,
         birthdate: data.birthDate,
         childWeightEntries: data.childWeightEntries,
-        childPoopEntries: data.childPoopEntries,
+        childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries
     };
 }
@@ -153,7 +153,7 @@ function deleteUserDataRecordSuccess(data) {
         childName: data.childName,
         birthdate: data.birthDate,
         childWeightEntries: data.childWeightEntries,
-        childPoopEntries: data.childPoopEntries,
+        childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries
     };
 }
@@ -183,7 +183,7 @@ function replaceUserDataSuccess(data) {
         childName: data.childName,
         birthdate: data.birthDate,
         childWeightEntries: data.childWeightEntries,
-        childPoopEntries: data.childPoopEntries,
+        childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries
     };
 }

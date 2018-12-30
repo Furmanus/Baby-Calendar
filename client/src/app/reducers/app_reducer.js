@@ -30,6 +30,7 @@ const initialState = {
 export function appReducer(state = initialState, action) {
     let sortedWeightEntries;
     let sortedInoculaionEntries;
+    let sortedPoopsEntries;
 
     switch (action.type) {
         case FETCH_USER_DATA:
@@ -40,6 +41,7 @@ export function appReducer(state = initialState, action) {
         case FETCH_USER_DATA_SUCCESS:
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
+            sortedPoopsEntries = action.childPoopsEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
@@ -47,7 +49,7 @@ export function appReducer(state = initialState, action) {
                 birthdate: action.birthdate,
                 childName: action.childName,
                 childWeightEntries: sortedWeightEntries,
-                childPoopsEntries: action.childPoopEntries,
+                childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
                 activeTab: action.activeTab
             };
@@ -65,13 +67,14 @@ export function appReducer(state = initialState, action) {
         case UPDATE_USER_DATA_SUCCESS:
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
+            sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
                 childName: action.childName,
                 birthdate: action.birthdate,
                 childWeightEntries: sortedWeightEntries,
-                childPoopEntries: action.childPoopEntries,
+                childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
                 isFetchingData: false
             };
@@ -94,6 +97,7 @@ export function appReducer(state = initialState, action) {
         case DELETE_USER_RECORD_SUCCESS:
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
+            sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
@@ -101,7 +105,7 @@ export function appReducer(state = initialState, action) {
                 childName: action.childName,
                 birthdate: action.birthdate,
                 childWeightEntries: sortedWeightEntries,
-                childPoopEntries: action.childPoopEntries,
+                childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries
             };
         case DELETE_USER_RECORD_FAILURE:
@@ -118,12 +122,13 @@ export function appReducer(state = initialState, action) {
         case REPLACE_USER_DATA_SUCCESS:
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
+            sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
                 isFetchingData: false,
                 childWeightEntries: sortedWeightEntries,
-                childPoopEntries: action.childPoopEntries,
+                childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries
             };
         case REPLACE_USER_DATA_FAILURE:

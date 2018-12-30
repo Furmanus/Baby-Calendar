@@ -176,6 +176,7 @@ const databaseMethods = {
             const dbConnection = await this.createConnection();
             const dbObject = dbConnection.db(constants.DATABASE_NAME);
             const userDataRecord = await dbObject.collection(constants.USERS_DATA).findOne({userId});
+            let entryDeleted = false;
 
             if (userDataRecord) {
                 if (childName) {
@@ -188,17 +189,35 @@ const databaseMethods = {
                     userDataRecord.childWeightEntries = userDataRecord.childWeightEntries.filter(entry => {
                         const weighsEqual = (entry.childWeight === childWeightEntry.childWeight);
                         const datesEqual = (entry.weightDate === childWeightEntry.weightDate);
-                        return !weighsEqual || !datesEqual;
+
+                        if (weighsEqual && datesEqual && !entryDeleted) {
+                            entryDeleted = true;
+                            return false;
+                        }
+                        return true;
                     });
                 }
                 if (childPoopEntry) {
-                    //TODO
+                    userDataRecord.childPoopsEntries = userDataRecord.childPoopsEntries.filter(entry => {
+                        const datesEqual = (entry.date === childPoopEntry.date);
+
+                        if (datesEqual && !entryDeleted) {
+                            entryDeleted = true;
+                            return false;
+                        }
+                        return true;
+                    });
                 }
                 if (childInoculationEntry) {
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.filter(entry => {
                         const descriptionsEqual = (entry.description === childInoculationEntry.description);
                         const datesEqual = (entry.inoculationDate === childInoculationEntry.inoculationDate);
-                        return !descriptionsEqual || !datesEqual;
+
+                        if (descriptionsEqual && datesEqual && !entryDeleted) {
+                            entryDeleted = true;
+                            return false;
+                        }
+                        return true;
                     });
                 }
 
@@ -232,28 +251,41 @@ const databaseMethods = {
             const dbConnection = await this.createConnection();
             const dbObject = dbConnection.db(constants.DATABASE_NAME);
             const userDataRecord = await dbObject.collection(constants.USERS_DATA).findOne({userId});
-            let originalWeight;
-            let originalDate;
+            let entryChanged = false;
 
             if (userDataRecord) {
                 if (childWeightEntry && originalChildWeightEntry) {
-                    originalWeight = originalChildWeightEntry.childWeight;
-                    originalDate = originalChildWeightEntry.weightDate;
+                    const originalWeight = originalChildWeightEntry.childWeight;
+                    const originalDate = originalChildWeightEntry.weightDate;
 
                     userDataRecord.childWeightEntries = userDataRecord.childWeightEntries.map(entry => {
                         const {
                             childWeight: entryWeight,
                             weightDate: entryDate
                         } = entry;
-                        if (entryWeight === originalWeight && entryDate === originalDate) {
+                        const areEntriesSame = (entryWeight === originalWeight && entryDate === originalDate);
+
+                        if (areEntriesSame && !entryChanged) {
+                            entryChanged = true;
                             return childWeightEntry;
                         }
-
                         return entry;
                     });
                 }
                 if (childPoopEntry) {
-                    //TODO
+                    const {
+                        date: originalDate
+                    } = originalChildPoopEntry;
+
+                    userDataRecord.childPoopsEntries = userDataRecord.childPoopsEntries.map(entry => {
+                        const areEntriesSame = (entry.date === originalDate);
+
+                        if (areEntriesSame && !entryChanged) {
+                            entryChanged = true;
+                            return childPoopEntry;
+                        }
+                        return entry;
+                    });
                 }
 
                 if (inoculationEntry && originalInoculationEntry) {
@@ -267,8 +299,13 @@ const databaseMethods = {
                             inoculationDate,
                             description
                         } = entry;
+                        const areEntriesSame = (
+                            originalInoculationDate === inoculationDate &&
+                            originalDescription === description
+                        );
 
-                        if (originalInoculationDate === inoculationDate && originalDescription === description) {
+                        if (areEntriesSame && !entryChanged) {
+                            entryChanged = true;
                             return inoculationEntry;
                         }
                         return entry;
