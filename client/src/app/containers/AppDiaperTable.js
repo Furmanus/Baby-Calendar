@@ -193,7 +193,8 @@ export class AppDiaperTable extends React.Component {
             isSubmitting
         } = this.props;
         const {
-            isEntryEdited
+            isEntryEdited,
+            editEntryDateNewValue
         } = this.state;
 
         return (
@@ -211,6 +212,7 @@ export class AppDiaperTable extends React.Component {
                     onCancel={this.onEditEntryCancel}
                     onConfirm={this.onEditEntryConfirm}
                     bodyRenderer={this.editEntryModalBodyRenderer}
+                    confirmEnabled={!!editEntryDateNewValue}
                 />
             </div>
         );
