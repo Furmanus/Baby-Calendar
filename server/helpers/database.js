@@ -290,8 +290,8 @@ const databaseMethods = {
 
                 if (inoculationEntry && originalInoculationEntry) {
                     const {
-                        originalInoculationDate,
-                        originalDescription
+                        inoculationDate: originalInoculationDate,
+                        description: originalDescription
                     } = originalInoculationEntry;
 
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.map(entry => {

@@ -8,17 +8,16 @@ import {
     FaEdit
 } from 'react-icons/fa';
 import autobind from 'autobind-decorator';
-import {AppWeightTableRowEditForm} from './AppWeightTableRowEditForm';
 
 export class AppWeightTableRow extends React.Component {
     @autobind
     onEditClick() {
         const {
-            index,
+            entry,
             handleEditClick
         } = this.props;
 
-        handleEditClick(index);
+        handleEditClick(entry);
     }
     @autobind
     onRemoveClick() {
@@ -29,8 +28,7 @@ export class AppWeightTableRow extends React.Component {
 
         handleRemoveClick(entry);
     }
-    @autobind
-    renderRow() {
+    render() {
         const {
             entries: childWeightEntries,
             entry,
@@ -58,24 +56,6 @@ export class AppWeightTableRow extends React.Component {
                     />
                 </td>
             </tr>
-        );
-    }
-    render() {
-        const {
-            isEntryEdited,
-            handleCancelEdit,
-            handleConfirmEdit,
-            entry
-        } = this.props;
-
-        return (
-            isEntryEdited ?
-                <AppWeightTableRowEditForm
-                    handleCancelEdit={handleCancelEdit}
-                    handleConfirmEdit={handleConfirmEdit}
-                    originalEntry={entry}
-                /> :
-                this.renderRow()
         );
     }
 }

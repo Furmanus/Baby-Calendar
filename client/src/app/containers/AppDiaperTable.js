@@ -193,24 +193,26 @@ export class AppDiaperTable extends React.Component {
             isSubmitting
         } = this.props;
         const {
-            isEntryEdited
+            isEntryEdited,
+            editEntryDateNewValue
         } = this.state;
 
         return (
             <div className="diaper-wrapper">
-                <div className="data-wrapper">
-                    {this.renderContent()}
-                </div>
                 <AppDiaperEntryForm
                     handleSubmit={this.handleNewEntryFormSubmit}
                     isSubmitting={isSubmitting}
                 />
+                <div className="data-wrapper">
+                    {this.renderContent()}
+                </div>
                 <AppConfirmModal
                     title="Edit entry"
                     visible={isEntryEdited}
                     onCancel={this.onEditEntryCancel}
                     onConfirm={this.onEditEntryConfirm}
                     bodyRenderer={this.editEntryModalBodyRenderer}
+                    confirmEnabled={!!editEntryDateNewValue}
                 />
             </div>
         );

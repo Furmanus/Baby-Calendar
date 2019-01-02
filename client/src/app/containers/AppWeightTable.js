@@ -13,6 +13,11 @@ import {
 } from 'react-bootstrap';
 import {AppWeightTableRow} from '../components/AppWeightTableRow';
 import PerfectScrollBar from 'react-perfect-scrollbar';
+import {AppConfirmModal} from '../components/AppConfirmModal';
+import {
+    ControlLabel,
+    FormControl
+} from 'react-bootstrap';
 
 @connect(state => {
     return {
@@ -42,12 +47,15 @@ import PerfectScrollBar from 'react-perfect-scrollbar';
 })
 export class AppWeightTable extends React.Component {
     state = {
-        editedIndex: -1
+        editedEntry: null,
+        editedEntryNewDateValue: '',
+        editedEntryNewChildWeightValue: ''
     };
+
     @autobind
-    handleEditClick(entryIndex) {
+    handleEditClick(entry) {
         this.setState({
-            editedIndex: entryIndex
+            editedEntry: entry
         });
     }
     @autobind
@@ -59,18 +67,32 @@ export class AppWeightTable extends React.Component {
         deleteUserData(entry);
     }
     @autobind
-    handleCancelRowEdit() {
+    handleCancelEdit() {
         this.setState({
-            editedIndex: -1
+            editedEntry: null,
+            editedEntryNewDateValue: '',
+            editedEntryNewChildWeightValue: ''
         });
     }
     @autobind
-    handleEditRowAccept(childWeight, weightDate, originalEntry) {
+    handleConfirmEdit() {
         const {
             replaceUserData
         } = this.props;
-        if (childWeight && weightDate) {
-            replaceUserData(childWeight, weightDate, originalEntry);
+        const {
+            editedEntry,
+            editedEntryNewChildWeightValue,
+            editedEntryNewDateValue
+        } = this.state;
+
+        if (editedEntryNewChildWeightValue && editedEntryNewDateValue) {
+            this.setState({
+                editedEntry: null,
+                editedEntryNewDateValue: '',
+                editedEntryNewChildWeightValue: ''
+            });
+
+            replaceUserData(editedEntryNewChildWeightValue, editedEntryNewDateValue, editedEntry);
         }
     }
     @autobind
@@ -104,11 +126,8 @@ export class AppWeightTable extends React.Component {
                                         entries={childWeightEntries}
                                         entry={entry}
                                         index={index}
-                                        isEntryEdited={index === editedIndex}
                                         handleEditClick={this.handleEditClick}
                                         handleRemoveClick={this.handleRemoveClick}
-                                        handleCancelEdit={this.handleCancelRowEdit}
-                                        handleConfirmEdit={this.handleEditRowAccept}
                                     />
                                 );
                             })}
@@ -120,23 +139,84 @@ export class AppWeightTable extends React.Component {
             return <EmptyData/>;
         }
     }
+    @autobind
+    onEditedEntryDateChange(e) {
+        const {
+            value
+        } = e.target;
+
+        this.setState({
+            editedEntryNewDateValue: value
+        });
+    }
+    @autobind
+    onEditedEntryWeightChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (!isNaN(Number(value))) {
+            this.setState({
+                editedEntryNewChildWeightValue: value
+            });
+        }
+    }
+    @autobind
+    editEntryModalBodyRenderer() {
+        const {
+            editedEntryNewDateValue,
+            editedEntryNewChildWeightValue
+        } = this.state;
+
+        return (
+            <div className="modal-weight-wrapper">
+                <ControlLabel>Pick new date: </ControlLabel>
+                <FormControl
+                    placeholder="Enter date"
+                    type="date"
+                    value={editedEntryNewDateValue}
+                    onChange={this.onEditedEntryDateChange}
+                />
+                <ControlLabel>Pick new weight: </ControlLabel>
+                <FormControl
+                    placeholder="Enter weight"
+                    type="text"
+                    value={editedEntryNewChildWeightValue}
+                    onChange={this.onEditedEntryWeightChange}
+                />
+            </div>
+        );
+    }
     render() {
         const {
             updateUserData,
             isSubmitting
         } = this.props;
+        const {
+            editedEntry,
+            editedEntryNewChildWeightValue,
+            editedEntryNewDateValue
+        } = this.state;
 
         return (
             <div className="weight-wrapper">
-                <div className="data-wrapper">
-                    {this.renderContent()}
-                </div>
                 <div className="weight-form-wrapper">
                     <AddWeightEntryForm
                         updateData={updateUserData}
                         isSubmitting={isSubmitting}
                     />
                 </div>
+                <div className="data-wrapper">
+                    {this.renderContent()}
+                </div>
+                <AppConfirmModal
+                    title="Edit weight entry"
+                    visible={!!editedEntry}
+                    bodyRenderer={this.editEntryModalBodyRenderer}
+                    onCancel={this.handleCancelEdit}
+                    onConfirm={this.handleConfirmEdit}
+                    confirmEnabled={!!editedEntryNewDateValue && !!editedEntryNewChildWeightValue}
+                />
             </div>
         );
     }

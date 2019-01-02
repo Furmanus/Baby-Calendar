@@ -51,7 +51,7 @@ export class AppDiaperEntryForm extends React.Component {
         } = this.props;
 
         return (
-            <div>
+            <div className="diaper-form-wrapper">
                 <p>Add diaper entry</p>
                 <Form className="diaper-form-content" inline>
                     <FormGroup
