@@ -5,35 +5,31 @@ import {
     FaRegTrashAlt,
     FaEdit
 } from 'react-icons/fa';
-import {AppInoculationTableRowEditForm} from './AppInoculationTableRowEditForm';
 
 export class AppInoculationTableRow extends React.Component {
     static propTypes = {
-        index: propTypes.number.isRequired,
         date: propTypes.string.isRequired,
-        isEntryEdited: propTypes.bool,
         handleEditClick: propTypes.func,
         handleRemoveClick: propTypes.func,
-        handleCancelEdit: propTypes.func,
-        handleConfirmEdit: propTypes.func,
         description: propTypes.string
     };
     static defaultProps = {
         description: '',
-        isEntryEdited: false,
         handleEditClick: () => {},
-        handleRemoveClick: () => {},
-        handleConfirmEdit: () => {},
-        handleCancelEdit: () => {}
+        handleRemoveClick: () => {}
     };
     @autobind
     onEditClick() {
         const {
             handleEditClick,
-            index
+            date,
+            description
         } = this.props;
 
-        handleEditClick(index);
+        handleEditClick({
+            inoculationDate: date,
+            description: description
+        });
     }
     @autobind
     onRemoveClick() {
@@ -50,8 +46,7 @@ export class AppInoculationTableRow extends React.Component {
             }
         });
     }
-    @autobind
-    renderRow() {
+    render() {
         const {
             date,
             description
@@ -77,25 +72,4 @@ export class AppInoculationTableRow extends React.Component {
             </tr>
         );
     }
-    render() {
-        const {
-            isEntryEdited,
-            date,
-            description,
-            handleCancelEdit,
-            handleConfirmEdit
-        } = this.props;
-
-        return (
-            isEntryEdited ?
-                <AppInoculationTableRowEditForm
-                    inoculationDate={date}
-                    description={description}
-                    handleCancelEdit={handleCancelEdit}
-                    handleConfirmEdit={handleConfirmEdit}
-                /> :
-                this.renderRow()
-        );
-    }
-
 }

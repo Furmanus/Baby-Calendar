@@ -9,10 +9,13 @@ import {
 import {EmptyData} from '../components/EmptyData';
 import {AddInoculationEntryForm} from '../components/AddInoculationEntryForm';
 import {
-    Table
+    Table,
+    FormControl,
+    ControlLabel
 } from 'react-bootstrap';
 import PerfectScrollBar from 'react-perfect-scrollbar';
 import {AppInoculationTableRow} from '../components/AppInoculationTableRow';
+import {AppConfirmModal} from '../components/AppConfirmModal';
 
 @connect(state => {
     return {
@@ -37,7 +40,9 @@ import {AppInoculationTableRow} from '../components/AppInoculationTableRow';
 })
 export class AppInoculationsTable extends React.Component {
     state = {
-        editedIndex: -1
+        editedEntry: null,
+        newInoculationDate: '',
+        newInoculationDescription: ''
     };
     @autobind
     handleRemoveClick(inoculationEntry) {
@@ -48,33 +53,97 @@ export class AppInoculationsTable extends React.Component {
         deleteUserData(inoculationEntry);
     }
     @autobind
-    handleEditClick(index) {
+    handleEditClick(entry) {
         this.setState({
-            editedIndex: index
+            editedEntry: entry
         });
     }
     @autobind
     handleCancelEdit() {
         this.setState({
-            editedIndex: -1
+            editedEntry: null,
+            newInoculationDate: '',
+            newInoculationDescription: ''
         });
     }
     @autobind
-    handleConfirmEdit(inoculationEntry, originalInoculationEntry) {
+    handleConfirmEdit() {
         const {
             replaceUserData
         } = this.props;
+        const {
+            newInoculationDate,
+            newInoculationDescription,
+            editedEntry
+        } = this.state;
 
-        replaceUserData(inoculationEntry, originalInoculationEntry);
+        if (newInoculationDate && newInoculationDescription) {
+            this.setState({
+                editedEntry: null,
+                newInoculationDate: '',
+                newInoculationDescription: ''
+            });
+
+            replaceUserData({
+                inoculationDate: newInoculationDate,
+                description: newInoculationDescription
+            }, editedEntry);
+        }
+    }
+    @autobind
+    onEditedInoculationDateChange(e) {
+        const {
+            value
+        } = e.target;
+
+        this.setState({
+            newInoculationDate: value
+        });
+    }
+    @autobind
+    onEditedInoculationDescriptionChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (value.length < 160) {
+            this.setState({
+                newInoculationDescription: value
+            });
+        }
+    }
+    @autobind
+    editInoculationModalBodyRenderer() {
+        const {
+            newInoculationDate,
+            newInoculationDescription
+        } = this.state;
+
+        return (
+            <div className="modal-inoculation-wrapper">
+                <ControlLabel>Pick new date: </ControlLabel>
+                <FormControl
+                    placeholder="Enter date"
+                    type="date"
+                    value={newInoculationDate}
+                    onChange={this.onEditedInoculationDateChange}
+                />
+                <ControlLabel>Enter new description: </ControlLabel>
+                <FormControl
+                    placeholder="Enter description"
+                    className="no-resize"
+                    componentClass="textarea"
+                    value={newInoculationDescription}
+                    onChange={this.onEditedInoculationDescriptionChange}
+                />
+            </div>
+        );
     }
     @autobind
     renderContent() {
         const {
             childInoculationsEntries
         } = this.props;
-        const {
-            editedIndex
-        } = this.state;
 
         if (childInoculationsEntries.length) {
             return <PerfectScrollBar className="scrollbar-space">
@@ -91,15 +160,11 @@ export class AppInoculationsTable extends React.Component {
                     {childInoculationsEntries.map((entry, index) => {
                         return (
                             <AppInoculationTableRow
-                                index={index}
                                 date={entry.inoculationDate}
                                 description={entry.description}
-                                isEntryEdited={index === editedIndex}
                                 key={index}
                                 handleRemoveClick={this.handleRemoveClick}
                                 handleEditClick={this.handleEditClick}
-                                handleCancelEdit={this.handleCancelEdit}
-                                handleConfirmEdit={this.handleConfirmEdit}
                             />
                         );
                     })}
@@ -115,6 +180,11 @@ export class AppInoculationsTable extends React.Component {
             isSubmitting,
             updateUserData
         } = this.props;
+        const {
+            editedEntry,
+            newInoculationDescription,
+            newInoculationDate
+        } = this.state;
 
         return (
             <div className="inoculation-wrapper">
@@ -127,6 +197,14 @@ export class AppInoculationsTable extends React.Component {
                         updateUserData={updateUserData}
                     />
                 </div>
+                <AppConfirmModal
+                    title="Edit inoculation entry"
+                    visible={!!editedEntry}
+                    confirmEnabled={!!newInoculationDescription && !!newInoculationDate}
+                    bodyRenderer={this.editInoculationModalBodyRenderer}
+                    onCancel={this.handleCancelEdit}
+                    onConfirm={this.handleConfirmEdit}
+                />
             </div>
         );
     }

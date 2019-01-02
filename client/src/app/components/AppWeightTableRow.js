@@ -8,7 +8,6 @@ import {
     FaEdit
 } from 'react-icons/fa';
 import autobind from 'autobind-decorator';
-import {AppWeightTableRowEditForm} from './AppWeightTableRowEditForm';
 
 export class AppWeightTableRow extends React.Component {
     @autobind
