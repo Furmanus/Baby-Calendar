@@ -199,13 +199,13 @@ export class AppDiaperTable extends React.Component {
 
         return (
             <div className="diaper-wrapper">
-                <div className="data-wrapper">
-                    {this.renderContent()}
-                </div>
                 <AppDiaperEntryForm
                     handleSubmit={this.handleNewEntryFormSubmit}
                     isSubmitting={isSubmitting}
                 />
+                <div className="data-wrapper">
+                    {this.renderContent()}
+                </div>
                 <AppConfirmModal
                     title="Edit entry"
                     visible={isEntryEdited}

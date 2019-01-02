@@ -188,14 +188,14 @@ export class AppInoculationsTable extends React.Component {
 
         return (
             <div className="inoculation-wrapper">
-                <div className="data-wrapper full-height">
-                    {this.renderContent()}
-                </div>
                 <div className="inoculation-form-wrapper">
                     <AddInoculationEntryForm
                         isSubmitting={isSubmitting}
                         updateUserData={updateUserData}
                     />
+                </div>
+                <div className="data-wrapper full-height">
+                    {this.renderContent()}
                 </div>
                 <AppConfirmModal
                     title="Edit inoculation entry"

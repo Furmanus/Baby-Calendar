@@ -200,14 +200,14 @@ export class AppWeightTable extends React.Component {
 
         return (
             <div className="weight-wrapper">
-                <div className="data-wrapper">
-                    {this.renderContent()}
-                </div>
                 <div className="weight-form-wrapper">
                     <AddWeightEntryForm
                         updateData={updateUserData}
                         isSubmitting={isSubmitting}
                     />
+                </div>
+                <div className="data-wrapper">
+                    {this.renderContent()}
                 </div>
                 <AppConfirmModal
                     title="Edit weight entry"
