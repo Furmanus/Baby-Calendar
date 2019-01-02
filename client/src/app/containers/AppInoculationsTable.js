@@ -42,15 +42,45 @@ export class AppInoculationsTable extends React.Component {
     state = {
         editedEntry: null,
         newInoculationDate: '',
-        newInoculationDescription: ''
+        newInoculationDescription: '',
+        entrySelectedToDelete: null
     };
     @autobind
     handleRemoveClick(inoculationEntry) {
+        if (inoculationEntry) {
+            this.setState({
+                entrySelectedToDelete: inoculationEntry
+            });
+        }
+    }
+    @autobind
+    handleRemoveConfirm() {
+        const {
+            entrySelectedToDelete
+        } = this.state;
         const {
             deleteUserData
         } = this.props;
 
-        deleteUserData(inoculationEntry);
+        if (entrySelectedToDelete) {
+            deleteUserData(entrySelectedToDelete);
+
+            this.setState({
+                entrySelectedToDelete: null
+            });
+        }
+    }
+    @autobind
+    handleRemoveReject() {
+        this.setState({
+            entrySelectedToDelete: null
+        });
+    }
+    @autobind
+    deleteEntryModalBodyRenderer() {
+        return (
+            <p>Are you sure you want to delete selected entry?</p>
+        );
     }
     @autobind
     handleEditClick(entry) {
@@ -183,7 +213,8 @@ export class AppInoculationsTable extends React.Component {
         const {
             editedEntry,
             newInoculationDescription,
-            newInoculationDate
+            newInoculationDate,
+            entrySelectedToDelete
         } = this.state;
 
         return (
@@ -204,6 +235,13 @@ export class AppInoculationsTable extends React.Component {
                     bodyRenderer={this.editInoculationModalBodyRenderer}
                     onCancel={this.handleCancelEdit}
                     onConfirm={this.handleConfirmEdit}
+                />
+                <AppConfirmModal
+                    title="Confirm delete"
+                    visible={!!entrySelectedToDelete}
+                    onCancel={this.handleRemoveReject}
+                    onConfirm={this.handleRemoveConfirm}
+                    bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
             </div>
         );

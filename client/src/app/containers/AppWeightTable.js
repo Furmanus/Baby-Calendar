@@ -49,7 +49,8 @@ export class AppWeightTable extends React.Component {
     state = {
         editedEntry: null,
         editedEntryNewDateValue: '',
-        editedEntryNewChildWeightValue: ''
+        editedEntryNewChildWeightValue: '',
+        entrySelectedToDelete: null
     };
 
     @autobind
@@ -60,11 +61,34 @@ export class AppWeightTable extends React.Component {
     }
     @autobind
     handleRemoveClick(entry) {
+        if (entry) {
+            this.setState({
+                entrySelectedToDelete: entry
+            });
+        }
+    }
+    @autobind
+    handleConfirmRemove() {
+        const {
+            entrySelectedToDelete
+        } = this.state;
         const {
             deleteUserData
         } = this.props;
 
-        deleteUserData(entry);
+        if (entrySelectedToDelete) {
+            deleteUserData(entrySelectedToDelete);
+
+            this.setState({
+                entrySelectedToDelete: null
+            });
+        }
+    }
+    @autobind
+    handleRejectRemove() {
+        this.setState({
+            entrySelectedToDelete: null
+        });
     }
     @autobind
     handleCancelEdit() {
@@ -94,6 +118,12 @@ export class AppWeightTable extends React.Component {
 
             replaceUserData(editedEntryNewChildWeightValue, editedEntryNewDateValue, editedEntry);
         }
+    }
+    @autobind
+    deleteEntryModalBodyRenderer() {
+        return (
+            <p>Are you sure you want to remove selected entry?</p>
+        );
     }
     @autobind
     renderContent() {
@@ -195,7 +225,8 @@ export class AppWeightTable extends React.Component {
         const {
             editedEntry,
             editedEntryNewChildWeightValue,
-            editedEntryNewDateValue
+            editedEntryNewDateValue,
+            entrySelectedToDelete
         } = this.state;
 
         return (
@@ -216,6 +247,13 @@ export class AppWeightTable extends React.Component {
                     onCancel={this.handleCancelEdit}
                     onConfirm={this.handleConfirmEdit}
                     confirmEnabled={!!editedEntryNewDateValue && !!editedEntryNewChildWeightValue}
+                />
+                <AppConfirmModal
+                    title="Confirm delete"
+                    visible={!!entrySelectedToDelete}
+                    onCancel={this.handleRejectRemove}
+                    onConfirm={this.handleConfirmRemove}
+                    bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
             </div>
         );

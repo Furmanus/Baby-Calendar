@@ -41,7 +41,8 @@ export class AppDiaperTable extends React.Component {
     state = {
         isEntryEdited: false,
         editedEntry: null,
-        editEntryDateNewValue: ''
+        editEntryDateNewValue: '',
+        entrySelectedToDelete: null
     };
     componentDidUpdate(prevProps, prevState) {
         const {
@@ -56,13 +57,42 @@ export class AppDiaperTable extends React.Component {
     }
     @autobind
     handleDeleteRowClick(date) {
+        if (date) {
+            this.setState({
+                entrySelectedToDelete: {
+                    date
+                }
+            });
+        }
+    }
+    @autobind
+    handleDeleteRowConfirm() {
+        const {
+            entrySelectedToDelete
+        } = this.state;
         const {
             deleteUserData
         } = this.props;
 
-        deleteUserData({
-            date
+        if (entrySelectedToDelete) {
+            deleteUserData(entrySelectedToDelete);
+
+            this.setState({
+                entrySelectedToDelete: null
+            });
+        }
+    }
+    @autobind
+    handleDeleteRowReject() {
+        this.setState({
+            entrySelectedToDelete: null
         });
+    }
+    @autobind
+    deleteEntryModalBodyRenderer() {
+        return (
+            <p>Are you sure you want to delete selected entry?</p>
+        );
     }
     @autobind
     handleEditRowClick(entry) {
@@ -194,7 +224,8 @@ export class AppDiaperTable extends React.Component {
         } = this.props;
         const {
             isEntryEdited,
-            editEntryDateNewValue
+            editEntryDateNewValue,
+            entrySelectedToDelete
         } = this.state;
 
         return (
@@ -213,6 +244,13 @@ export class AppDiaperTable extends React.Component {
                     onConfirm={this.onEditEntryConfirm}
                     bodyRenderer={this.editEntryModalBodyRenderer}
                     confirmEnabled={!!editEntryDateNewValue}
+                />
+                <AppConfirmModal
+                    title="Confirm delete"
+                    visible={!!entrySelectedToDelete}
+                    onCancel={this.handleDeleteRowReject}
+                    onConfirm={this.handleDeleteRowConfirm}
+                    bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
             </div>
         );
