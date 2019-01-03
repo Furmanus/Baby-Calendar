@@ -120,49 +120,11 @@ body {
       width: 100%;
     }
   }
-  &-form {
+  &-add-entry {
     &-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      height: 40%;
-
-      @media @smartphone {
-        margin-bottom: 20px;
+      button {
+        float: right;
       }
-
-      p {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 700;
-      }
-      input {
-        margin: auto 5px;
-
-        @media @smartphone {
-          margin: 2px auto;
-        }
-      }
-    }
-    &-content {
-      @media @smartphone {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        button {
-          width: 50%;
-        }
-      }
-    }
-    &-input {
-      width: 146px;
-      height: 22px;
-    }
-    &-icon {
-      cursor: pointer;
     }
   }
 }

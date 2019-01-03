@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import autobind from 'autobind-decorator';
 import {EmptyData} from '../components/EmptyData';
-import {AddWeightEntryForm} from '../components/AddWeightEntryForm';
 import {
     updateUserData,
     deleteUserDataRecord,
@@ -16,7 +15,10 @@ import PerfectScrollBar from 'react-perfect-scrollbar';
 import {AppConfirmModal} from '../components/AppConfirmModal';
 import {
     ControlLabel,
-    FormControl
+    FormGroup,
+    FormControl,
+    Form,
+    Button
 } from 'react-bootstrap';
 
 @connect(state => {
@@ -50,9 +52,100 @@ export class AppWeightTable extends React.Component {
         editedEntry: null,
         editedEntryNewDateValue: '',
         editedEntryNewChildWeightValue: '',
-        entrySelectedToDelete: null
+        entrySelectedToDelete: null,
+        isAddingEntry: false,
+        newEntryDateValue: '',
+        newEntryChildWeightValue: ''
     };
+    @autobind
+    handleAddEntryClick() {
+        this.setState({
+            isAddingEntry: true
+        });
+    }
+    @autobind
+    handleAddEntryCancel() {
+        this.setState({
+            isAddingEntry: false,
+            newEntryDateValue: '',
+            newEntryChildWeightValue: ''
+        });
+    }
+    @autobind
+    handleAddEntryConfirm() {
+        const {
+            newEntryChildWeightValue,
+            newEntryDateValue
+        } = this.state;
+        const {
+            updateUserData
+        } = this.props;
 
+        if (newEntryChildWeightValue && newEntryDateValue) {
+            this.setState({
+                isAddingEntry: false,
+                newEntryDateValue: '',
+                newEntryChildWeightValue: ''
+            });
+
+            updateUserData({
+                childWeightEntry: {
+                    childWeight: newEntryChildWeightValue,
+                    weightDate: newEntryDateValue
+                }
+            });
+        }
+    }
+    @autobind
+    onAddEntryChildWeightChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (!isNaN(value) && isFinite(value)) {
+            this.setState({
+                newEntryChildWeightValue: value
+            });
+        }
+    }
+    @autobind
+    onAddEntryWeightDateChange(e) {
+        const {
+            value
+        } = e.target;
+
+        this.setState({
+            newEntryDateValue: value
+        });
+    }
+    @autobind
+    addEntryModalBodyRenderer() {
+        const {
+            newEntryChildWeightValue,
+            newEntryDateValue
+        } = this.state;
+
+        return (
+            <Form>
+                <FormGroup controlId="addWeight">
+                    <ControlLabel>Weight:</ControlLabel>
+                    <FormControl
+                        type="text"
+                        value={newEntryChildWeightValue}
+                        placeholder="Enter child weight"
+                        onChange={this.onAddEntryChildWeightChange}
+                    />
+                    <ControlLabel>Date:</ControlLabel>
+                    <FormControl
+                        type="date"
+                        value={newEntryDateValue}
+                        placeholder="Enter date"
+                        onChange={this.onAddEntryWeightDateChange}
+                    />
+                </FormGroup>
+            </Form>
+        );
+    }
     @autobind
     handleEditClick(entry) {
         this.setState({
@@ -219,23 +312,23 @@ export class AppWeightTable extends React.Component {
     }
     render() {
         const {
-            updateUserData,
-            isSubmitting
-        } = this.props;
-        const {
             editedEntry,
             editedEntryNewChildWeightValue,
             editedEntryNewDateValue,
-            entrySelectedToDelete
+            entrySelectedToDelete,
+            isAddingEntry,
+            newEntryDateValue,
+            newEntryChildWeightValue
         } = this.state;
 
         return (
             <div className="weight-wrapper">
-                <div className="weight-form-wrapper">
-                    <AddWeightEntryForm
-                        updateData={updateUserData}
-                        isSubmitting={isSubmitting}
-                    />
+                <div className="weight-add-entry-wrapper">
+                    <Button
+                        onClick={this.handleAddEntryClick}
+                    >
+                        Add entry
+                    </Button>
                 </div>
                 <div className="data-wrapper">
                     {this.renderContent()}
@@ -254,6 +347,14 @@ export class AppWeightTable extends React.Component {
                     onCancel={this.handleRejectRemove}
                     onConfirm={this.handleConfirmRemove}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
+                />
+                <AppConfirmModal
+                    title="Add new entry"
+                    visible={isAddingEntry}
+                    onCancel={this.handleAddEntryCancel}
+                    onConfirm={this.handleAddEntryConfirm}
+                    bodyRenderer={this.addEntryModalBodyRenderer}
+                    confirmEnabled={!!newEntryDateValue && !!newEntryChildWeightValue}
                 />
             </div>
         );
