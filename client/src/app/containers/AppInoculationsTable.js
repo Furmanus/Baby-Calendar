@@ -7,11 +7,13 @@ import {
     updateUserData
 } from '../actions/app_actions';
 import {EmptyData} from '../components/EmptyData';
-import {AddInoculationEntryForm} from '../components/AddInoculationEntryForm';
 import {
     Table,
     FormControl,
-    ControlLabel
+    ControlLabel,
+    Form,
+    FormGroup,
+    Button
 } from 'react-bootstrap';
 import PerfectScrollBar from 'react-perfect-scrollbar';
 import {AppInoculationTableRow} from '../components/AppInoculationTableRow';
@@ -43,8 +45,102 @@ export class AppInoculationsTable extends React.Component {
         editedEntry: null,
         newInoculationDate: '',
         newInoculationDescription: '',
-        entrySelectedToDelete: null
+        entrySelectedToDelete: null,
+        isAddingEntry: false,
+        newEntryDateValue: '',
+        newEntryDescriptionValue: ''
     };
+    @autobind
+    handleAddEntryClick() {
+        this.setState({
+            isAddingEntry: true
+        });
+    }
+    @autobind
+    handleAddEntryCancel() {
+        this.setState({
+            isAddingEntry: false,
+            newEntryDateValue: '',
+            newEntryDescriptionValue: ''
+        });
+    }
+    @autobind
+    handleAddEntryConfirm() {
+        const {
+            newEntryDateValue,
+            newEntryDescriptionValue
+        } = this.state;
+        const {
+            updateUserData
+        } = this.props;
+
+        if (newEntryDateValue && newEntryDescriptionValue) {
+            this.setState({
+                isAddingEntry: false,
+                newEntryDateValue: '',
+                newEntryDescriptionValue: ''
+            });
+
+            updateUserData({
+                childInoculationEntry: {
+                    inoculationDate: newEntryDateValue,
+                    description: newEntryDescriptionValue
+                }
+            });
+        }
+    }
+    @autobind
+    onNewEntryDateChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (value) {
+            this.setState({
+                newEntryDateValue: value
+            });
+        }
+    }
+    @autobind
+    onNewEntryDescriptionChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (value && value.length < 160) {
+            this.setState({
+                newEntryDescriptionValue: value
+            });
+        }
+    }
+    @autobind
+    addEntryModalBodyRenderer() {
+        const {
+            newEntryDescriptionValue,
+            newEntryDateValue
+        } = this.state;
+
+        return (
+            <Form>
+                <FormGroup controlId="addInoculation">
+                    <ControlLabel>Date:</ControlLabel>
+                    <FormControl
+                        type="date"
+                        value={newEntryDateValue}
+                        placeholder="Enter date"
+                        onChange={this.onNewEntryDateChange}
+                    />
+                    <ControlLabel>Date:</ControlLabel>
+                    <FormControl
+                        componentClass="textarea"
+                        value={newEntryDescriptionValue}
+                        placeholder="Enter description"
+                        onChange={this.onNewEntryDescriptionChange}
+                    />
+                </FormGroup>
+            </Form>
+        );
+    }
     @autobind
     handleRemoveClick(inoculationEntry) {
         if (inoculationEntry) {
@@ -207,23 +303,23 @@ export class AppInoculationsTable extends React.Component {
     }
     render() {
         const {
-            isSubmitting,
-            updateUserData
-        } = this.props;
-        const {
             editedEntry,
             newInoculationDescription,
             newInoculationDate,
-            entrySelectedToDelete
+            entrySelectedToDelete,
+            isAddingEntry,
+            newEntryDateValue,
+            newEntryDescriptionValue
         } = this.state;
 
         return (
             <div className="inoculation-wrapper">
-                <div className="inoculation-form-wrapper">
-                    <AddInoculationEntryForm
-                        isSubmitting={isSubmitting}
-                        updateUserData={updateUserData}
-                    />
+                <div className="inoculation-add-entry-wrapper">
+                    <Button
+                        onClick={this.handleAddEntryClick}
+                    >
+                        Add entry
+                    </Button>
                 </div>
                 <div className="data-wrapper full-height">
                     {this.renderContent()}
@@ -242,6 +338,14 @@ export class AppInoculationsTable extends React.Component {
                     onCancel={this.handleRemoveReject}
                     onConfirm={this.handleRemoveConfirm}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
+                />
+                <AppConfirmModal
+                    title="Add new entry"
+                    visible={isAddingEntry}
+                    onCancel={this.handleAddEntryCancel}
+                    onConfirm={this.handleAddEntryConfirm}
+                    bodyRenderer={this.addEntryModalBodyRenderer}
+                    confirmEnabled={!!newEntryDescriptionValue && !!newEntryDateValue}
                 />
             </div>
         );
