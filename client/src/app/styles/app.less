@@ -160,12 +160,17 @@ body {
   }
 }
 .diaper {
+  &-add-entry {
+    &-wrapper {
+      button {
+        float: right;
+      }
+    }
+  }
   &-wrapper {
     display: flex;
     flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
+    justify-content: space-evenly;
     height: 100%;
 
     input {
@@ -180,13 +185,6 @@ body {
       text-align: center;
       font-size: 18px;
       font-weight: 700;
-    }
-  }
-  &-form {
-    &-wrapper {
-      @media @smartphone {
-        margin-bottom: 20px;
-      }
     }
   }
   &-button {

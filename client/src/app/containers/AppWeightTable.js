@@ -327,7 +327,7 @@ export class AppWeightTable extends React.Component {
                     <Button
                         onClick={this.handleAddEntryClick}
                     >
-                        Add entry
+                        Add weight entry
                     </Button>
                 </div>
                 <div className="data-wrapper">

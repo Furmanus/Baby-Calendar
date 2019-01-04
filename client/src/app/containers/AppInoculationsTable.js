@@ -318,7 +318,7 @@ export class AppInoculationsTable extends React.Component {
                     <Button
                         onClick={this.handleAddEntryClick}
                     >
-                        Add entry
+                        Add inoculation entry
                     </Button>
                 </div>
                 <div className="data-wrapper full-height">

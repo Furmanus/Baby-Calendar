@@ -8,14 +8,16 @@ import {AppConfirmModal} from '../components/AppConfirmModal';
 import {
     Table,
     FormControl,
-    ControlLabel
+    ControlLabel,
+    Form,
+    FormGroup,
+    Button
 } from 'react-bootstrap';
 import {
     deleteUserDataRecord,
     updateUserData,
     replaceUserData
 } from '../actions/app_actions';
-import {AppDiaperEntryForm} from '../components/AppDiaperEntryForm';
 
 @connect(state => {
     return {
@@ -42,8 +44,78 @@ export class AppDiaperTable extends React.Component {
         isEntryEdited: false,
         editedEntry: null,
         editEntryDateNewValue: '',
-        entrySelectedToDelete: null
+        entrySelectedToDelete: null,
+        isAddingEntry: false,
+        newEntryDateValue: ''
     };
+    @autobind
+    handleAddEntryClick() {
+        this.setState({
+            isAddingEntry: true
+        });
+    }
+    @autobind
+    handleAddEntryCancel() {
+        this.setState({
+            isAddingEntry: false,
+            newEntryDateValue: ''
+        });
+    }
+    @autobind
+    handleAddEntryConfirm() {
+        const {
+            newEntryDateValue
+        } = this.state;
+        const {
+            updateUserData
+        } = this.props;
+
+        if (newEntryDateValue) {
+            this.setState({
+                isAddingEntry: false,
+                newEntryDateValue: ''
+            });
+
+
+            updateUserData({
+                childPoopEntry: {
+                    date: newEntryDateValue
+                }
+            });
+        }
+    }
+    @autobind
+    onAddEntryDateChange(e) {
+        const {
+            value
+        } = e.target;
+
+        if (value) {
+            this.setState({
+                newEntryDateValue: value
+            });
+        }
+    }
+    @autobind
+    addEntryModalBodyRenderer() {
+        const {
+            newEntryDateValue
+        } = this.state;
+
+        return (
+            <Form>
+                <FormGroup controlId="addDiaper">
+                    <ControlLabel>Date:</ControlLabel>
+                    <FormControl
+                        type="date"
+                        value={newEntryDateValue}
+                        placeholder="Enter date"
+                        onChange={this.onAddEntryDateChange}
+                    />
+                </FormGroup>
+            </Form>
+        );
+    }
     componentDidUpdate(prevProps, prevState) {
         const {
             editedEntry
@@ -151,20 +223,6 @@ export class AppDiaperTable extends React.Component {
         }
     }
     @autobind
-    handleNewEntryFormSubmit(entryDate) {
-        const {
-            updateUserData
-        } = this.props;
-
-        if (entryDate) {
-            updateUserData({
-                childPoopEntry: {
-                    date: entryDate
-                }
-            });
-        }
-    }
-    @autobind
     editEntryModalBodyRenderer() {
         const {
             editEntryDateNewValue
@@ -190,7 +248,7 @@ export class AppDiaperTable extends React.Component {
         if (childPoopEntries && childPoopEntries.length) {
             return (
                 <PerfectScrollBar className="scrollbar-space">
-                    <Table>
+                    <Table className="data-table">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -220,20 +278,22 @@ export class AppDiaperTable extends React.Component {
     }
     render() {
         const {
-            isSubmitting
-        } = this.props;
-        const {
             isEntryEdited,
             editEntryDateNewValue,
-            entrySelectedToDelete
+            entrySelectedToDelete,
+            isAddingEntry,
+            newEntryDateValue
         } = this.state;
 
         return (
             <div className="diaper-wrapper">
-                <AppDiaperEntryForm
-                    handleSubmit={this.handleNewEntryFormSubmit}
-                    isSubmitting={isSubmitting}
-                />
+                <div className="diaper-add-entry-wrapper">
+                    <Button
+                        onClick={this.handleAddEntryClick}
+                    >
+                        Add diaper entry
+                    </Button>
+                </div>
                 <div className="data-wrapper">
                     {this.renderContent()}
                 </div>
@@ -251,6 +311,14 @@ export class AppDiaperTable extends React.Component {
                     onCancel={this.handleDeleteRowReject}
                     onConfirm={this.handleDeleteRowConfirm}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
+                />
+                <AppConfirmModal
+                    title="Add new entry"
+                    visible={isAddingEntry}
+                    onCancel={this.handleAddEntryCancel}
+                    onConfirm={this.handleAddEntryConfirm}
+                    bodyRenderer={this.addEntryModalBodyRenderer}
+                    confirmEnabled={!!newEntryDateValue}
                 />
             </div>
         );
