@@ -57,6 +57,21 @@ export class AppWeightTable extends React.Component {
         newEntryDateValue: '',
         newEntryChildWeightValue: ''
     };
+    componentDidUpdate(prevProps, prevState) {
+        const {
+            editedEntry: prevEditedEntry
+        } = prevState;
+        const {
+            editedEntry
+        } = this.state;
+
+        if (null === prevEditedEntry && null !== editedEntry) {
+            this.setState({
+                editedEntryNewDateValue: editedEntry.weightDate,
+                editedEntryNewChildWeightValue: editedEntry.childWeight
+            });
+        }
+    }
     @autobind
     handleAddEntryClick() {
         this.setState({

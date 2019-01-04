@@ -48,6 +48,20 @@ export class AppDiaperTable extends React.Component {
         isAddingEntry: false,
         newEntryDateValue: ''
     };
+    componentDidUpdate(prevProps, prevState) {
+        const {
+            editedEntry: prevEditedEntry
+        } = prevState;
+        const {
+            editedEntry
+        } = this.state;
+
+        if (null === prevEditedEntry && null !== editedEntry) {
+            this.setState({
+                editEntryDateNewValue: editedEntry
+            });
+        }
+    }
     @autobind
     handleAddEntryClick() {
         this.setState({
@@ -115,17 +129,6 @@ export class AppDiaperTable extends React.Component {
                 </FormGroup>
             </Form>
         );
-    }
-    componentDidUpdate(prevProps, prevState) {
-        const {
-            editedEntry
-        } = this.state;
-
-        if (editedEntry && editedEntry !== prevState.editedEntry) {
-            this.setState({
-                editedEntryDateNewValue: editedEntry.date
-            });
-        }
     }
     @autobind
     handleDeleteRowClick(date) {

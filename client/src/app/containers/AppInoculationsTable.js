@@ -50,6 +50,21 @@ export class AppInoculationsTable extends React.Component {
         newEntryDateValue: '',
         newEntryDescriptionValue: ''
     };
+    componentDidUpdate(prevProps, prevState) {
+        const {
+            editedEntry: prevEditedEntry
+        } = prevState;
+        const {
+            editedEntry
+        } = this.state;
+
+        if (null === prevEditedEntry && null !== editedEntry) {
+            this.setState({
+                newInoculationDate: editedEntry.inoculationDate,
+                newInoculationDescription: editedEntry.description
+            });
+        }
+    }
     @autobind
     handleAddEntryClick() {
         this.setState({
