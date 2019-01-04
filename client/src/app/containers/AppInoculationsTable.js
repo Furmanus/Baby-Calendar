@@ -121,24 +121,27 @@ export class AppInoculationsTable extends React.Component {
         } = this.state;
 
         return (
-            <Form>
-                <FormGroup controlId="addInoculation">
-                    <ControlLabel>Date:</ControlLabel>
-                    <FormControl
-                        type="date"
-                        value={newEntryDateValue}
-                        placeholder="Enter date"
-                        onChange={this.onNewEntryDateChange}
-                    />
-                    <ControlLabel>Date:</ControlLabel>
-                    <FormControl
-                        componentClass="textarea"
-                        value={newEntryDescriptionValue}
-                        placeholder="Enter description"
-                        onChange={this.onNewEntryDescriptionChange}
-                    />
-                </FormGroup>
-            </Form>
+            <div>
+                <Form>
+                    <FormGroup controlId="addInoculation">
+                        <ControlLabel>Date:</ControlLabel>
+                        <FormControl
+                            type="date"
+                            value={newEntryDateValue}
+                            placeholder="Enter date"
+                            onChange={this.onNewEntryDateChange}
+                        />
+                        <ControlLabel>Description:</ControlLabel>
+                        <FormControl
+                            componentClass="textarea"
+                            className="no-resize"
+                            value={newEntryDescriptionValue}
+                            placeholder="Enter description"
+                            onChange={this.onNewEntryDescriptionChange}
+                        />
+                    </FormGroup>
+                </Form>
+            </div>
         );
     }
     @autobind
