@@ -34,7 +34,7 @@ body {
 }
 .info {
   &-wrapper {
-    padding: 30px 60px;
+    padding: 30px;
     width: fit-content;
   }
   &-item {
@@ -120,87 +120,31 @@ body {
       width: 100%;
     }
   }
-  &-form {
+  &-add-entry {
     &-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      height: 40%;
-
-      @media @smartphone {
-        margin-bottom: 20px;
+      button {
+        float: right;
       }
-
-      p {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 700;
-      }
-      input {
-        margin: auto 5px;
-
-        @media @smartphone {
-          margin: 2px auto;
-        }
-      }
-    }
-    &-content {
-      @media @smartphone {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        button {
-          width: 50%;
-        }
-      }
-    }
-    &-input {
-      width: 146px;
-      height: 22px;
-    }
-    &-icon {
-      cursor: pointer;
     }
   }
 }
 .inoculation {
+  &-add-entry {
+    &-wrapper {
+      button {
+        float: right;
+      }
+    }
+  }
   &-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
 
     @media @smartphone {
       flex-direction: column;
       align-content: space-evenly;
-    }
-  }
-  &-form {
-    &-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-height: 100%;
-      padding-top: 40px;
-      margin-right: 20px;
-
-      @media @smartphone {
-        margin-right: unset;
-        padding-top: unset;
-        margin-bottom: 20px;
-      }
-
-      p {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 700;
-      }
-    }
-    &-input {
-      margin-bottom: 5px;
     }
   }
   &-table {
@@ -210,18 +154,24 @@ body {
       &-date {
       }
       &-description {
-        width: 220px;
+        max-width: 220px;
+        white-space: inherit !important;
       }
     }
   }
 }
 .diaper {
+  &-add-entry {
+    &-wrapper {
+      button {
+        float: right;
+      }
+    }
+  }
   &-wrapper {
     display: flex;
     flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
+    justify-content: space-evenly;
     height: 100%;
 
     input {
@@ -236,13 +186,6 @@ body {
       text-align: center;
       font-size: 18px;
       font-weight: 700;
-    }
-  }
-  &-form {
-    &-wrapper {
-      @media @smartphone {
-        margin-bottom: 20px;
-      }
     }
   }
   &-button {
