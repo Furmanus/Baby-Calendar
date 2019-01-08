@@ -10,9 +10,9 @@ import {
 import {
     Table
 } from 'react-bootstrap';
-import {AppWeightTableRow} from '../components/AppWeightTableRow';
+import {WeightTableRow} from '../components/WeightTableRow';
 import PerfectScrollBar from 'react-perfect-scrollbar';
-import {AppConfirmModal} from '../components/AppConfirmModal';
+import {ConfirmModal} from '../components/ConfirmModal';
 import {
     ControlLabel,
     FormGroup,
@@ -20,6 +20,7 @@ import {
     Form,
     Button
 } from 'react-bootstrap';
+import {DataTable} from '../components/DataTable';
 
 @connect(state => {
     return {
@@ -233,44 +234,49 @@ export class AppWeightTable extends React.Component {
             <p>Are you sure you want to remove selected entry?</p>
         );
     }
+    weightTableHeaderRenderer() {
+        return (
+            <tr>
+                <th>Weight</th>
+                <th>Date</th>
+                <th>Diff</th>
+                <th>Avg</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+        );
+    }
+    @autobind
+    weightTableRowRenderer(entry, index) {
+        const {
+            childWeightEntries
+        } = this.props;
+
+        return (
+            <WeightTableRow
+                key={index}
+                entries={childWeightEntries}
+                entry={entry}
+                index={index}
+                handleEditClick={this.handleEditClick}
+                handleRemoveClick={this.handleRemoveClick}
+            />
+        );
+    }
     @autobind
     renderContent() {
         const {
             childWeightEntries
         } = this.props;
-        const {
-            editedIndex
-        } = this.state;
 
         if (childWeightEntries.length) {
             return (
                 <PerfectScrollBar className="scrollbar-space">
-                    <Table className="data-table" responsive>
-                        <thead>
-                            <tr>
-                                <th>Weight</th>
-                                <th>Date</th>
-                                <th>Diff</th>
-                                <th>Avg</th>
-                                <th>Edit</th>
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {childWeightEntries.map((entry, index) => {
-                                return (
-                                    <AppWeightTableRow
-                                        key={index}
-                                        entries={childWeightEntries}
-                                        entry={entry}
-                                        index={index}
-                                        handleEditClick={this.handleEditClick}
-                                        handleRemoveClick={this.handleRemoveClick}
-                                    />
-                                );
-                            })}
-                        </tbody>
-                    </Table>
+                    <DataTable
+                        data={childWeightEntries}
+                        tableHeadRenderer={this.weightTableHeaderRenderer}
+                        tableRowRenderer={this.weightTableRowRenderer}
+                    />
                 </PerfectScrollBar>
             );
         } else {
@@ -348,7 +354,7 @@ export class AppWeightTable extends React.Component {
                 <div className="data-wrapper">
                     {this.renderContent()}
                 </div>
-                <AppConfirmModal
+                <ConfirmModal
                     title="Edit weight entry"
                     visible={!!editedEntry}
                     bodyRenderer={this.editEntryModalBodyRenderer}
@@ -356,14 +362,14 @@ export class AppWeightTable extends React.Component {
                     onConfirm={this.handleConfirmEdit}
                     confirmEnabled={!!editedEntryNewDateValue && !!editedEntryNewChildWeightValue}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Confirm delete"
                     visible={!!entrySelectedToDelete}
                     onCancel={this.handleRejectRemove}
                     onConfirm={this.handleConfirmRemove}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Add new entry"
                     visible={isAddingEntry}
                     onCancel={this.handleAddEntryCancel}

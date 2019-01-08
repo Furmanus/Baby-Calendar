@@ -16,8 +16,9 @@ import {
     Button
 } from 'react-bootstrap';
 import PerfectScrollBar from 'react-perfect-scrollbar';
-import {AppInoculationTableRow} from '../components/AppInoculationTableRow';
-import {AppConfirmModal} from '../components/AppConfirmModal';
+import {InoculationTableRow} from '../components/InoculationTableRow';
+import {ConfirmModal} from '../components/ConfirmModal';
+import {DataTable} from '../components/DataTable';
 
 @connect(state => {
     return {
@@ -283,6 +284,28 @@ export class AppInoculationsTable extends React.Component {
             </div>
         );
     }
+    inoculationTableHeaderRenderer() {
+        return (
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+        );
+    }
+    @autobind
+    inoculationTableRowRenderer(entry, index) {
+        return (
+            <InoculationTableRow
+                date={entry.inoculationDate}
+                description={entry.description}
+                key={index}
+                handleRemoveClick={this.handleRemoveClick}
+                handleEditClick={this.handleEditClick}
+            />
+        );
+    }
     @autobind
     renderContent() {
         const {
@@ -291,29 +314,11 @@ export class AppInoculationsTable extends React.Component {
 
         if (childInoculationsEntries.length) {
             return <PerfectScrollBar className="scrollbar-space">
-                <Table className="data-table" responsive>
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {childInoculationsEntries.map((entry, index) => {
-                        return (
-                            <AppInoculationTableRow
-                                date={entry.inoculationDate}
-                                description={entry.description}
-                                key={index}
-                                handleRemoveClick={this.handleRemoveClick}
-                                handleEditClick={this.handleEditClick}
-                            />
-                        );
-                    })}
-                    </tbody>
-                </Table>
+                <DataTable
+                    data={childInoculationsEntries}
+                    tableHeadRenderer={this.inoculationTableHeaderRenderer}
+                    tableRowRenderer={this.inoculationTableRowRenderer}
+                />
             </PerfectScrollBar>;
         }
 
@@ -342,7 +347,7 @@ export class AppInoculationsTable extends React.Component {
                 <div className="data-wrapper full-height">
                     {this.renderContent()}
                 </div>
-                <AppConfirmModal
+                <ConfirmModal
                     title="Edit inoculation entry"
                     visible={!!editedEntry}
                     confirmEnabled={!!newInoculationDescription && !!newInoculationDate}
@@ -350,14 +355,14 @@ export class AppInoculationsTable extends React.Component {
                     onCancel={this.handleCancelEdit}
                     onConfirm={this.handleConfirmEdit}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Confirm delete"
                     visible={!!entrySelectedToDelete}
                     onCancel={this.handleRemoveReject}
                     onConfirm={this.handleRemoveConfirm}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Add new entry"
                     visible={isAddingEntry}
                     onCancel={this.handleAddEntryCancel}

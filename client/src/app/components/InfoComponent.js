@@ -9,7 +9,7 @@ import {
     GoHeart
 } from 'react-icons/go';
 
-export class AppInfoComponent extends React.Component {
+export class InfoComponent extends React.Component {
     render() {
         const {
             childName,

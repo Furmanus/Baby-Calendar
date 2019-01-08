@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {AppHeader} from '../components/AppHeader';
+import {Header} from '../components/Header';
 import {AppNavbar} from './AppNavbar';
 import {Loader} from '../components/Loader';
-import {AppInfoComponent} from '../components/AppInfoComponent';
+import {InfoComponent} from '../components/InfoComponent';
 import {
     DIAPER,
     INFO,
@@ -52,7 +52,7 @@ export class AppPage extends React.Component {
 
         switch (activeTab) {
             case INFO:
-                return <AppInfoComponent childName={childName} birthdate={birthdate}/>;
+                return <InfoComponent childName={childName} birthdate={birthdate}/>;
             case WEIGHT:
                 return <AppWeightTable/>;
             case DIAPER:
@@ -71,7 +71,7 @@ export class AppPage extends React.Component {
 
         return (
             <div className="page-wrapper">
-                <AppHeader/>
+                <Header/>
                 <AppNavbar/>
                 <div className="page-content-wrapper">
                     {isFetchingData ? <Loader/> : this.renderActiveTab()}

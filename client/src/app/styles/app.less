@@ -66,21 +66,46 @@ body {
     flex-direction: column;
     align-items: center;
     height: 60%;
-    padding-top: 40px;
+    padding-top: 20px;
 
     @media @smartphone {
       width: 100%;
       padding-top: 10px;
-    }
-
-    span {
-      font-size: 32px;
     }
   }
   &-table {
     border-color: @table-border-color;
     text-align: center;
 
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      ul[class="pagination"] {
+        margin-top: 0 !important;
+
+        li[aria-label="More"] {
+          a:hover {
+            background-color: #FFF;
+          }
+        }
+        li {
+          a {
+            color: unset;
+          }
+          span {
+            background-color: #F8F8F8;
+          }
+        }
+        li[class="active"] {
+          span {
+            background-color: #C2CAD0;
+            border-color: #C2B9B0;
+          }
+        }
+      }
+    }
     &-cell {
       &-wide {
         padding: 8px 2px !important;
@@ -103,6 +128,8 @@ body {
       }
     }
     td {
+      vertical-align: middle;
+
       @media @smartphone {
         font-size: 13px;
       }
