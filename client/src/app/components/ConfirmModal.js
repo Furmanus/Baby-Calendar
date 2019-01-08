@@ -11,7 +11,7 @@ import {
     Button
 } from 'react-bootstrap';
 
-export class AppConfirmModal extends React.Component {
+export class ConfirmModal extends React.Component {
     static propTypes = {
         title: PropTypes.string,
         bodyRenderer: PropTypes.func,

@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import autobind from 'autobind-decorator';
 import {EmptyData} from '../components/EmptyData';
 import PerfectScrollBar from 'react-perfect-scrollbar';
-import {AppDiaperTableRow} from '../components/AppDiaperTableRow';
-import {AppConfirmModal} from '../components/AppConfirmModal';
+import {DiaperTableRow} from '../components/DiaperTableRow';
+import {ConfirmModal} from '../components/ConfirmModal';
 import {
     Table,
     FormControl,
@@ -18,6 +18,7 @@ import {
     updateUserData,
     replaceUserData
 } from '../actions/app_actions';
+import {DataTable} from '../components/DataTable';
 
 @connect(state => {
     return {
@@ -243,6 +244,26 @@ export class AppDiaperTable extends React.Component {
             </div>
         );
     }
+    diaperTableHeaderRenderer() {
+        return (
+            <tr>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+        );
+    }
+    @autobind
+    diaperTableRowRenderer(entry, index) {
+        return (
+            <DiaperTableRow
+                date={entry.date}
+                key={index}
+                handleDeleteClick={this.handleEditRowClick}
+                handleEditClick={this.handleDeleteRowClick}
+            />
+        );
+    }
     renderContent() {
         const {
             childPoopEntries
@@ -251,29 +272,11 @@ export class AppDiaperTable extends React.Component {
         if (childPoopEntries && childPoopEntries.length) {
             return (
                 <PerfectScrollBar className="scrollbar-space">
-                    <Table className="data-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Edit</th>
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                childPoopEntries.map((entry, index) => {
-                                    return (
-                                        <AppDiaperTableRow
-                                            date={entry.date}
-                                            key={index}
-                                            handleEditClick={this.handleEditRowClick}
-                                            handleDeleteClick={this.handleDeleteRowClick}
-                                        />
-                                    );
-                                })
-                            }
-                        </tbody>
-                    </Table>
+                    <DataTable
+                        data={childPoopEntries}
+                        tableHeadRenderer={this.diaperTableHeaderRenderer}
+                        tableRowRenderer={this.diaperTableRowRenderer}
+                    />
                 </PerfectScrollBar>
             );
         }
@@ -300,7 +303,7 @@ export class AppDiaperTable extends React.Component {
                 <div className="data-wrapper">
                     {this.renderContent()}
                 </div>
-                <AppConfirmModal
+                <ConfirmModal
                     title="Edit entry"
                     visible={isEntryEdited}
                     onCancel={this.onEditEntryCancel}
@@ -308,14 +311,14 @@ export class AppDiaperTable extends React.Component {
                     bodyRenderer={this.editEntryModalBodyRenderer}
                     confirmEnabled={!!editEntryDateNewValue}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Confirm delete"
                     visible={!!entrySelectedToDelete}
                     onCancel={this.handleDeleteRowReject}
                     onConfirm={this.handleDeleteRowConfirm}
                     bodyRenderer={this.deleteEntryModalBodyRenderer}
                 />
-                <AppConfirmModal
+                <ConfirmModal
                     title="Add new entry"
                     visible={isAddingEntry}
                     onCancel={this.handleAddEntryCancel}

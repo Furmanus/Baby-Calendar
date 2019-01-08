@@ -6,7 +6,7 @@ import {
     FaEdit
 } from 'react-icons/fa';
 
-export class AppInoculationTableRow extends React.Component {
+export class InoculationTableRow extends React.Component {
     static propTypes = {
         date: propTypes.string.isRequired,
         handleEditClick: propTypes.func,

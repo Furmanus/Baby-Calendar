@@ -1,46 +1,43 @@
 import React from 'react';
-import {
-    calculateAverageWeightGain,
-    calculateWeightDifference
-} from '../../common/helpers/helpers';
-import {
-    FaRegTrashAlt,
-    FaEdit
-} from 'react-icons/fa';
 import autobind from 'autobind-decorator';
+import PropTypes from 'prop-types';
+import {
+    FaEdit,
+    FaRegTrashAlt
+} from 'react-icons/fa';
 
-export class AppWeightTableRow extends React.Component {
+export class DiaperTableRow extends React.Component {
+    static propTypes = {
+        date: PropTypes.string.isRequired,
+        handleDeleteClick: PropTypes.func.isRequired,
+        handleEditClick: PropTypes.func.isRequired
+    };
     @autobind
     onEditClick() {
         const {
-            entry,
+            date,
             handleEditClick
         } = this.props;
 
-        handleEditClick(entry);
+        handleEditClick(date);
     }
     @autobind
     onRemoveClick() {
         const {
-            entry,
-            handleRemoveClick
+            date,
+            handleDeleteClick
         } = this.props;
 
-        handleRemoveClick(entry);
+        handleDeleteClick(date);
     }
     render() {
         const {
-            entries: childWeightEntries,
-            entry,
-            index
+            date
         } = this.props;
 
         return (
             <tr>
-                <td className="data-table-cell-wide">{Number(entry.childWeight).toFixed(3)} kg</td>
-                <td className="data-table-cell-wide">{entry.weightDate}</td>
-                <td>{calculateWeightDifference(childWeightEntries, index)}</td>
-                <td>{calculateAverageWeightGain(childWeightEntries, index)}</td>
+                <td>{date}</td>
                 <td>
                     <FaEdit
                         className="icon"
