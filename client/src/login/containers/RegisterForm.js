@@ -9,11 +9,15 @@ import {
     HelpBlock
 } from 'react-bootstrap';
 import {
+    changeRegisterLoginInputState,
+    changeRegisterPasswordInputState,
+    changeRegisterRepeatPasswordInputState,
     hideRegisterFormError,
     registerUser,
     setRegisterLoginValidation,
     setRegisterPasswordValidation,
-    setRegisterRepeatPasswordValidation
+    setRegisterRepeatPasswordValidation,
+    showRegisterFormError
 } from '../actions/login_actions';
 
 @connect(state => {
@@ -22,7 +26,10 @@ import {
         registerFormError: state.registerFormError,
         loginValidationState: state.loginValidationState,
         passwordValidationState: state.passwordValidationState,
-        repeatPasswordValidationState: state.repeatPasswordValidationState
+        repeatPasswordValidationState: state.repeatPasswordValidationState,
+        loginInputState: state.loginInputState,
+        passwordInputState: state.passwordInputState,
+        repeatPasswordInputState: state.repeatPasswordInputState
     };
 }, dispatch => {
     return {
@@ -32,6 +39,9 @@ import {
         hideRegisterFormError: () => {
             dispatch(hideRegisterFormError());
         },
+        showRegisterFormError: message => {
+            dispatch(showRegisterFormError(message));
+        },
         setRegisterLoginValidation: state => {
             dispatch(setRegisterLoginValidation(state));
         },
@@ -40,52 +50,61 @@ import {
         },
         setRegisterRepeatPasswordValidation: state => {
             dispatch(setRegisterRepeatPasswordValidation(state));
+        },
+        changeRegisterLoginInputState: value => {
+            dispatch(changeRegisterLoginInputState(value));
+        },
+        changeRegisterPasswordInputState: value => {
+            dispatch(changeRegisterPasswordInputState(value));
+        },
+        changeRegisterRepeatPasswordInputState: value => {
+            dispatch(changeRegisterRepeatPasswordInputState(value));
         }
     };
 })
 export class RegisterForm extends React.Component {
-    state = {
-        loginInputState: '',
-        passwordInputState: '',
-        repeatPasswordInputState: ''
-    };
     @autobind
     setLoginValidationState() {
         const {
-            setRegisterLoginValidation
-        } = this.props;
-        const {
+            setRegisterLoginValidation,
+            showRegisterFormError,
             loginInputState
-        } = this.state;
+        } = this.props;
+        const isInputEmpty = loginInputState.length === 0;
 
-        setRegisterLoginValidation(loginInputState.length === 0 ? 'error' : null);
+        showRegisterFormError(isInputEmpty ? 'Please enter your login' : '');
+        setRegisterLoginValidation(isInputEmpty ? 'error' : null);
     }
     @autobind
     setPasswordValidationState() {
         const {
-            setRegisterPasswordValidation
-        } = this.props;
-        const {
+            setRegisterPasswordValidation,
+            showRegisterFormError,
             passwordInputState,
             repeatPasswordInputState
-        } = this.state;
+        } = this.props;
         const isPasswordEmpty = passwordInputState.length === 0;
         const arePasswordsEqual = passwordInputState === repeatPasswordInputState;
 
+        if (!arePasswordsEqual) {
+            showRegisterFormError('Passwords doesn\'t match');
+        }
         setRegisterPasswordValidation(isPasswordEmpty || !arePasswordsEqual ? 'error' : null);
     }
     @autobind
     setRepeatPasswordValidationState() {
         const {
-            setRegisterRepeatPasswordValidation
-        } = this.props;
-        const {
+            setRegisterRepeatPasswordValidation,
+            showRegisterFormError,
             passwordInputState,
             repeatPasswordInputState
-        } = this.state;
+        } = this.props;
         const isPasswordEmpty = repeatPasswordInputState.length === 0;
         const arePasswordsEqual = passwordInputState === repeatPasswordInputState;
 
+        if (!arePasswordsEqual) {
+            showRegisterFormError('Passwords doesn\'t match');
+        }
         setRegisterRepeatPasswordValidation(isPasswordEmpty || !arePasswordsEqual ? 'error' : null);
     }
     @autobind
@@ -95,12 +114,10 @@ export class RegisterForm extends React.Component {
         this.setRepeatPasswordValidationState();
 
         const {
+            registerUser,
             loginInputState,
             passwordInputState,
             repeatPasswordInputState
-        } = this.state;
-        const {
-            registerUser
         } = this.props;
 
         e.preventDefault();
@@ -119,9 +136,11 @@ export class RegisterForm extends React.Component {
     }
     @autobind
     onLoginInputValueChange(e) {
-        this.setState({
-            loginInputState: e.target.value
-        });
+        const {
+            changeRegisterLoginInputState
+        } = this.props;
+
+        changeRegisterLoginInputState(e.target.value);
     }
     @autobind
     onLoginInputFocus() {
@@ -135,9 +154,11 @@ export class RegisterForm extends React.Component {
     }
     @autobind
     onPasswordInputChange(e) {
-        this.setState({
-            passwordInputState: e.target.value
-        });
+        const {
+            changeRegisterPasswordInputState
+        } = this.props;
+
+        changeRegisterPasswordInputState(e.target.value);
     }
     @autobind
     onPasswordInputFocus() {
@@ -151,9 +172,11 @@ export class RegisterForm extends React.Component {
     }
     @autobind
     onPasswordRepeatInputChange(e) {
-        this.setState({
-            repeatPasswordInputState: e.target.value
-        });
+        const {
+            changeRegisterRepeatPasswordInputState
+        } = this.props;
+
+        changeRegisterRepeatPasswordInputState(e.target.value);
     }
     @autobind
     onPasswordRepeatInputFocus() {
@@ -167,16 +190,14 @@ export class RegisterForm extends React.Component {
     }
     render() {
         const {
-            loginInputState,
-            passwordInputState,
-            repeatPasswordInputState
-        } = this.state;
-        const {
             isSubmitting,
             registerFormError,
             loginValidationState,
             passwordValidationState,
-            repeatPasswordValidationState
+            repeatPasswordValidationState,
+            loginInputState,
+            passwordInputState,
+            repeatPasswordInputState
         } = this.props;
         const submitDisabled =
             loginValidationState === 'error' ||
