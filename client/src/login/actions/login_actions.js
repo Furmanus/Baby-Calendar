@@ -8,9 +8,20 @@ import {
     LOGIN_CHANGE_PASSWORD_INPUT_ERROR_HINT,
     LOGIN_SUBMIT,
     LOGIN_SUBMIT_SUCCESS,
-    LOGIN_SUBMIT_ERROR
+    LOGIN_SUBMIT_ERROR,
+    REGISTER_USER,
+    REGISTER_USER_SUCCESS,
+    REGISTER_USER_FAILURE,
+    SHOW_REGISTER_FORM_ERROR,
+    HIDE_REGISTER_FORM_ERROR,
+    SET_REGISTER_LOGIN_VALIDATION,
+    SET_REGISTER_PASSWORD_VALIDATION,
+    SET_REGISTER_REPEAT_PASSWORD_VALIDATION
 } from '../constants/actions_constants';
-import {loginSubmit as apiLoginSubmit} from '../../api/api';
+import {
+    loginSubmit as apiLoginSubmit,
+    registerSubmit as apiRegisterSubmit
+} from '../../api/api';
 
 export function changeTab(tab) {
     return {
@@ -65,7 +76,7 @@ export function loginSubmit(formData) {
         }).catch(error => {
             dispatch(loginSubmitError(error));
         });
-    }
+    };
 }
 function loginSubmitSuccess() {
     setTimeout(() => {
@@ -82,5 +93,61 @@ function loginSubmitError(error) {
         loginInputPasswordErrorState: 'error',
         loginInputErrorHint: '',
         loginPasswordErrorHint: error.message
+    };
+}
+export function registerUser(formData) {
+    return dispatch => {
+        dispatch({
+            type: REGISTER_USER
+        });
+
+        apiRegisterSubmit(formData).then(() => {
+            dispatch(registerUserSuccess());
+        }).catch(error => {
+            dispatch(registerUserFailure(error));
+        });
+    };
+}
+function registerUserSuccess() {
+    setTimeout(() => {
+        window.location = '/dashboard';
+    }, 1000);
+    return {
+        type: REGISTER_USER_SUCCESS
+    };
+}
+function registerUserFailure(error) {
+    return {
+        type: REGISTER_USER_FAILURE,
+        error: error.message
+    }
+}
+export function showRegisterFormError(error) {
+    return {
+        type: SHOW_REGISTER_FORM_ERROR,
+        error
+    };
+}
+export function hideRegisterFormError() {
+    return {
+        type: HIDE_REGISTER_FORM_ERROR
+    };
+}
+export function setRegisterLoginValidation(state) {
+    return {
+        type: SET_REGISTER_LOGIN_VALIDATION,
+        state
+    };
+}
+export function setRegisterPasswordValidation(state) {
+    return {
+        type: SET_REGISTER_PASSWORD_VALIDATION,
+        state
+    };
+}
+export function setRegisterRepeatPasswordValidation(state) {
+    return {
+        type: SET_REGISTER_REPEAT_PASSWORD_VALIDATION,
+        state
     };
 }

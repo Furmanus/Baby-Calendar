@@ -8,7 +8,7 @@ router.get('/users', async (req, res) => {
         res.status(statusCode).json(data);
     });
 });
-router.post('/users', async (req, res) => {
+router.post('/register', async (req, res) => {
     let {
         user,
         password
@@ -21,6 +21,13 @@ router.post('/users', async (req, res) => {
             user,
             password
         }, (statusCode, data) => {
+            if (200 === statusCode) {
+                req.session.userId = data.id;
+                req.session.user = data.user;
+            }
+            if (data.password) {
+                delete data.password;
+            }
             res.status(statusCode).json(data);
         });
     } else {

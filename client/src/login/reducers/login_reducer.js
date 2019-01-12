@@ -8,7 +8,16 @@ import {
     LOGIN_CHANGE_LOGIN_INPUT_ERROR_HINT,
     LOGIN_CHANGE_PASSWORD_INPUT_ERROR_HINT,
     LOGIN_SUBMIT,
-    LOGIN_SUBMIT_SUCCESS, LOGIN_SUBMIT_ERROR
+    LOGIN_SUBMIT_SUCCESS,
+    LOGIN_SUBMIT_ERROR,
+    REGISTER_USER,
+    REGISTER_USER_SUCCESS,
+    REGISTER_USER_FAILURE,
+    SHOW_REGISTER_FORM_ERROR,
+    HIDE_REGISTER_FORM_ERROR,
+    SET_REGISTER_LOGIN_VALIDATION,
+    SET_REGISTER_PASSWORD_VALIDATION,
+    SET_REGISTER_REPEAT_PASSWORD_VALIDATION
 } from '../constants/actions_constants';
 
 const initialState = {
@@ -19,7 +28,11 @@ const initialState = {
     loginInputPasswordErrorState: null,
     loginInputErrorHint: '',
     loginPasswordErrorHint: '',
-    isSubmitting: false
+    isSubmitting: false,
+    registerFormError: null,
+    loginValidationState: null,
+    passwordValidationState: null,
+    repeatPasswordValidationState: null
 };
 
 export function loginReducer(state = initialState, action) {
@@ -81,6 +94,52 @@ export function loginReducer(state = initialState, action) {
                 loginInputPasswordErrorState: action.loginInputPasswordErrorState,
                 loginInputErrorHint: action.loginInputErrorHint,
                 loginPasswordErrorHint: action.loginPasswordErrorHint,
+            };
+        case REGISTER_USER:
+            return {
+                ...state,
+                isSubmitting: true,
+                registerFormError: null
+            };
+        case REGISTER_USER_SUCCESS:
+            return {
+                ...state,
+                isSubmitting: false,
+                registerFormError: null,
+                loginValidationState: 'success',
+                passwordValidationState: 'success',
+                repeatPasswordValidationState: 'success'
+            };
+        case REGISTER_USER_FAILURE:
+            return {
+                ...state,
+                isSubmitting: false,
+                registerFormError: action.error
+            };
+        case SHOW_REGISTER_FORM_ERROR:
+            return {
+                ...state,
+                registerFormError: action.error
+            };
+        case HIDE_REGISTER_FORM_ERROR:
+            return {
+                ...state,
+                registerFormError: null
+            };
+        case SET_REGISTER_LOGIN_VALIDATION:
+            return {
+                ...state,
+                loginValidationState: action.state
+            };
+        case SET_REGISTER_PASSWORD_VALIDATION:
+            return {
+                ...state,
+                passwordValidationState: action.state
+            };
+        case SET_REGISTER_REPEAT_PASSWORD_VALIDATION:
+            return {
+                ...state,
+                repeatPasswordValidationState: action.state
             };
         default:
             return state;
