@@ -11,7 +11,17 @@ export function loginSubmit(formData) {
         }
     });
 }
+export function registerSubmit(formData) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await postRequest('/register', formData);
 
+            resolve(response);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
 export async function logout() {
     return await getRequest('/logout');
 }
