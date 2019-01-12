@@ -17,7 +17,10 @@ import {
     HIDE_REGISTER_FORM_ERROR,
     SET_REGISTER_LOGIN_VALIDATION,
     SET_REGISTER_PASSWORD_VALIDATION,
-    SET_REGISTER_REPEAT_PASSWORD_VALIDATION
+    SET_REGISTER_REPEAT_PASSWORD_VALIDATION,
+    REGISTER_CHANGE_LOGIN_INPUT_STATE,
+    REGISTER_CHANGE_PASSWORD_INPUT_STATE,
+    REGISTER_CHANGE_REPEAT_PASSWORD_INPUT_STATE
 } from '../constants/actions_constants';
 
 const initialState = {
@@ -29,10 +32,14 @@ const initialState = {
     loginInputErrorHint: '',
     loginPasswordErrorHint: '',
     isSubmitting: false,
+    //REGISTER - change to more appriopriate names
     registerFormError: null,
     loginValidationState: null,
     passwordValidationState: null,
-    repeatPasswordValidationState: null
+    repeatPasswordValidationState: null,
+    loginInputState: '',
+    passwordInputState: '',
+    repeatPasswordInputState: ''
 };
 
 export function loginReducer(state = initialState, action) {
@@ -114,7 +121,10 @@ export function loginReducer(state = initialState, action) {
             return {
                 ...state,
                 isSubmitting: false,
-                registerFormError: action.error
+                registerFormError: action.error,
+                loginValidationState: 'error',
+                passwordValidationState: 'error',
+                repeatPasswordValidationState: 'error'
             };
         case SHOW_REGISTER_FORM_ERROR:
             return {
@@ -140,6 +150,21 @@ export function loginReducer(state = initialState, action) {
             return {
                 ...state,
                 repeatPasswordValidationState: action.state
+            };
+        case REGISTER_CHANGE_LOGIN_INPUT_STATE:
+            return {
+                ...state,
+                loginInputState: action.value
+            };
+        case REGISTER_CHANGE_PASSWORD_INPUT_STATE:
+            return {
+                ...state,
+                passwordInputState: action.value
+            };
+        case REGISTER_CHANGE_REPEAT_PASSWORD_INPUT_STATE:
+            return {
+                ...state,
+                repeatPasswordInputState: action.value
             };
         default:
             return state;

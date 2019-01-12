@@ -16,3 +16,6 @@ export const HIDE_REGISTER_FORM_ERROR = 'hide_register_form_error';
 export const SET_REGISTER_LOGIN_VALIDATION = 'set_register_validation';
 export const SET_REGISTER_PASSWORD_VALIDATION = 'set_register_password_validation';
 export const SET_REGISTER_REPEAT_PASSWORD_VALIDATION = 'set_register_repeat_password_validation';
+export const REGISTER_CHANGE_LOGIN_INPUT_STATE = 'register_change_login_input_state';
+export const REGISTER_CHANGE_PASSWORD_INPUT_STATE = 'register_change_password_input_state';
+export const REGISTER_CHANGE_REPEAT_PASSWORD_INPUT_STATE = 'register_change_repeat_password_input_state';

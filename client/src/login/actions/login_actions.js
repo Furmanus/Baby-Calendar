@@ -16,7 +16,10 @@ import {
     HIDE_REGISTER_FORM_ERROR,
     SET_REGISTER_LOGIN_VALIDATION,
     SET_REGISTER_PASSWORD_VALIDATION,
-    SET_REGISTER_REPEAT_PASSWORD_VALIDATION
+    SET_REGISTER_REPEAT_PASSWORD_VALIDATION,
+    REGISTER_CHANGE_LOGIN_INPUT_STATE,
+    REGISTER_CHANGE_PASSWORD_INPUT_STATE,
+    REGISTER_CHANGE_REPEAT_PASSWORD_INPUT_STATE
 } from '../constants/actions_constants';
 import {
     loginSubmit as apiLoginSubmit,
@@ -149,5 +152,23 @@ export function setRegisterRepeatPasswordValidation(state) {
     return {
         type: SET_REGISTER_REPEAT_PASSWORD_VALIDATION,
         state
+    };
+}
+export function changeRegisterLoginInputState(value) {
+    return {
+        type: REGISTER_CHANGE_LOGIN_INPUT_STATE,
+        value
+    };
+}
+export function changeRegisterPasswordInputState(value) {
+    return {
+        type: REGISTER_CHANGE_PASSWORD_INPUT_STATE,
+        value
+    };
+}
+export function changeRegisterRepeatPasswordInputState(value) {
+    return {
+        type: REGISTER_CHANGE_REPEAT_PASSWORD_INPUT_STATE,
+        value
     };
 }
