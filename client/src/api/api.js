@@ -34,7 +34,8 @@ export async function updateUserData(data) {
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
         childPoopEntry: data.childPoopEntry,
-        childInoculationEntry: data.childInoculationEntry
+        childInoculationEntry: data.childInoculationEntry,
+        childInfectionEntry: data.childInfectionEntry
     });
 }
 export async function deleteUserData(data) {
@@ -43,7 +44,8 @@ export async function deleteUserData(data) {
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
         childPoopEntry: data.childPoopEntry,
-        childInoculationEntry: data.childInoculationEntry
+        childInoculationEntry: data.childInoculationEntry,
+        childInfectionEntry: data.childInfectionEntry
     });
 }
 export async function replaceUserData(data) {

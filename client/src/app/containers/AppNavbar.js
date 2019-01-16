@@ -18,7 +18,8 @@ import {
     DIAPER,
     SETTINGS,
     WEIGHT,
-    INOCULATIONS
+    INOCULATIONS,
+    INFECTIONS
 } from '../constants/app_tabs';
 import {
     MdInfo
@@ -26,7 +27,8 @@ import {
 import {
     FaBalanceScale,
     FaPoo,
-    FaSyringe
+    FaSyringe,
+    FaThermometerThreeQuarters
 } from 'react-icons/fa';
 
 @connect(state => {
@@ -85,6 +87,14 @@ export class AppNavbar extends React.Component {
 
         changeActiveTab(INOCULATIONS);
     }
+    @autobind
+    handleInfectionsClick() {
+        const {
+            changeActiveTab
+        } = this.props;
+
+        changeActiveTab(INFECTIONS);
+    }
     render() {
         const {
             username,
@@ -115,6 +125,10 @@ export class AppNavbar extends React.Component {
                     <NavItem eventKey={4} href="#" disabled={isFetchingData} onClick={this.handleInoculationClick}>
                         <FaSyringe className="icon" size={24}/>
                         <span>Inoculations</span>
+                    </NavItem>
+                    <NavItem eventKey={5} href="#" disabled={isFetchingData} onClick={this.handleInfectionsClick}>
+                        <FaThermometerThreeQuarters className="icon" size={24}/>
+                        <span>Infections</span>
                     </NavItem>
                 </Nav>
                 <Nav className="navbar-settings" pullRight>

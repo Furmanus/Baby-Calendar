@@ -6,6 +6,7 @@ import {Loader} from '../components/Loader';
 import {InfoComponent} from '../components/InfoComponent';
 import {
     DIAPER,
+    INFECTIONS,
     INFO,
     INOCULATIONS,
     SETTINGS,
@@ -18,6 +19,7 @@ import {AppWeightTable} from './AppWeightTable';
 import {AppDiaperTable} from './AppDiaperTable';
 import {AppError} from './AppError';
 import {AppInoculationsTable} from './AppInoculationsTable';
+import {InfectionsTable} from './InfectionsTable';
 
 @connect(state => {
     return {
@@ -61,6 +63,8 @@ export class AppPage extends React.Component {
                 return <AppSettingsContainer/>;
             case INOCULATIONS:
                 return <AppInoculationsTable/>;
+            case INFECTIONS:
+                return <InfectionsTable/>;
         }
     }
     render() {
