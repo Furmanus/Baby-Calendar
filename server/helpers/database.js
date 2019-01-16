@@ -9,7 +9,8 @@ const blankUserDataEntry = {
     birthDate: '',
     childWeightEntries: [],
     childPoopsEntries: [],
-    childInoculationsEntries: []
+    childInoculationsEntries: [],
+    childInfectionsEntries: []
 };
 
 const databaseMethods = {
@@ -134,6 +135,7 @@ const databaseMethods = {
                 childWeightEntry,
                 childPoopEntry,
                 childInoculationEntry,
+                childInfectionEntry,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
@@ -146,6 +148,7 @@ const databaseMethods = {
                 childWeightEntry && userDataRecord.childWeightEntries.push(childWeightEntry);
                 childPoopEntry && userDataRecord.childPoopsEntries.push(childPoopEntry);
                 childInoculationEntry && userDataRecord.childInoculationsEntries.push(childInoculationEntry);
+                childInfectionEntry && userDataRecord.childInfectionsEntries.push(childInfectionEntry);
 
                 await dbObject.collection(constants.USERS_DATA).updateOne({userId}, {
                     $set: {...userDataRecord}
@@ -171,6 +174,7 @@ const databaseMethods = {
                 childWeightEntry,
                 childPoopEntry,
                 childInoculationEntry,
+                childInfectionEntry,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
@@ -220,6 +224,18 @@ const databaseMethods = {
                         return true;
                     });
                 }
+                if (childInfectionEntry) {
+                    userDataRecord.childInfectionsEntries = userDataRecord.childInfectionsEntries.filter(entry => {
+                        const descriptionsEqual = (entry.description === childInfectionEntry.description);
+                        const datesEqual = (entry.inoculationDate === childInfectionEntry.inoculationDate);
+
+                        if (descriptionsEqual && datesEqual && !entryDeleted) {
+                            entryDeleted = true;
+                            return false;
+                        }
+                        return true;
+                    });
+                }
 
                 await dbObject.collection(constants.USERS_DATA).updateOne({userId}, {
                     $set: {...userDataRecord}
@@ -246,6 +262,8 @@ const databaseMethods = {
                 originalChildPoopEntry,
                 inoculationEntry,
                 originalInoculationEntry,
+                infectionEntry,
+                originalInfectionEntry,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
@@ -307,6 +325,27 @@ const databaseMethods = {
                         if (areEntriesSame && !entryChanged) {
                             entryChanged = true;
                             return inoculationEntry;
+                        }
+                        return entry;
+                    });
+                }
+
+                if (infectionEntry && originalInfectionEntry) {
+                    const {
+                        date: originalDate,
+                        description: originalDescription
+                    } = originalInfectionEntry;
+
+                    userDataRecord.childInfectionsEntries = userDataRecord.childInfectionsEntries.map(entry => {
+                        const {
+                            date,
+                            description
+                        } = entry;
+                        const areEntriesSame = (date === originalDate && description === originalDescription);
+
+                        if (areEntriesSame && !entryChanged) {
+                            entryChanged = true;
+                            return infectionEntry;
                         }
                         return entry;
                     });

@@ -23,6 +23,7 @@ const initialState = {
     childWeightEntries: [],
     childPoopEntries: [],
     childInoculationsEntries: [],
+    childInfectionsEntries: [],
     error: null,
     isSubmitting: false
 };
@@ -31,6 +32,7 @@ export function appReducer(state = initialState, action) {
     let sortedWeightEntries;
     let sortedInoculaionEntries;
     let sortedPoopsEntries;
+    let sortedInfectionEntries;
 
     switch (action.type) {
         case FETCH_USER_DATA:
@@ -42,6 +44,7 @@ export function appReducer(state = initialState, action) {
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
             sortedPoopsEntries = action.childPoopsEntries.slice().sort(sortByDateCallback);
+            sortedInfectionEntries = action.childInfectionsEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
@@ -51,6 +54,7 @@ export function appReducer(state = initialState, action) {
                 childWeightEntries: sortedWeightEntries,
                 childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
+                childInfectionsEntries: sortedInfectionEntries,
                 activeTab: action.activeTab
             };
         case FETCH_USER_DATA_FAILURE:
@@ -68,6 +72,7 @@ export function appReducer(state = initialState, action) {
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
             sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
+            sortedInfectionEntries = action.childInfectionsEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
@@ -76,6 +81,7 @@ export function appReducer(state = initialState, action) {
                 childWeightEntries: sortedWeightEntries,
                 childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
+                childInfectionsEntries: sortedInfectionEntries,
                 isFetchingData: false
             };
         case UPDATE_USER_DATA_FAILURE:
@@ -98,6 +104,7 @@ export function appReducer(state = initialState, action) {
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
             sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
+            sortedInfectionEntries = action.childInfectionsEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
@@ -106,7 +113,8 @@ export function appReducer(state = initialState, action) {
                 birthdate: action.birthdate,
                 childWeightEntries: sortedWeightEntries,
                 childPoopEntries: sortedPoopsEntries,
-                childInoculationsEntries: sortedInoculaionEntries
+                childInoculationsEntries: sortedInoculaionEntries,
+                childInfectionsEntries: sortedInfectionEntries
             };
         case DELETE_USER_RECORD_FAILURE:
             return {
@@ -123,13 +131,15 @@ export function appReducer(state = initialState, action) {
             sortedWeightEntries = action.childWeightEntries.slice().sort(sortByDateCallback);
             sortedInoculaionEntries = action.childInoculationsEntries.slice().sort(sortByDateCallback);
             sortedPoopsEntries = action.childPoopEntries.slice().sort(sortByDateCallback);
+            sortedInfectionEntries = action.childInfectionsEntries.slice().sort(sortByDateCallback);
 
             return {
                 ...state,
                 isFetchingData: false,
                 childWeightEntries: sortedWeightEntries,
                 childPoopEntries: sortedPoopsEntries,
-                childInoculationsEntries: sortedInoculaionEntries
+                childInoculationsEntries: sortedInoculaionEntries,
+                childInfectionsEntries: sortedInfectionEntries
             };
         case REPLACE_USER_DATA_FAILURE:
             return {
