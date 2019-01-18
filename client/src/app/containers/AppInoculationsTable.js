@@ -123,7 +123,7 @@ export class AppInoculationsTable extends React.Component {
             value
         } = e.target;
 
-        if (value && value.length < 160) {
+        if (value !== undefined && value.length < 160) {
             this.setState({
                 newEntryDescriptionValue: value
             });
