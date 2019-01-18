@@ -1,8 +1,11 @@
 # Changelog
 
-Current version is 0.5.1 (2019-01-12)
+Current version is 0.6.1 (2019-01-18)
 
-- 0.6.0
+- 0.6.1 (2019-01-18)
+  - Fix: Add new inoculation entry modal and edit infection entry modal description field won't let you completly delete
+    entered data
+- 0.6.0 (2019-01-17)
   - Added new section: child infections
   - Changed login and application page header font
 - 0.5.1 (2019-01-12)
