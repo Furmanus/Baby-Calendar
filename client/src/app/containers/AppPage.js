@@ -10,6 +10,7 @@ import {
     INFO,
     INOCULATIONS,
     SETTINGS,
+    UPLOAD,
     WEIGHT
 } from '../constants/app_tabs';
 import autobind from 'autobind-decorator';
@@ -20,6 +21,7 @@ import {AppDiaperTable} from './AppDiaperTable';
 import {AppError} from './AppError';
 import {AppInoculationsTable} from './AppInoculationsTable';
 import {InfectionsTable} from './InfectionsTable';
+import {UploadImageContainer} from './UploadImageContainer';
 
 @connect(state => {
     return {
@@ -27,7 +29,8 @@ import {InfectionsTable} from './InfectionsTable';
         birthdate: state.birthdate,
         isFetchingData: state.isFetchingData,
         activeTab: state.activeTab,
-        error: state.error
+        error: state.error,
+        imageData: state.imageData
     };
 }, dispatch => {
     return {
@@ -49,12 +52,18 @@ export class AppPage extends React.Component {
         const {
             activeTab,
             childName,
-            birthdate
+            birthdate,
+            imageData
         } = this.props;
+        const imageDataUrl = imageData && (process.env.NODE_ENV === 'production' ? imageData.url : imageData.secure_url);
 
         switch (activeTab) {
             case INFO:
-                return <InfoComponent childName={childName} birthdate={birthdate}/>;
+                return <InfoComponent
+                    childName={childName}
+                    birthdate={birthdate}
+                    imageUrl={imageDataUrl}
+                />;
             case WEIGHT:
                 return <AppWeightTable/>;
             case DIAPER:
@@ -65,6 +74,8 @@ export class AppPage extends React.Component {
                 return <AppInoculationsTable/>;
             case INFECTIONS:
                 return <InfectionsTable/>;
+            case UPLOAD:
+                return <UploadImageContainer/>;
         }
     }
     render() {

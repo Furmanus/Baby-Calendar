@@ -5,13 +5,13 @@ import {
     NavItem,
     NavDropdown,
     MenuItem,
-    Glyphicon
 } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import autobind from 'autobind-decorator';
 import {
     changeActiveTab,
-    logout
+    logout,
+    updateUserData
 } from '../actions/app_actions';
 import {
     INFO,
@@ -19,7 +19,8 @@ import {
     SETTINGS,
     WEIGHT,
     INOCULATIONS,
-    INFECTIONS
+    INFECTIONS,
+    UPLOAD
 } from '../constants/app_tabs';
 import {
     MdInfo
@@ -95,6 +96,14 @@ export class AppNavbar extends React.Component {
 
         changeActiveTab(INFECTIONS);
     }
+    @autobind
+    onUploadTabClick() {
+        const {
+            changeActiveTab
+        } = this.props;
+
+        changeActiveTab(UPLOAD);
+    }
     render() {
         const {
             username,
@@ -134,6 +143,7 @@ export class AppNavbar extends React.Component {
                 <Nav className="navbar-settings" pullRight>
                     <NavDropdown eventKey={4} title="Settings" id="settings-dropdown" disabled={isFetchingData}>
                         <MenuItem eventKey={4.1} onClick={this.handleSettingsChangeClick}>Change</MenuItem>
+                        <MenuItem eventKey={4.2} onClick={this.onUploadTabClick}>Upload image</MenuItem>
                         <MenuItem divider/>
                         <MenuItem eventKey={4.2} onClick={logout}>Logout</MenuItem>
                     </NavDropdown>

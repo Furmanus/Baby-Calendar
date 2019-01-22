@@ -3,6 +3,7 @@ const config = require('../config/config');
 const url = config.mongoDbUrl;
 const constants = require('../constants/database_constats');
 const cryptoHelper = require('./crypto');
+const cloudinaryHelper = require('./cloudinary');
 
 const blankUserDataEntry = {
     childName: '',
@@ -136,11 +137,13 @@ const databaseMethods = {
                 childPoopEntry,
                 childInoculationEntry,
                 childInfectionEntry,
+                imageData,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
             const dbObject = dbConnection.db(constants.DATABASE_NAME);
             const userDataRecord = await dbObject.collection(constants.USERS_DATA).findOne({userId});
+            let deletionResult;
 
             if (userDataRecord) {
                 userDataRecord.childName = childName || userDataRecord.childName;
@@ -149,6 +152,20 @@ const databaseMethods = {
                 childPoopEntry && userDataRecord.childPoopsEntries.push(childPoopEntry);
                 childInoculationEntry && userDataRecord.childInoculationsEntries.push(childInoculationEntry);
                 childInfectionEntry && userDataRecord.childInfectionsEntries.push(childInfectionEntry);
+
+                if (userDataRecord.imageData) {
+                    try {
+                        deletionResult = await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
+                    } catch (e) {
+                        console.warn(e);
+                    }
+                    /**
+                     * Deletion result ignored on purpose. New image is already uploaded, so how app should react
+                     * on failed deletion of old image is a mystery. Wait till rewrite app, so client first sends image
+                     * to server and then server uploads image to cloudinary?
+                     */
+                    userDataRecord.imageData = imageData;
+                }
 
                 await dbObject.collection(constants.USERS_DATA).updateOne({userId}, {
                     $set: {...userDataRecord}
@@ -175,6 +192,7 @@ const databaseMethods = {
                 childPoopEntry,
                 childInoculationEntry,
                 childInfectionEntry,
+                imageData,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
@@ -188,6 +206,19 @@ const databaseMethods = {
                 }
                 if (birthDate) {
                     userDataRecord.birthDate = null;
+                }
+                if (imageData) {
+                    const deletionResult = await cloudinaryHelper.removeImage(imageData.public_id);
+
+                    if (deletionResult.result === 'ok') {
+                        userDataRecord.imageData = null;
+                    } else {
+                        callback(500, {
+                            error: true,
+                            message: 'Failed to delete image'
+                        });
+                        return;
+                    }
                 }
                 if (childWeightEntry) {
                     userDataRecord.childWeightEntries = userDataRecord.childWeightEntries.filter(entry => {

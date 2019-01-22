@@ -22,6 +22,7 @@ router.put('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        imageData
     } = req.body;
 
     databaseHelper.updateUserData({
@@ -31,7 +32,8 @@ router.put('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
-        userId
+        userId,
+        imageData
     }, (statusCode, response) => {
         res.status(statusCode).send(response);
     });
@@ -46,7 +48,8 @@ router.delete('/data', async (req, res) => {
         childWeightEntry,
         childPoopEntry,
         childInoculationEntry,
-        childInfectionEntry
+        childInfectionEntry,
+        imageData
     } = req.body;
 
     databaseHelper.deleteUserData({
@@ -56,6 +59,7 @@ router.delete('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        imageData,
         userId
     }, (statusCode, response) => {
         res.status(statusCode).send(response);

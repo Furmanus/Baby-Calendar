@@ -25,7 +25,8 @@ const initialState = {
     childInoculationsEntries: [],
     childInfectionsEntries: [],
     error: null,
-    isSubmitting: false
+    isSubmitting: false,
+    imageData: null
 };
 
 export function appReducer(state = initialState, action) {
@@ -55,7 +56,8 @@ export function appReducer(state = initialState, action) {
                 childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
                 childInfectionsEntries: sortedInfectionEntries,
-                activeTab: action.activeTab
+                activeTab: action.activeTab,
+                imageData: action.imageData
             };
         case FETCH_USER_DATA_FAILURE:
             return {
@@ -82,7 +84,8 @@ export function appReducer(state = initialState, action) {
                 childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
                 childInfectionsEntries: sortedInfectionEntries,
-                isFetchingData: false
+                isFetchingData: false,
+                imageData: action.imageData
             };
         case UPDATE_USER_DATA_FAILURE:
             return {
@@ -114,7 +117,8 @@ export function appReducer(state = initialState, action) {
                 childWeightEntries: sortedWeightEntries,
                 childPoopEntries: sortedPoopsEntries,
                 childInoculationsEntries: sortedInoculaionEntries,
-                childInfectionsEntries: sortedInfectionEntries
+                childInfectionsEntries: sortedInfectionEntries,
+                imageData: action.imageData
             };
         case DELETE_USER_RECORD_FAILURE:
             return {
