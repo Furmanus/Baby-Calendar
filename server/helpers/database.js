@@ -164,6 +164,8 @@ const databaseMethods = {
                      * on failed deletion of old image is a mystery. Wait till rewrite app, so client first sends image
                      * to server and then server uploads image to cloudinary?
                      */
+                }
+                if (imageData) {
                     userDataRecord.imageData = imageData;
                 }
 
