@@ -7,6 +7,7 @@ const router = require('./router/router');
 const usersRouter = require('./router/users_router');
 const dataRouter = require('./router/data_router');
 const config = require('./config/config');
+const cloudinaryHelper = require('./helpers/cloudinary');
 const {
     httpPort,
     httpsPort,
@@ -21,6 +22,8 @@ app.use(expressSession(config.sessionConfig));
 app.use(router);
 app.use(usersRouter);
 app.use(dataRouter);
+
+cloudinaryHelper.initConfig();
 
 app.listen(httpPort, () => {
     console.log(`Server is listening on port ${httpPort} in ${envName} mode.`);

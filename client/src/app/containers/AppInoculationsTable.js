@@ -19,6 +19,7 @@ import PerfectScrollBar from 'react-perfect-scrollbar';
 import {InoculationTableRow} from '../components/InoculationTableRow';
 import {ConfirmModal} from '../components/ConfirmModal';
 import {DataTable} from '../components/DataTable';
+import {scrollPageToBottom} from '../utility/utility';
 
 @connect(state => {
     return {
@@ -51,6 +52,9 @@ export class AppInoculationsTable extends React.Component {
         newEntryDateValue: '',
         newEntryDescriptionValue: ''
     };
+    componentDidMount() {
+        scrollPageToBottom();
+    }
     componentDidUpdate(prevProps, prevState) {
         const {
             editedEntry: prevEditedEntry

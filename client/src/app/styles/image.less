@@ -1,0 +1,14 @@
+.picture {
+  background: #FFF;
+  transition: transform 0.15s linear;
+  box-sizing: border-box;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  border: 8px solid @image-border-color;
+  box-shadow: 0 0 4px 0 @image-border-box-shadow, 0 0 4px 0 @image-border-box-shadow;
+
+  &:hover {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+  }
+}

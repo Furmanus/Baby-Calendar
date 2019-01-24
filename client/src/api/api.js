@@ -35,7 +35,8 @@ export async function updateUserData(data) {
         childWeightEntry: data.childWeightEntry,
         childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry,
-        childInfectionEntry: data.childInfectionEntry
+        childInfectionEntry: data.childInfectionEntry,
+        imageData: data.imageData
     });
 }
 export async function deleteUserData(data) {
@@ -45,7 +46,8 @@ export async function deleteUserData(data) {
         childWeightEntry: data.childWeightEntry,
         childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry,
-        childInfectionEntry: data.childInfectionEntry
+        childInfectionEntry: data.childInfectionEntry,
+        imageData: data.imageData
     });
 }
 export async function replaceUserData(data) {
