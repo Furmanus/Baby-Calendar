@@ -6,7 +6,6 @@ import PerfectScrollBar from 'react-perfect-scrollbar';
 import {DiaperTableRow} from '../components/DiaperTableRow';
 import {ConfirmModal} from '../components/ConfirmModal';
 import {
-    Table,
     FormControl,
     ControlLabel,
     Form,
@@ -19,6 +18,7 @@ import {
     replaceUserData
 } from '../actions/app_actions';
 import {DataTable} from '../components/DataTable';
+import {scrollPageToBottom} from '../utility/utility';
 
 @connect(state => {
     return {
@@ -49,6 +49,9 @@ export class AppDiaperTable extends React.Component {
         isAddingEntry: false,
         newEntryDateValue: ''
     };
+    componentDidMount() {
+        scrollPageToBottom();
+    }
     componentDidUpdate(prevProps, prevState) {
         const {
             editedEntry: prevEditedEntry

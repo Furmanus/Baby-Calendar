@@ -21,6 +21,7 @@ import {
     Button
 } from 'react-bootstrap';
 import {DataTable} from '../components/DataTable';
+import {scrollPageToBottom} from '../utility/utility';
 
 @connect(state => {
     return {
@@ -58,6 +59,9 @@ export class AppWeightTable extends React.Component {
         newEntryDateValue: '',
         newEntryChildWeightValue: ''
     };
+    componentDidMount() {
+        scrollPageToBottom();
+    }
     componentDidUpdate(prevProps, prevState) {
         const {
             editedEntry: prevEditedEntry

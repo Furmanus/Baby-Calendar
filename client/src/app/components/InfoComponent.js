@@ -9,8 +9,12 @@ import {
     GoHeart
 } from 'react-icons/go';
 import {ChildImage} from './ChildImage';
+import {scrollPageToBottom} from '../utility/utility';
 
 export class InfoComponent extends React.Component {
+    componentDidMount() {
+        scrollPageToBottom();
+    }
     render() {
         const {
             childName,

@@ -18,6 +18,7 @@ import {
 import {DataTable} from '../components/DataTable';
 import PerfectScrollBar from 'react-perfect-scrollbar';
 import {InfectionTableRow} from '../components/InfectionTableRow';
+import {scrollPageToBottom} from '../utility/utility';
 //TODO rewrite InfectionsTable and InoculationsTable to one generic container
 @connect(state => {
     return {
@@ -49,6 +50,9 @@ export class InfectionsTable extends React.Component {
         editedEntryNewDescriptionValue: '',
         editedEntryNewDateValue: ''
     };
+    componentDidMount() {
+        scrollPageToBottom();
+    }
     @autobind
     handleAddEntryClick() {
         this.setState({
