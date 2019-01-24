@@ -1,6 +1,6 @@
 {
   "name": "baby_calendar",
-  "version": "1.0.0",
+  "version": "0.7.0",
   "description": "Basic baby calendar application.",
   "main": "index.js",
   "scripts": {

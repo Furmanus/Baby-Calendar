@@ -91,7 +91,6 @@ export class AppDiaperTable extends React.Component {
                 newEntryDateValue: ''
             });
 
-
             updateUserData({
                 childPoopEntry: {
                     date: newEntryDateValue
@@ -259,8 +258,8 @@ export class AppDiaperTable extends React.Component {
             <DiaperTableRow
                 date={entry.date}
                 key={index}
-                handleDeleteClick={this.handleEditRowClick}
-                handleEditClick={this.handleDeleteRowClick}
+                handleDeleteClick={this.handleDeleteRowClick}
+                handleEditClick={this.handleEditRowClick}
             />
         );
     }
