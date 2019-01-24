@@ -35,7 +35,8 @@ export class UploadImageContainer extends React.Component {
                 maxImageHeight: `${config.maxImageWidth}px`
             }, (err, res) => {
                 if (err) {
-                    // show dialog window that uploading images is disabled
+                    console.log(err);
+                    // TODO handle errors
                 } else {
                     switch (res.event) {
                         case 'success':
