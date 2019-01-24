@@ -1,6 +1,6 @@
 # Changelog
 
-Current version is 0.6.1 (2019-01-18)
+Current version is 0.7.0 (2019-01-24)
 
 - 0.7.0
   - Added new option in settings: upload photo. Uploaded photo (max 2.5 Mb size) will be displayed in info screen
