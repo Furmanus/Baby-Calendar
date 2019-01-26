@@ -2,6 +2,8 @@
 
 Current version is 0.7.0 (2019-01-24)
 
+- 0.7.1
+  - Changed scrolling to bottom of page when switching tabs to smooth
 - 0.7.0
   - Added new option in settings: upload photo. Uploaded photo (max 2.5 Mb size) will be displayed in info screen
   - When switching between pages, page will always scroll to bottom

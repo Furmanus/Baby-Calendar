@@ -1,11 +1,12 @@
 {
   "name": "baby_calendar",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Basic baby calendar application.",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server:start": "node ./server/index.js",
+    "server:start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./server/index.js",
     "client:start": "webpack --config webpack.config.js",
     "server:watch": "nodemon ./server/index.js",
     "client:watch": "webpack --config webpack.config.js --watch",
