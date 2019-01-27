@@ -1,8 +1,12 @@
 # Changelog
 
-Current version is 0.7.0 (2019-01-24)
+Current version is 0.7.1 (2019-01-27)
 
-- 0.7.0
+- 0.7.1 (2019-01-27)
+  - Changed scrolling to bottom of page when switching tabs to smooth
+  - Increased max image size to 5 Mb
+  - Fixed scaled image URL generation, so images horizontal and vertical should look properly now
+- 0.7.0 (2019-01-24)
   - Added new option in settings: upload photo. Uploaded photo (max 2.5 Mb size) will be displayed in info screen
   - When switching between pages, page will always scroll to bottom
   - Fix: diaper table edit and delete row functions swapped with each other

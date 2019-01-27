@@ -9,17 +9,15 @@ import {
     GoHeart
 } from 'react-icons/go';
 import {ChildImage} from './ChildImage';
-import {scrollPageToBottom} from '../utility/utility';
 
 export class InfoComponent extends React.Component {
-    componentDidMount() {
-        scrollPageToBottom();
-    }
     render() {
         const {
             childName,
             birthdate,
-            imageUrl
+            imageUrl,
+            imageWidth,
+            imageHeight
         } = this.props;
         const ageInWeeks = calculateAgeInWeeks(birthdate);
 
@@ -40,7 +38,14 @@ export class InfoComponent extends React.Component {
                     propName="Age in weeks"
                     propValue={ageInWeeks.toString()}
                 />
-                {imageUrl ? <ChildImage imageUrl={imageUrl}/> : null}
+                {imageUrl ?
+                    <ChildImage
+                        imageUrl={imageUrl}
+                        imageOriginalHeight={imageHeight}
+                        imageOriginalWidth={imageWidth}
+                    /> :
+                    null
+                }
             </div>
         );
     }

@@ -63,6 +63,8 @@ export class AppPage extends React.Component {
                     childName={childName}
                     birthdate={birthdate}
                     imageUrl={imageDataUrl}
+                    imageWidth={imageData && imageData.width}
+                    imageHeight={imageData && imageData.height}
                 />;
             case WEIGHT:
                 return <AppWeightTable/>;

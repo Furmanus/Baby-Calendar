@@ -5,11 +5,15 @@ import {prepareImageUrl} from '../utility/image_helper';
 
 export class ChildImage extends React.Component {
     static propTypes = {
-        imageUrl: PropTypes.string
+        imageUrl: PropTypes.string,
+        imageOriginalWidth: PropTypes.number,
+        imageOriginalHeight: PropTypes.number
     };
     render() {
         let {
-            imageUrl
+            imageUrl,
+            imageOriginalWidth,
+            imageOriginalHeight
         } = this.props;
 
         if (!imageUrl) {
@@ -18,10 +22,8 @@ export class ChildImage extends React.Component {
 
         return <img
             className="picture"
-            src={prepareImageUrl(imageUrl)}
+            src={prepareImageUrl(imageUrl, imageOriginalWidth, imageOriginalHeight)}
             alt="Failed to load image :("
-            height={`${config.maxImageHeight}px`}
-            width={`${config.maxImageWidth}px`}
         />;
     }
 }
