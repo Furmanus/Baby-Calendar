@@ -1,7 +1,9 @@
 # Changelog
 
-Current version is 0.7.1 (2019-01-27)
+Current version is 0.7.2 (2019-01-27)
 
+- 0.7.2 (2019-01-27)
+  - Fixed displaying default image when no data is available
 - 0.7.1 (2019-01-27)
   - Changed scrolling to bottom of page when switching tabs to smooth
   - Increased max image size to 5 Mb
