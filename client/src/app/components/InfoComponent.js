@@ -41,8 +41,8 @@ export class InfoComponent extends React.Component {
                 {imageUrl ?
                     <ChildImage
                         imageUrl={imageUrl}
-                        imageOriginalHeight={imageHeight}
-                        imageOriginalWidth={imageWidth}
+                        imageOriginalHeight={imageHeight || 250}
+                        imageOriginalWidth={imageWidth || 250}
                     /> :
                     null
                 }

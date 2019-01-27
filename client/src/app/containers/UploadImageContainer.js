@@ -81,8 +81,8 @@ export class UploadImageContainer extends React.Component {
             <div className="upload-wrapper">
                 <ChildImage
                     imageUrl={imageDataUrl}
-                    imageOriginalWidth={imageData.width}
-                    imageOriginalHeight={imageData.height}
+                    imageOriginalWidth={imageData && imageData.width || undefined}
+                    imageOriginalHeight={imageData && imageData.height || undefined}
                 />
                 <div className="upload-buttons">
                     <Button

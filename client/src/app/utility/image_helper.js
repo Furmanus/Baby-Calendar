@@ -1,6 +1,6 @@
 import {config} from '../../config/config';
 
-export function prepareImageUrl(url, originalWidth, originalHeight) {
+export function prepareImageUrl(url, originalWidth = 250, originalHeight = 250) {
     const {
         defaultImageWidth,
         defaultImageHeight

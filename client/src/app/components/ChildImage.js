@@ -9,6 +9,10 @@ export class ChildImage extends React.Component {
         imageOriginalWidth: PropTypes.number,
         imageOriginalHeight: PropTypes.number
     };
+    static defaultProps = {
+        imageOriginalWidth: 250,
+        imageOriginalHeight: 250
+    };
     render() {
         let {
             imageUrl,
