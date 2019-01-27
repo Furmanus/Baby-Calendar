@@ -142,7 +142,7 @@ export class AppNavbar extends React.Component {
                 </Nav>
                 <Nav className="navbar-settings" pullRight>
                     <NavDropdown eventKey={4} title="Settings" id="settings-dropdown" disabled={isFetchingData}>
-                        <MenuItem eventKey={4.1} onClick={this.handleSettingsChangeClick}>Change</MenuItem>
+                        <MenuItem eventKey={4.1} onClick={this.handleSettingsChangeClick}>Change info</MenuItem>
                         <MenuItem eventKey={4.2} onClick={this.onUploadTabClick}>Upload image</MenuItem>
                         <MenuItem divider/>
                         <MenuItem eventKey={4.2} onClick={logout}>Logout</MenuItem>

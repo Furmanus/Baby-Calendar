@@ -31,8 +31,8 @@ export class UploadImageContainer extends React.Component {
         if (window.cloudinary) {
             this.uploadWidget = cloudinary.createUploadWidget({
                 ...config,
-                maxImageWidth: `${config.maxImageWidth}px`,
-                maxImageHeight: `${config.maxImageWidth}px`
+                maxImageWidth: `${config.defaultImageWidth}px`,
+                maxImageHeight: `${config.defaultImageWidth}px`
             }, (err, res) => {
                 if (err) {
                     console.log(err);
@@ -79,7 +79,11 @@ export class UploadImageContainer extends React.Component {
 
         return (
             <div className="upload-wrapper">
-                <ChildImage imageUrl={imageDataUrl}/>
+                <ChildImage
+                    imageUrl={imageDataUrl}
+                    imageOriginalWidth={imageData.width}
+                    imageOriginalHeight={imageData.height}
+                />
                 <div className="upload-buttons">
                     <Button
                         onClick={this.onUploadImageButtonClick}

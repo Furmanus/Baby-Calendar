@@ -1,20 +1,18 @@
 import {config} from '../../config/config';
 
-export function prepareImageUrl(url) {
-    // if (window.cloudinary) {
-    //     return cloudinary.url(url, {
-    //         width: `${config.maxImageWidth}px`,
-    //         height: `${config.maxImageHeight}px`,
-    //         crop: 'scale',
-    //         quality: 100,
-    //         radius: 'max',
-    //         border: '4px solid black'
-    //     });
-    // }
+export function prepareImageUrl(url, originalWidth, originalHeight) {
+    const {
+        defaultImageWidth,
+        defaultImageHeight
+    } = config;
     const splitUrl = url.split('/');
+    const vertical = originalWidth > originalHeight;
+    const ratio = vertical ? originalHeight / originalWidth : originalWidth / originalHeight;
+    const newWidth = vertical ? defaultImageWidth : Math.floor(defaultImageHeight * ratio);
+    const newHeight = vertical ? Math.floor(defaultImageWidth * ratio) : defaultImageHeight;
 
     if (splitUrl.length) {
-        splitUrl.splice(splitUrl.length - 2, 0, `w_${config.maxImageWidth},h_${config.maxImageHeight},c_scale`);
+        splitUrl.splice(splitUrl.length - 2, 0, `w_${newWidth},h_${newHeight},c_scale`);
     }
 
     return splitUrl.join('/');
