@@ -22,6 +22,7 @@ import {
 } from 'react-bootstrap';
 import {DataTable} from '../components/DataTable';
 import {scrollPageToBottom} from '../utility/utility';
+import {WeightChart} from '../components/WeightChart';
 
 @connect(state => {
     return {
@@ -345,6 +346,9 @@ export class AppWeightTable extends React.Component {
             newEntryDateValue,
             newEntryChildWeightValue
         } = this.state;
+        const {
+            childWeightEntries
+        } = this.props;
 
         return (
             <div className="weight-wrapper">
@@ -358,6 +362,7 @@ export class AppWeightTable extends React.Component {
                 <div className="data-wrapper">
                     {this.renderContent()}
                 </div>
+                <WeightChart data={childWeightEntries}/>
                 <ConfirmModal
                     title="Edit weight entry"
                     visible={!!editedEntry}
