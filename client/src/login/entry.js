@@ -6,8 +6,11 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {loginReducer} from './reducers/login_reducer';
 import './styles/login.less';
+import {setApplicationStyle} from '../common/helpers/helpers';
 
 const store = createStore(loginReducer, applyMiddleware(thunk));
+
+setApplicationStyle();
 
 ReactDom.render(
     <Provider store={store}>

@@ -4,6 +4,7 @@ Current version is 0.7.2 (2019-01-27)
 
 - 0.8.0 (work in progress)
   - Added chart to weight table
+  - Added application settings tab, with option to change application background color
 - 0.7.2 (2019-01-27)
   - Fixed displaying default image when no data is available
 - 0.7.1 (2019-01-27)
