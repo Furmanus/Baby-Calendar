@@ -4,7 +4,9 @@ import autobind from 'autobind-decorator';
 import {
     FormGroup,
     FormControl,
-    ControlLabel
+    ControlLabel,
+    OverlayTrigger,
+    Tooltip
 } from 'react-bootstrap';
 import {
     DEFAULT_STYLE,
@@ -31,25 +33,37 @@ export class ApplicationSettings extends React.Component {
         setApplicationStyleInStorage(value);
         setApplicationStyle();
     }
+    renderTooltip() {
+        return (
+            <Tooltip id="tooltip-style">
+                Your application settings are stored in browser local storage. Clearing local storage or opening
+                application in different browser or device will result in application beign open with default styles
+            </Tooltip>
+        );
+    }
     render() {
         const styleKey = getApplicationStyleFromStorage() || DEFAULT_STYLE;
 
         return (
             <div className="application-settings-container">
                 <form onSubmit={this.onFormSubmit}>
-                    <FormGroup controlId="app-settings">
-                        <ControlLabel>Select application style:</ControlLabel>
-                        <FormControl
-                            componentClass="select"
-                            placeholder="choose style"
-                            onChange={this.onApplicationStyleSelectChange}
-                            defaultValue={styleKey}
-                        >
-                            <option value={DEFAULT_STYLE}>Pink (default)</option>
-                            <option value={SKY_BLUE}>Sky blue</option>
-                            <option value={NEUTRAL_GRAY}>Neutral gray</option>
-                        </FormControl>
-                    </FormGroup>
+                    <OverlayTrigger
+                        overlay={this.renderTooltip()}
+                    >
+                        <FormGroup controlId="app-settings">
+                            <ControlLabel>Select application style:</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="choose style"
+                                onChange={this.onApplicationStyleSelectChange}
+                                defaultValue={styleKey}
+                            >
+                                <option value={DEFAULT_STYLE}>Pink (default)</option>
+                                <option value={SKY_BLUE}>Sky blue</option>
+                                <option value={NEUTRAL_GRAY}>Neutral gray</option>
+                            </FormControl>
+                        </FormGroup>
+                    </OverlayTrigger>
                 </form>
             </div>
         );
