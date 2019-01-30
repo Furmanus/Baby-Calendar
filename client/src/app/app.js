@@ -7,8 +7,11 @@ import thunk from 'redux-thunk';
 import {appReducer} from './reducers/app_reducer';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './styles/app.less';
+import {setApplicationStyle} from '../common/helpers/helpers';
 
 const store = createStore(appReducer, applyMiddleware(thunk));
+
+setApplicationStyle();
 
 ReactDom.render(
     <Provider store={store}>

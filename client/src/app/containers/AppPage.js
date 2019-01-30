@@ -5,6 +5,7 @@ import {AppNavbar} from './AppNavbar';
 import {Loader} from '../components/Loader';
 import {InfoComponent} from '../components/InfoComponent';
 import {
+    APPLICATION_SETTINGS,
     DIAPER,
     INFECTIONS,
     INFO,
@@ -15,13 +16,14 @@ import {
 } from '../constants/app_tabs';
 import autobind from 'autobind-decorator';
 import {fetchUserData} from '../actions/app_actions';
-import {AppSettingsContainer} from './AppSettingsContainer';
+import {ChildInfoSettingsContainer} from './ChildInfoSettingsContainer';
 import {AppWeightTable} from './AppWeightTable';
 import {AppDiaperTable} from './AppDiaperTable';
 import {AppError} from './AppError';
 import {AppInoculationsTable} from './AppInoculationsTable';
 import {InfectionsTable} from './InfectionsTable';
 import {UploadImageContainer} from './UploadImageContainer';
+import {ApplicationSettings} from './ApplicationSettings';
 
 @connect(state => {
     return {
@@ -71,13 +73,15 @@ export class AppPage extends React.Component {
             case DIAPER:
                 return <AppDiaperTable/>;
             case SETTINGS:
-                return <AppSettingsContainer/>;
+                return <ChildInfoSettingsContainer/>;
             case INOCULATIONS:
                 return <AppInoculationsTable/>;
             case INFECTIONS:
                 return <InfectionsTable/>;
             case UPLOAD:
                 return <UploadImageContainer/>;
+            case APPLICATION_SETTINGS:
+                return <ApplicationSettings/>
         }
     }
     render() {

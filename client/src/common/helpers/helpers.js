@@ -1,3 +1,10 @@
+import {
+    DEFAULT_STYLE,
+    NEUTRAL_GRAY,
+    SKY_BLUE,
+    STYLE_LOCAL_STORAGE_KEY
+} from '../../app/constants/app_styles';
+
 export function navigateTo(path) {
     window.location = path;
 }
@@ -43,4 +50,26 @@ export function sortByDateCallback(a, b) {
         secondTimeStamp = Date.parse(new Date(b.weightDate || b.inoculationDate || b.date));
 
     return secondTimeStamp - firstTimeStamp;
+}
+
+const styleKeyToStyleValueMap = {
+    [DEFAULT_STYLE]: 'linear-gradient(to bottom, #E7717D, #FF9472)',
+    [NEUTRAL_GRAY]: 'linear-gradient(to bottom, #8E9EAB, #EEF2F3)',
+    [SKY_BLUE]: 'linear-gradient(to bottom, #6190E8, #A7BFE8)'
+};
+
+export function setApplicationStyleInStorage(style) {
+    window.localStorage.setItem(STYLE_LOCAL_STORAGE_KEY, style);
+}
+
+export function getApplicationStyleFromStorage() {
+    return window.localStorage.getItem(STYLE_LOCAL_STORAGE_KEY);
+}
+
+export function setApplicationStyle() {
+    const styleKey = getApplicationStyleFromStorage();
+
+    if (styleKey && styleKey in styleKeyToStyleValueMap) {
+        document.body.style.background = styleKeyToStyleValueMap[styleKey];
+    }
 }

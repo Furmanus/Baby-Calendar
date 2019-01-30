@@ -1,12 +1,15 @@
 # Changelog
 
-Current version is 0.7.2 (2019-01-27)
+Current version is 0.8.0 (2019-01-30)
 
+- 0.8.0 (2019-01-30)
+  - Added chart to weight table
+  - Added application settings tab, with option to change application background color
 - 0.7.2 (2019-01-27)
   - Fixed displaying default image when no data is available
 - 0.7.1 (2019-01-27)
   - Changed scrolling to bottom of page when switching tabs to smooth
-  - Increased max image size to 5 Mb
+  - Increased max photo image size to 5 Mb
   - Fixed scaled image URL generation, so images horizontal and vertical should look properly now
 - 0.7.0 (2019-01-24)
   - Added new option in settings: upload photo. Uploaded photo (max 2.5 Mb size) will be displayed in info screen

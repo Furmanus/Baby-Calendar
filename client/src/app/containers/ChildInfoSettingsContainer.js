@@ -21,7 +21,7 @@ import {updateUserData} from '../actions/app_actions';
         }
     };
 })
-export class AppSettingsContainer extends React.Component {
+export class ChildInfoSettingsContainer extends React.Component {
     constructor(props) {
         super(...arguments);
 

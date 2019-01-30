@@ -1,6 +1,6 @@
 {
   "name": "baby_calendar",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "description": "Basic baby calendar application.",
   "main": "index.js",
   "scripts": {
@@ -50,6 +50,7 @@
     "react-perfect-scrollbar": "^1.4.2",
     "react-redux": "5.1.1",
     "react-transition-group": "^2.5.2",
+    "recharts": "^1.4.2",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
