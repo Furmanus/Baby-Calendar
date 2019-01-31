@@ -1,7 +1,9 @@
 # Changelog
 
-Current version is 0.8.0 (2019-01-30)
+Current version is 0.8.1 (2019-01-31)
 
+- 0.8.1 (2019-01-31)
+  - Fixed weight table incorrectly sorted after using table pagination
 - 0.8.0 (2019-01-30)
   - Added chart to weight table
   - Added application settings tab, with option to change application background color

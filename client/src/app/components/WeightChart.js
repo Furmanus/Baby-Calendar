@@ -34,12 +34,13 @@ export class WeightChart extends React.Component {
             data
         } = this.props;
         const chartWidth = Math.floor(window.innerWidth * (5/6));
+        const dataCopy = data.slice().reverse();
 
         return data.length ? (
                 <LineChart
                     width={chartWidth}
                     height={chartWidth < 400 ? 200 : 300}
-                    data={data.reverse()}
+                    data={dataCopy}
                     margin={{left: 0, right: 5}}
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
