@@ -2,6 +2,8 @@
 
 Current version is 0.8.1 (2019-01-31)
 
+- 0.9.0 (work in progress)
+  - Added notes tab to navbar, where you can add various notes (table with date and description column)
 - 0.8.1 (2019-01-31)
   - Fixed weight table incorrectly sorted after using table pagination
 - 0.8.0 (2019-01-30)

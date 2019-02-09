@@ -36,6 +36,7 @@ export async function updateUserData(data) {
         childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry,
         childInfectionEntry: data.childInfectionEntry,
+        childNoteEntry: data.childNoteEntry,
         imageData: data.imageData
     });
 }
@@ -47,6 +48,7 @@ export async function deleteUserData(data) {
         childPoopEntry: data.childPoopEntry,
         childInoculationEntry: data.childInoculationEntry,
         childInfectionEntry: data.childInfectionEntry,
+        childNoteEntry: data.childNoteEntry,
         imageData: data.imageData
     });
 }

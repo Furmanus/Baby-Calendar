@@ -80,6 +80,7 @@ function fetchUserDataSuccess(userData) {
         childPoopsEntries,
         childInoculationsEntries,
         childInfectionsEntries,
+        childNotesEntries,
         imageData
     } = userData;
 
@@ -92,6 +93,7 @@ function fetchUserDataSuccess(userData) {
         childPoopsEntries,
         childInoculationsEntries,
         childInfectionsEntries,
+        childNotesEntries,
         imageData
     };
 }
@@ -124,6 +126,7 @@ function updateUserDataSuccess(data) {
         childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries,
         childInfectionsEntries: data.childInfectionsEntries,
+        childNotesEntries: data.childNotesEntries,
         imageData: data.imageData
     };
 }
@@ -162,6 +165,7 @@ function deleteUserDataRecordSuccess(data) {
         childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries,
         childInfectionsEntries: data.childInfectionsEntries,
+        childNotesEntries: data.childNotesEntries,
         imageData: data.imageData
     };
 }
@@ -193,7 +197,8 @@ function replaceUserDataSuccess(data) {
         childWeightEntries: data.childWeightEntries,
         childPoopEntries: data.childPoopsEntries,
         childInoculationsEntries: data.childInoculationsEntries,
-        childInfectionsEntries: data.childInfectionsEntries
+        childInfectionsEntries: data.childInfectionsEntries,
+        childNotesEntries: data.childNotesEntries,
     };
 }
 function replaceUserDataFailure(error) {

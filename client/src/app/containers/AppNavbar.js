@@ -21,7 +21,8 @@ import {
     INOCULATIONS,
     INFECTIONS,
     UPLOAD,
-    APPLICATION_SETTINGS
+    APPLICATION_SETTINGS,
+    NOTES
 } from '../constants/app_tabs';
 import {
     MdInfo
@@ -30,7 +31,8 @@ import {
     FaBalanceScale,
     FaPoo,
     FaSyringe,
-    FaThermometerThreeQuarters
+    FaThermometerThreeQuarters,
+    FaStickyNote
 } from 'react-icons/fa';
 
 @connect(state => {
@@ -98,6 +100,14 @@ export class AppNavbar extends React.Component {
         changeActiveTab(INFECTIONS);
     }
     @autobind
+    handleNotesClick() {
+        const {
+            changeActiveTab
+        } = this.props;
+
+        changeActiveTab(NOTES);
+    }
+    @autobind
     onUploadTabClick() {
         const {
             changeActiveTab
@@ -147,6 +157,10 @@ export class AppNavbar extends React.Component {
                     <NavItem eventKey={5} href="#" disabled={isFetchingData} onClick={this.handleInfectionsClick}>
                         <FaThermometerThreeQuarters className="icon" size={24}/>
                         <span>Infections</span>
+                    </NavItem>
+                    <NavItem eventKey={6} href="#" disabled={isFetchingData} onClick={this.handleNotesClick}>
+                        <FaStickyNote className="icon" size={24}/>
+                        <span>Notes</span>
                     </NavItem>
                 </Nav>
                 <Nav className="navbar-settings" pullRight>
