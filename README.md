@@ -14,7 +14,7 @@ won't work. If you can't enter app website, please try again later.
 ## Features
 
 Right now in application you store data about child's name and birthdate (app will automatically calculate child age
-in weeks). You can also store child's weight, diaper, inoculation and infections entries.
+in weeks). You can also store child's weight, diaper, inoculation, infections and various notes entries.
 
 ## Author
 
