@@ -22,6 +22,7 @@ router.put('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        childNoteEntry,
         imageData
     } = req.body;
 
@@ -32,6 +33,7 @@ router.put('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        childNoteEntry,
         userId,
         imageData
     }, (statusCode, response) => {
@@ -49,6 +51,7 @@ router.delete('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        childNoteEntry,
         imageData
     } = req.body;
 
@@ -59,6 +62,7 @@ router.delete('/data', async (req, res) => {
         childPoopEntry,
         childInoculationEntry,
         childInfectionEntry,
+        childNoteEntry,
         imageData,
         userId
     }, (statusCode, response) => {
@@ -78,7 +82,9 @@ router.put('/data_replace', async (req, res) => {
         inoculationEntry,
         originalInoculationEntry,
         infectionEntry,
-        originalInfectionEntry
+        originalInfectionEntry,
+        noteEntry,
+        originalNoteEntry,
     } = req.body;
 
     databaseHelper.replaceUserRecord({
@@ -90,6 +96,8 @@ router.put('/data_replace', async (req, res) => {
         originalInoculationEntry,
         infectionEntry,
         originalInfectionEntry,
+        noteEntry,
+        originalNoteEntry,
         userId
     }, (statusCode, response) => {
         res.status(statusCode).send(response);

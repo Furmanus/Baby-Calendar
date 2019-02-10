@@ -11,6 +11,7 @@ import {
     INFO,
     INOCULATIONS,
     SETTINGS,
+    NOTES,
     UPLOAD,
     WEIGHT
 } from '../constants/app_tabs';
@@ -24,6 +25,7 @@ import {AppInoculationsTable} from './AppInoculationsTable';
 import {InfectionsTable} from './InfectionsTable';
 import {UploadImageContainer} from './UploadImageContainer';
 import {ApplicationSettings} from './ApplicationSettings';
+import {NotesTable} from './NotesTable';
 
 @connect(state => {
     return {
@@ -78,10 +80,12 @@ export class AppPage extends React.Component {
                 return <AppInoculationsTable/>;
             case INFECTIONS:
                 return <InfectionsTable/>;
+            case NOTES:
+                return <NotesTable/>;
             case UPLOAD:
                 return <UploadImageContainer/>;
             case APPLICATION_SETTINGS:
-                return <ApplicationSettings/>
+                return <ApplicationSettings/>;
         }
     }
     render() {

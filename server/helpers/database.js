@@ -137,6 +137,7 @@ const databaseMethods = {
                 childPoopEntry,
                 childInoculationEntry,
                 childInfectionEntry,
+                childNoteEntry,
                 imageData,
                 userId
             } = data;
@@ -152,6 +153,7 @@ const databaseMethods = {
                 childPoopEntry && userDataRecord.childPoopsEntries.push(childPoopEntry);
                 childInoculationEntry && userDataRecord.childInoculationsEntries.push(childInoculationEntry);
                 childInfectionEntry && userDataRecord.childInfectionsEntries.push(childInfectionEntry);
+                childNoteEntry && userDataRecord.childNotesEntries.push(childNoteEntry);
 
                 if (userDataRecord.imageData) {
                     try {
@@ -194,6 +196,7 @@ const databaseMethods = {
                 childPoopEntry,
                 childInoculationEntry,
                 childInfectionEntry,
+                childNoteEntry,
                 imageData,
                 userId
             } = data;
@@ -269,6 +272,18 @@ const databaseMethods = {
                         return true;
                     });
                 }
+                if (childNoteEntry) {
+                    userDataRecord.childNotesEntries = userDataRecord.childNotesEntries.filter(entry => {
+                        const descriptionsEqual = (entry.description === childNoteEntry.description);
+                        const datesEqual = (entry.date === childNoteEntry.date);
+
+                        if (descriptionsEqual && datesEqual && !entryDeleted) {
+                            entryDeleted = true;
+                            return false;
+                        }
+                        return true;
+                    });
+                }
 
                 await dbObject.collection(constants.USERS_DATA).updateOne({userId}, {
                     $set: {...userDataRecord}
@@ -297,6 +312,8 @@ const databaseMethods = {
                 originalInoculationEntry,
                 infectionEntry,
                 originalInfectionEntry,
+                noteEntry,
+                originalNoteEntry,
                 userId
             } = data;
             const dbConnection = await this.createConnection();
@@ -379,6 +396,27 @@ const databaseMethods = {
                         if (areEntriesSame && !entryChanged) {
                             entryChanged = true;
                             return infectionEntry;
+                        }
+                        return entry;
+                    });
+                }
+
+                if (noteEntry && originalNoteEntry) {
+                    const {
+                        date: originalDate,
+                        description: originalDescription
+                    } = originalNoteEntry;
+
+                    userDataRecord.childNotesEntries = userDataRecord.childNotesEntries.map(entry => {
+                        const {
+                            date,
+                            description
+                        } = entry;
+                        const areEntriesSame = (date === originalDate && description === originalDescription);
+
+                        if (areEntriesSame && !entryChanged) {
+                            entryChanged = true;
+                            return noteEntry;
                         }
                         return entry;
                     });
