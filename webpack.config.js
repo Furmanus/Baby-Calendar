@@ -1,4 +1,6 @@
+require('dotenv').config();
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -6,6 +8,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ENV = require('./server/config/config').envName;
 
 const plugins = [
+    new webpack.DefinePlugin({
+        'process.env': {
+            CLOUD_NAME: JSON.stringify(process.env.CLOUD_NAME),
+            UPLOAD_PRESET: JSON.stringify(process.env.UPLOAD_PRESET),
+        },
+    }),
     new CleanWebpackPlugin('client/dist/*.*', {
         exclude: [],
         verbose: true,
