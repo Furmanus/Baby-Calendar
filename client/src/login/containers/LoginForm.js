@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import autobind from 'autobind-decorator';
 import {
     FormGroup,
-    ControlLabel,
     FormControl,
     HelpBlock,
     Button
@@ -163,7 +162,6 @@ export class LoginForm extends React.Component {
             'error' === loginInputPasswordErrorState ||
             isSubmitting
         );
-        const buttonStyles = `center-horizontal ${isSubmitting ? 'loader' : ''}`;
 
         return (
             <form className="form-container" onSubmit={this.onSubmit}>
@@ -172,11 +170,10 @@ export class LoginForm extends React.Component {
                     validationState={loginInputErrorState}
                     className="form-group"
                 >
-                    <ControlLabel>User name:</ControlLabel>
                     <FormControl
                         type="text"
                         value={loginInputValue}
-                        placeholder="Enter login"
+                        placeholder="Login"
                         onChange={this.onLoginInputValueChange}
                         onFocus={this.onLoginInputFocus}
                         onBlur={this.onLoginInputBlur}
@@ -189,11 +186,10 @@ export class LoginForm extends React.Component {
                     validationState={loginInputPasswordErrorState}
                     bsClass="form-group"
                 >
-                    <ControlLabel>Password:</ControlLabel>
                     <FormControl
                         type="password"
                         value={loginPasswordValue}
-                        placeholder="Enter password"
+                        placeholder="Password"
                         onChange={this.onLoginPasswordInputChange}
                         onFocus={this.onLoginPasswordInputFocus}
                         onBlur={this.onLoginPasswordInputBlur}

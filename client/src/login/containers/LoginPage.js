@@ -4,7 +4,7 @@ import {LoginForm} from './LoginForm';
 import {LoginFormHeader} from '../components/LoginFormHeader';
 import {
     Tabs,
-    Tab
+    Tab,
 } from 'react-bootstrap';
 import {changeTab} from '../actions/login_actions';
 import autobind from 'autobind-decorator';
@@ -53,7 +53,7 @@ export class LoginPage extends React.Component {
     }
     render() {
         return (
-            <div className="form-wrapper center">
+            <div className="form-wrapper">
                 <LoginFormHeader/>
                 <Tabs
                     className="tabs-wrapper"
