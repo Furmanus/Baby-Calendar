@@ -4,7 +4,6 @@ import autobind from 'autobind-decorator';
 import {
     FormGroup,
     FormControl,
-    ControlLabel,
     Button,
     HelpBlock
 } from 'react-bootstrap';
@@ -214,11 +213,10 @@ export class RegisterForm extends React.Component {
                     validationState={loginValidationState}
                     className="form-group"
                 >
-                    <ControlLabel>Login:</ControlLabel>
                     <FormControl
                         type="text"
                         value={loginInputState}
-                        placeholder="Enter login"
+                        placeholder="Login"
                         onChange={this.onLoginInputValueChange}
                         onFocus={this.onLoginInputFocus}
                     />
@@ -229,11 +227,10 @@ export class RegisterForm extends React.Component {
                     validationState={passwordValidationState}
                     bsClass="form-group"
                 >
-                    <ControlLabel>Password:</ControlLabel>
                     <FormControl
                         type="password"
                         value={passwordInputState}
-                        placeholder="Enter password"
+                        placeholder="Password"
                         onChange={this.onPasswordInputChange}
                         onFocus={this.onPasswordInputFocus}
                     />
@@ -244,7 +241,6 @@ export class RegisterForm extends React.Component {
                     validationState={repeatPasswordValidationState}
                     bsClass="form-group"
                 >
-                    <ControlLabel>Repeat password:</ControlLabel>
                     <FormControl
                         type="password"
                         value={repeatPasswordInputState}
