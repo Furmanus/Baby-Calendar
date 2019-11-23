@@ -11,7 +11,8 @@ const blankUserDataEntry = {
     childWeightEntries: [],
     childPoopsEntries: [],
     childInoculationsEntries: [],
-    childInfectionsEntries: []
+    childInfectionsEntries: [],
+    childNotesEntries: [],
 };
 
 const databaseMethods = {
