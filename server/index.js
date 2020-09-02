@@ -14,6 +14,7 @@ const {
     httpsPort,
     envName
 } = config;
+const PORT = process.env.PORT || httpPort;
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'client/dist'));
@@ -26,6 +27,6 @@ app.use(dataRouter);
 
 cloudinaryHelper.initConfig();
 
-app.listen(httpPort, () => {
-    console.log(`Server is listening on port ${httpPort} in ${envName} mode.`);
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT} in ${envName} mode.`);
 });
