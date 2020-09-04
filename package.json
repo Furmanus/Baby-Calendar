@@ -11,8 +11,9 @@
     "server:watch": "nodemon ./server/index.js",
     "client:watch": "webpack --config webpack.config.js --watch",
     "start:watch": "concurrently \"npm run server:watch\" \"npm run client:watch\"",
-    "build:dev": "NODE_ENV=development node ./server/index.js",
-    "build:prod": "NODE_ENV=production forever start ./server/index.js && npm run client:start"
+    "build:dev": "NODE_ENV=development webpack --config webpack.config.js",
+    "build:prod": "NODE_ENV=production webpack --config webpack.config.js",
+    "start:prod": "NODE_ENV=production forever start ./server/index.js && npm run client:start"
   },
   "author": "Łukasz Lach",
   "license": "ISC",
