@@ -8,19 +8,26 @@ const router = require('./router/router');
 const usersRouter = require('./router/users_router');
 const dataRouter = require('./router/data_router');
 const config = require('./config/config');
+const MongoStore = require('connect-mongo')(expressSession);
 const cloudinaryHelper = require('./helpers/cloudinary');
 const {
     httpPort,
     httpsPort,
     envName
 } = config;
+const mongoStoreOptions = {
+    url: config.mongoDbUrl,
+};
 const PORT = process.env.PORT || httpPort;
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'client/dist'));
 app.use(express.static(path.resolve(__dirname, '..', 'client/dist')));
 app.use(bodyParser.json());
-app.use(expressSession(config.sessionConfig));
+app.use(expressSession({
+    secret: config.sessionConfig.secret,
+    store: new MongoStore(mongoStoreOptions),
+}));
 app.use(router);
 app.use(usersRouter);
 app.use(dataRouter);
