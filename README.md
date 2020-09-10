@@ -1,6 +1,6 @@
 # Baby Calendar
 
-http://ec2-18-197-100-124.eu-central-1.compute.amazonaws.com
+Working on baby-calendar.net.pl ... work in progress
 
 Basic website for managing various data of your newly born child.
 
