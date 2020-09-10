@@ -1,6 +1,6 @@
 # Baby Calendar
 
-Working on baby-calendar.net.pl ... work in progress, one
+http://baby-calendar.net.pl
 
 Basic website for managing various data of your newly born child.
 
