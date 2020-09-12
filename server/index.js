@@ -1,6 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const app = express();
 const bodyParser = require('body-parser');
 const expressSession = require('express-session');
@@ -19,6 +22,10 @@ const mongoStoreOptions = {
     url: config.mongoDbUrl,
 };
 const PORT = process.env.PORT || httpPort;
+const credentials = {
+    key: fs.readFileSync(process.env.CERT_KEY),
+    cert: fs.readFileSync(process.env.CERT_PATH),
+};
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'client/dist'));
@@ -34,6 +41,9 @@ app.use(dataRouter);
 
 cloudinaryHelper.initConfig();
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT} in ${envName} mode.`);
+http.createServer(app).listen(httpPort, () => {
+    console.log(`Http server is listening at port ${httpPort} in ${envName} mode`);
+});
+https.createServer(credentials, app).listen(httpsPort, () => {
+    console.log(`Https server is listening at port ${httpsPort} in ${envName} mode`);
 });
