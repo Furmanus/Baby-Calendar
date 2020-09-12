@@ -32,4 +32,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          script: [cd apps/Baby-Calendar, npm run start:prod]
+          script: cd apps/Baby-Calendar && npm run start:prod
