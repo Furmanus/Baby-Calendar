@@ -5,7 +5,7 @@ export class Header extends React.Component {
     render() {
         return (
             <PageHeader className="page-header-text">
-                BABY CALENDAR
+                BABY CALENDAR v2
             </PageHeader>
         );
     }
