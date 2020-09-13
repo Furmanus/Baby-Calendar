@@ -36,4 +36,4 @@ jobs:
             cd apps/Baby-Calendar
             npm install
             npm run build:prod
-            npm run start:prod
+            pm2 restart all
