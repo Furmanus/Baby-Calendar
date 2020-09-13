@@ -34,4 +34,6 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd apps/Baby-Calendar
+            npm install
+            npm run build:prod
             npm run start:prod
