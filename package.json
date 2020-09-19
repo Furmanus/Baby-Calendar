@@ -14,7 +14,8 @@
     "start:watch": "concurrently \"npm run server:watch\" \"npm run client:watch\"",
     "build:dev": "webpack --config webpack.config.js --env.NODE_ENV=development",
     "build:prod": "webpack --config webpack.config.js --env.NODE_ENV=production",
-    "start:prod": "pm2 start ./server/index.js --env.NODE_ENV=production"
+    "start:prod": "pm2 start ./server/index.js --env.NODE_ENV=production",
+    "lint": "eslint client/src/**"
   },
   "author": "Łukasz Lach",
   "license": "ISC",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "babel-core": "6.26.3",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "7.1.5",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-decorators": "6.24.1",

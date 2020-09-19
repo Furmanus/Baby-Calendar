@@ -1,35 +1,19 @@
 import qs from 'query-string';
 
 export function loginSubmit(formData) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await postRequest('/login', formData);
-
-            resolve(response);
-        } catch (err) {
-            reject(err);
-        }
-    });
+    return postRequest('/login', formData);
 }
 export function registerSubmit(formData) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await postRequest('/register', formData);
-
-            resolve(response);
-        } catch (err) {
-            reject(err);
-        }
-    });
+    return postRequest('/register', formData);
 }
-export async function logout() {
-    return await getRequest('/logout');
+export function logout() {
+    return getRequest('/logout');
 }
-export async function fetchUserData() {
-    return await getRequest('/data');
+export function fetchUserData() {
+    return getRequest('/data');
 }
-export async function updateUserData(data) {
-    return await putRequest('/data', {
+export function updateUserData(data) {
+    return putRequest('/data', {
         childName: data.childname,
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
@@ -40,8 +24,8 @@ export async function updateUserData(data) {
         imageData: data.imageData
     });
 }
-export async function deleteUserData(data) {
-    return await deleteRequest('/data', {
+export function deleteUserData(data) {
+    return deleteRequest('/data', {
         childName: data.childname,
         birthDate: data.birthdate,
         childWeightEntry: data.childWeightEntry,
@@ -52,8 +36,8 @@ export async function deleteUserData(data) {
         imageData: data.imageData
     });
 }
-export async function replaceUserData(data) {
-    return await putRequest('/data_replace', data);
+export function replaceUserData(data) {
+    return putRequest('/data_replace', data);
 }
 async function getRequest(url = '', data = {}) {
     data = prepareRequestData(data);

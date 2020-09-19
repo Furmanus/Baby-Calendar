@@ -17,7 +17,6 @@ import {
 } from '../actions/app_actions';
 import {DataTable} from '../components/DataTable';
 import PerfectScrollBar from 'react-perfect-scrollbar';
-import {InfectionTableRow} from '../components/InfectionTableRow';
 import {scrollPageToBottom} from '../utility/utility';
 import {NoteTableRow} from '../components/NoteTableRow';
 //TODO rewrite InfectionsTable and InoculationsTable and NotesTable to one generic container
