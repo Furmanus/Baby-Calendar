@@ -1,14 +1,11 @@
 import React from 'react';
 import {Box, Button, TextField, Typography} from '@material-ui/core';
 import {loginTranslations} from '../constants/translations';
-import {AccountCircle, Lock} from '@material-ui/icons';
 
 const LANG = 'en';
 const commonInputProps = {
     style: {
         fontSize: 16,
-        paddingLeft: 0,
-        marginBottom: 5,
     }
 };
 const labelProps ={
@@ -21,10 +18,6 @@ const helperProps = {
         fontSize: 10,
         marginLeft: 0,
     },
-};
-const iconStyles = {
-    fontSize: 32,
-    marginRight: 5,
 };
 
 export class LoginPage extends React.Component {
@@ -41,23 +34,21 @@ export class LoginPage extends React.Component {
             loginTranslations[LANG].LoginPageLoginInputHintDefault;
 
         return (
-            <Box display="flex" flexDirection="row" alignItems="center">
-                <AccountCircle style={iconStyles} color="primary" />
-                <TextField
-                    id="login"
-                    size="large"
-                    label={loginTranslations[LANG].LoginPageLoginInputLabel}
-                    autofocus={true}
-                    InputProps={{
-                        ...commonInputProps,
-                    }}
-                    InputLabelProps={labelProps}
-                    FormHelperTextProps={helperProps}
-                    helperText={helperText}
-                    margin="normal"
-                    fullWidth
-                />
-            </Box>
+            <TextField
+                id="login"
+                size="large"
+                label={loginTranslations[LANG].LoginPageLoginInputLabel}
+                autofocus={true}
+                InputProps={{
+                    ...commonInputProps,
+                }}
+                InputLabelProps={labelProps}
+                FormHelperTextProps={helperProps}
+                helperText={helperText}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+            />
         );
     }
 
@@ -70,23 +61,21 @@ export class LoginPage extends React.Component {
             loginTranslations[LANG].LoginPagePasswordInputHintDefault;
 
         return (
-            <Box display="flex" flexDirection="row" alignItems="center">
-                <Lock style={iconStyles} color="primary" />
-                <TextField
-                    id="password"
-                    size="large"
-                    type="password"
-                    label={loginTranslations[LANG].LoginPagePasswordInputLabel}
-                    InputProps={{
-                        ...commonInputProps,
-                    }}
-                    InputLabelProps={labelProps}
-                    FormHelperTextProps={helperProps}
-                    helperText={helperText}
-                    margin="normal"
-                    fullWidth
-                />
-            </Box>
+            <TextField
+                id="password"
+                size="large"
+                type="password"
+                label={loginTranslations[LANG].LoginPagePasswordInputLabel}
+                InputProps={{
+                    ...commonInputProps,
+                }}
+                InputLabelProps={labelProps}
+                FormHelperTextProps={helperProps}
+                helperText={helperText}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+            />
         );
     }
 
@@ -97,8 +86,7 @@ export class LoginPage extends React.Component {
         const classNames = `form-inputs-repeat-container ${loginMode ? '' : 'form-inputs-repeat-container-expanded'}`
 
         return (
-            <Box display="flex" flexDirection="row" alignItems="center" className={classNames}>
-                <Lock style={iconStyles} color="primary" />
+            <Box className={classNames}>
                 <TextField
                     id="password"
                     size="large"
@@ -111,6 +99,7 @@ export class LoginPage extends React.Component {
                     FormHelperTextProps={helperProps}
                     helperText={loginTranslations[LANG].LoginPagePasswordRepeatInputHintDefault}
                     margin="normal"
+                    variant="outlined"
                     fullWidth
                 />
             </Box>
