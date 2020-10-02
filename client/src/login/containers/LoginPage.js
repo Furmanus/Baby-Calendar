@@ -8,7 +8,7 @@ const commonInputProps = {
         fontSize: 16,
     }
 };
-const labelProps ={
+const labelProps = {
     style: {
         fontSize: 16,
     },
@@ -23,11 +23,15 @@ const helperProps = {
 export class LoginPage extends React.Component {
     state = {
         loginMode: true,
+        loginValue: '',
+        passwordValue: '',
+        repeatPasswordValue: '',
     };
 
     renderLoginInput() {
         const {
             loginMode,
+            loginValue,
         } = this.state;
         const helperText = loginMode ?
             loginTranslations[LANG].LoginPageLoginInputHintLoginMode :
@@ -42,6 +46,8 @@ export class LoginPage extends React.Component {
                 InputProps={{
                     ...commonInputProps,
                 }}
+                value={loginValue}
+                onChange={this.onLoginValueChange}
                 InputLabelProps={labelProps}
                 FormHelperTextProps={helperProps}
                 helperText={helperText}
@@ -55,6 +61,7 @@ export class LoginPage extends React.Component {
     renderPasswordInput() {
         const {
             loginMode,
+            passwordValue,
         } = this.state;
         const helperText = loginMode ?
             loginTranslations[LANG].LoginPagePasswordInputLabelLoginMode :
@@ -69,11 +76,13 @@ export class LoginPage extends React.Component {
                 InputProps={{
                     ...commonInputProps,
                 }}
+                onChange={this.onPasswordChange}
                 InputLabelProps={labelProps}
                 FormHelperTextProps={helperProps}
                 helperText={helperText}
                 margin="normal"
                 variant="outlined"
+                value={passwordValue}
                 fullWidth
             />
         );
@@ -82,19 +91,22 @@ export class LoginPage extends React.Component {
     renderRepeatPasswordInput() {
         const {
             loginMode,
+            repeatPasswordValue,
         } = this.state;
         const classNames = `form-inputs-repeat-container ${loginMode ? '' : 'form-inputs-repeat-container-expanded'}`
 
         return (
             <Box className={classNames}>
                 <TextField
-                    id="password"
+                    id="repeat-password"
                     size="large"
                     type="password"
                     label={loginTranslations[LANG].LoginPagePasswordRepeatInputLabel}
                     InputProps={{
                         ...commonInputProps,
                     }}
+                    value={repeatPasswordValue}
+                    onChange={this.onRepeatPasswordChange}
                     InputLabelProps={labelProps}
                     FormHelperTextProps={helperProps}
                     helperText={loginTranslations[LANG].LoginPagePasswordRepeatInputHintDefault}
@@ -106,10 +118,43 @@ export class LoginPage extends React.Component {
         );
     }
 
+    onLoginValueChange = (e) => {
+        const {
+            value,
+        } = e.target;
+
+        this.setState({
+            loginValue: value,
+        });
+    }
+
+    onPasswordChange = (e) => {
+        const {
+            value,
+        } = e.target;
+
+        this.setState({
+            passwordValue: value,
+        });
+    }
+
+    onRepeatPasswordChange = (e) => {
+        const {
+            value,
+        } = e.target;
+
+        this.setState({
+            repeatPasswordValue: value,
+        });
+    }
+
     onToggleLoginRegisterClick = () => {
         this.setState(state => ({
             ...state,
             loginMode: !state.loginMode,
+            loginValue: '',
+            passwordValue: '',
+            repeatPasswordValue: '',
         }));
     };
 
