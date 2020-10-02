@@ -54,6 +54,7 @@ export class LoginPage extends React.Component {
                     InputLabelProps={labelProps}
                     FormHelperTextProps={helperProps}
                     helperText={helperText}
+                    margin="normal"
                     fullWidth
                 />
             </Box>
@@ -82,6 +83,7 @@ export class LoginPage extends React.Component {
                     InputLabelProps={labelProps}
                     FormHelperTextProps={helperProps}
                     helperText={helperText}
+                    margin="normal"
                     fullWidth
                 />
             </Box>
@@ -108,6 +110,7 @@ export class LoginPage extends React.Component {
                     InputLabelProps={labelProps}
                     FormHelperTextProps={helperProps}
                     helperText={loginTranslations[LANG].LoginPagePasswordRepeatInputHintDefault}
+                    margin="normal"
                     fullWidth
                 />
             </Box>
