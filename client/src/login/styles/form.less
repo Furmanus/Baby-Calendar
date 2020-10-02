@@ -1,35 +1,27 @@
 .form {
-  &-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 70%;
-    height: 50%;
-    position: relative;
-    top: 25%;
-    padding: 30px 60px;
+  .flex-center-column();
+  width: 70%;
+  border: 1px solid black;
+  padding: 30px;
 
-    @media @smartphone {
-      top: 10%;
-      width: 100%;
-      padding: 10px 20px;
+  &-button {
+    &-container {
+      margin: 16px 0;
+    }
+    &-element {
+      font-size: 14px;
+      line-height: 14px;
     }
   }
-  &-container {
-    width: 40%;
+  &-inputs {
+    &-repeat-container {
+      max-height: 0;
+      overflow-y: hidden;
+      transition: max-height 0.3s ease-in-out;
 
-    @media @smartphone {
-      width: 80%;
+      &-expanded {
+        max-height: 72px;
+      }
     }
-  }
-  &-hint {
-    margin: 2px auto;
-    font-size: 12px;
-    min-height: 18px;
-    font-weight: bold;
-  }
-  &-group {
-    margin-bottom: 5px;
   }
 }

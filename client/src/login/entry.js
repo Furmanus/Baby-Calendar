@@ -1,20 +1,15 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import {MuiThemeProvider} from '@material-ui/core';
 import {LoginPage} from './containers/LoginPage';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import {loginReducer} from './reducers/login_reducer';
 import './styles/login.less';
 import {setApplicationStyle} from '../common/helpers/helpers';
-
-const store = createStore(loginReducer, applyMiddleware(thunk));
+import {theme} from '../common/theme/theme';
 
 setApplicationStyle();
 
 ReactDom.render(
-    <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
         <LoginPage/>
-    </Provider>,
-    document.getElementById('app')
-);
+    </MuiThemeProvider>,
+document.getElementById('app'));

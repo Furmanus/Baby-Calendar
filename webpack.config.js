@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ENV = require('./server/config/config').envName;
 const PRODUCTION = 'production';
 
@@ -43,6 +44,10 @@ module.exports = env => {
         NODE_ENV,
         watch,
     } = env;
+
+    if (NODE_ENV !== PRODUCTION) {
+        plugins.push(new ProgressBarPlugin());
+    }
 
     return {
         mode: NODE_ENV || PRODUCTION,

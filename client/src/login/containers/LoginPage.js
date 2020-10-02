@@ -1,73 +1,173 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {LoginForm} from './LoginForm';
-import {LoginFormHeader} from '../components/LoginFormHeader';
-import {
-    Tabs,
-    Tab,
-} from 'react-bootstrap';
-import {changeTab} from '../actions/login_actions';
-import autobind from 'autobind-decorator';
-import {LOGIN, REGISTER} from '../constants/login_constants';
-import {RegisterForm} from './RegisterForm';
+import {Box, Button, TextField, Typography} from '@material-ui/core';
+import {loginTranslations} from '../constants/translations';
+import {AccountCircle, Lock} from '@material-ui/icons';
 
-const mapTabIndexToTabName = {
-    '1': LOGIN,
-    '2': REGISTER
+const LANG = 'en';
+const commonInputProps = {
+    style: {
+        fontSize: 16,
+        paddingLeft: 0,
+        marginBottom: 5,
+    }
+};
+const labelProps ={
+    style: {
+        fontSize: 16,
+    },
+};
+const helperProps = {
+    style: {
+        fontSize: 10,
+        marginLeft: 0,
+    },
+};
+const iconStyles = {
+    fontSize: 32,
+    marginRight: 5,
 };
 
-@connect(state => {
-    return {
-        activePage: state.activePage
-    };
-}, dispatch => {
-    return {
-        changeTab: tab => {
-            dispatch(changeTab(tab));
-        }
-    };
-})
 export class LoginPage extends React.Component {
-    @autobind
-    onActiveTabChange(tabIndex) {
-        const {
-            changeTab
-        } = this.props;
+    state = {
+        loginMode: true,
+    };
 
-        changeTab(mapTabIndexToTabName[tabIndex.toString()]);
-    }
-    @autobind
-    renderActiveTab() {
+    renderLoginInput() {
         const {
-            activePage
-        } = this.props;
+            loginMode,
+        } = this.state;
+        const helperText = loginMode ?
+            loginTranslations[LANG].LoginPageLoginInputHintLoginMode :
+            loginTranslations[LANG].LoginPageLoginInputHintDefault;
 
-        switch (activePage) {
-            case LOGIN:
-                return <LoginForm/>;
-            case REGISTER:
-                return <RegisterForm/>;
-            default:
-                throw new Error('Invalid tab');
-        }
-    }
-    render() {
         return (
-            <div className="form-wrapper">
-                <LoginFormHeader/>
-                <Tabs
-                    className="tabs-wrapper"
-                    defaultActiveKey={1}
-                    id="login-tabs"
-                    onSelect={this.onActiveTabChange}
-                >
-                    <Tab eventKey={1} title="Login">
-                    </Tab>
-                    <Tab eventKey={2} title="Register">
-                    </Tab>
-                </Tabs>
-                {this.renderActiveTab()}
-            </div>
+            <Box display="flex" flexDirection="row" alignItems="center">
+                <AccountCircle style={iconStyles} color="primary" />
+                <TextField
+                    id="login"
+                    size="large"
+                    label={loginTranslations[LANG].LoginPageLoginInputLabel}
+                    autofocus={true}
+                    InputProps={{
+                        ...commonInputProps,
+                    }}
+                    InputLabelProps={labelProps}
+                    FormHelperTextProps={helperProps}
+                    helperText={helperText}
+                    fullWidth
+                />
+            </Box>
+        );
+    }
+
+    renderPasswordInput() {
+        const {
+            loginMode,
+        } = this.state;
+        const helperText = loginMode ?
+            loginTranslations[LANG].LoginPagePasswordInputLabelLoginMode :
+            loginTranslations[LANG].LoginPagePasswordInputHintDefault;
+
+        return (
+            <Box display="flex" flexDirection="row" alignItems="center">
+                <Lock style={iconStyles} color="primary" />
+                <TextField
+                    id="password"
+                    size="large"
+                    type="password"
+                    label={loginTranslations[LANG].LoginPagePasswordInputLabel}
+                    InputProps={{
+                        ...commonInputProps,
+                    }}
+                    InputLabelProps={labelProps}
+                    FormHelperTextProps={helperProps}
+                    helperText={helperText}
+                    fullWidth
+                />
+            </Box>
+        );
+    }
+
+    renderRepeatPasswordInput() {
+        const {
+            loginMode,
+        } = this.state;
+        const classNames = `form-inputs-repeat-container ${loginMode ? '' : 'form-inputs-repeat-container-expanded'}`
+
+        return (
+            <Box display="flex" flexDirection="row" alignItems="center" className={classNames}>
+                <Lock style={iconStyles} color="primary" />
+                <TextField
+                    id="password"
+                    size="large"
+                    type="password"
+                    label={loginTranslations[LANG].LoginPagePasswordRepeatInputLabel}
+                    InputProps={{
+                        ...commonInputProps,
+                    }}
+                    InputLabelProps={labelProps}
+                    FormHelperTextProps={helperProps}
+                    helperText={loginTranslations[LANG].LoginPagePasswordRepeatInputHintDefault}
+                    fullWidth
+                />
+            </Box>
+        );
+    }
+
+    onToggleLoginRegisterClick = () => {
+        this.setState(state => ({
+            ...state,
+            loginMode: !state.loginMode,
+        }));
+    };
+
+    render() {
+        const {
+            loginMode,
+        } = this.state;
+        const loginHeaderText = loginMode ?
+            loginTranslations[LANG].LoginPageHeaderLogin :
+            loginTranslations[LANG].LoginPageHeaderRegister;
+        const loginRegisterText = loginMode ?
+            loginTranslations[LANG].LoginPageRegisterAccountText :
+            loginTranslations[LANG].LoginPageAlreadyHaveAccountText;
+        const loginRegisterButtonText = loginMode ?
+            loginTranslations[LANG].LoginPageRegisterButtonText :
+            loginTranslations[LANG].LoginPageAlreadyHaveAccountButtonText;
+
+        return (
+            <Box
+                component="main"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                width="50%"
+            >
+                <Typography component="h1" variant="h2">
+                    {loginHeaderText}
+                </Typography>
+                <form className="form">
+                    <Box display="flex" flexDirection="column" width={1}>
+                        {this.renderLoginInput()}
+                        {this.renderPasswordInput()}
+                        {this.renderRepeatPasswordInput()}
+                        <Box my="16px">
+                            <Button style={{fontSize: 14}} variant="contained" color="secondary" type="submit" size="large" fullWidth>
+                                {loginTranslations[LANG].LoginPageLoginButton}
+                            </Button>
+                        </Box>
+                        <Box display="flex" flexDirection="row" justifyContent="space-evenly" alignItems="center">
+                            <Typography>
+                                {loginRegisterText}
+                            </Typography>
+                            <Button variant="contained" type="button" size="medium" onClick={this.onToggleLoginRegisterClick}>
+                                {loginRegisterButtonText}
+                            </Button>
+                        </Box>
+                    </Box>
+                </form>
+            </Box>
         );
     }
 }
