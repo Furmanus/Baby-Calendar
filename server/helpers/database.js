@@ -1,3 +1,4 @@
+const loginErrorCodes = require('../constants/errors_codes');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config/config');
 const url = config.mongoDbUrl;
@@ -47,20 +48,33 @@ const databaseMethods = {
                 } else {
                     callback(400, {
                         error: true,
-                        message: 'Wrong user login or password'
+                        message: 'Wrong user login or password',
+                        code: loginErrorCodes.LoginWrongUserOrPassword,
                     });
                 }
             } catch (err) {
                 console.error(err);
                 callback(500, {
                     error: err,
-                    message: 'Error while fetching user data from database'
+                    message: 'Error while fetching user data from database',
+                    code: 500,
                 });
             }
         } else {
+            let code;
+
+            if (!user && !password) {
+                code = loginErrorCodes.LoginAndPasswordFieldEmpty;
+            } else if (!user && password) {
+                code = loginErrorCodes.LoginFieldEmpty;
+            } else if (user && !password) {
+                code = loginErrorCodes.PasswordFieldEmpty;
+            }
+
             callback(400, {
                 error: true,
-                message: 'Missing required fields'
+                message: 'Missing required fields',
+                code,
             });
         }
     },

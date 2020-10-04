@@ -1,6 +1,13 @@
 import React from 'react';
 import {Box, Button, TextField, Typography} from '@material-ui/core';
 import {loginTranslations} from '../constants/translations';
+import {registerSubmit, loginSubmit} from '../../api/api';
+import {
+    FORM_LOGIN_INPUT,
+    FORM_NAME,
+    FORM_PASSWORD_INPUT,
+    FORM_REPEAT_PASSWORD_INPUT,
+} from '../constants/form';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -40,6 +47,7 @@ export class LoginPage extends React.Component {
         return (
             <TextField
                 id="login"
+                name={FORM_LOGIN_INPUT}
                 size="large"
                 label={loginTranslations[LANG].LoginPageLoginInputLabel}
                 autofocus={true}
@@ -70,6 +78,7 @@ export class LoginPage extends React.Component {
         return (
             <TextField
                 id="password"
+                name={FORM_PASSWORD_INPUT}
                 size="large"
                 type="password"
                 label={loginTranslations[LANG].LoginPagePasswordInputLabel}
@@ -99,6 +108,7 @@ export class LoginPage extends React.Component {
             <Box className={classNames}>
                 <TextField
                     id="repeat-password"
+                    name={FORM_REPEAT_PASSWORD_INPUT}
                     size="large"
                     type="password"
                     label={loginTranslations[LANG].LoginPagePasswordRepeatInputLabel}
@@ -148,6 +158,33 @@ export class LoginPage extends React.Component {
         });
     }
 
+    onFormSubmit = async (e) => {
+        const {
+            loginValue,
+            repeatPasswordValue,
+            passwordValue,
+            loginMode,
+        } = this.state;
+
+        e.preventDefault();
+
+        if (!loginMode && repeatPasswordValue !== passwordValue) {
+            return;
+        }
+
+        if (loginMode) {
+            await loginSubmit({
+                user: loginValue,
+                password: passwordValue,
+            });
+        } else {
+            await registerSubmit({
+                user: loginValue,
+                password: passwordValue,
+            });
+        }
+    }
+
     onToggleLoginRegisterClick = () => {
         this.setState(state => ({
             ...state,
@@ -184,7 +221,7 @@ export class LoginPage extends React.Component {
                 <Typography component="h1" variant="h2">
                     {loginHeaderText}
                 </Typography>
-                <form className="form">
+                <form name={FORM_NAME} className="form" onSubmit={this.onFormSubmit}>
                     <Box display="flex" flexDirection="column" width={1}>
                         {this.renderLoginInput()}
                         {this.renderPasswordInput()}
