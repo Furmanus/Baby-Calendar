@@ -7,14 +7,14 @@ export const loginTranslations = {
         // login input
         LoginPageLoginInputLabel: 'Login',
         LoginPageLoginInputHintLoginMode: ' ',
-        LoginPageLoginInputHintDefault: 'Use between 3-32 characters',
+        LoginPageLoginInputHintDefault: `{count}/${LOGIN_MAX_LENGTH} Use at least ${LOGIN_MIN_LENGTH} characters`,
         // password input
         LoginPagePasswordInputLabel: 'Password',
         LoginPagePasswordInputLabelLoginMode: ' ',
-        LoginPagePasswordInputHintDefault: 'At least 6 characters',
+        LoginPagePasswordInputHintDefault: `{count}/${PASSWORD_MAX_LENGTH} Use at least one number, minimum ${PASSWORD_MIN_LENGTH} characters required`,
         // repeat password input
         LoginPagePasswordRepeatInputLabel: 'Repeat password',
-        LoginPagePasswordRepeatInputHintDefault: 'Repeat Password',
+        LoginPagePasswordRepeatInputHintDefault: 'Type exactly same password as above',
         // submit form buttons
         LoginPageLoginButton: 'Login',
         LoginPageRegisterButton: 'Register',

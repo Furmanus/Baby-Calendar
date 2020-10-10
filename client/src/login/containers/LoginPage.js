@@ -12,6 +12,7 @@ import {
     loginSubmitErrorCodeToComponentStateFields,
     loginSubmitErrorCodeToMessageMap,
 } from '../constants/errors';
+import {replaceTextVariables} from '../../common/helpers/text';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -56,7 +57,9 @@ class LoginPageClass extends React.Component {
         } = this.state;
         let helperText = loginMode ?
             loginTranslations[LANG].LoginPageLoginInputHintLoginMode :
-            loginTranslations[LANG].LoginPageLoginInputHintDefault;
+            replaceTextVariables(loginTranslations[LANG].LoginPageLoginInputHintDefault, {
+                count: loginValue.length,
+            });
 
         if (loginInputHasError) {
             helperText = loginInputHasError;
@@ -96,7 +99,9 @@ class LoginPageClass extends React.Component {
         } = this.state;
         let helperText = loginMode ?
             loginTranslations[LANG].LoginPagePasswordInputLabelLoginMode :
-            loginTranslations[LANG].LoginPagePasswordInputHintDefault;
+            replaceTextVariables(loginTranslations[LANG].LoginPagePasswordInputHintDefault, {
+                count: passwordValue.length,
+            });
 
         if (passwordInputHasError) {
             helperText = passwordInputHasError;
