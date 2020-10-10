@@ -6,11 +6,11 @@ export const loginTranslations = {
         LoginPageHeaderRegister: 'Register',
         // login input
         LoginPageLoginInputLabel: 'Login',
-        LoginPageLoginInputHintLoginMode: 'Enter login',
+        LoginPageLoginInputHintLoginMode: ' ',
         LoginPageLoginInputHintDefault: 'Use between 3-32 characters',
         // password input
         LoginPagePasswordInputLabel: 'Password',
-        LoginPagePasswordInputLabelLoginMode: 'Enter password',
+        LoginPagePasswordInputLabelLoginMode: ' ',
         LoginPagePasswordInputHintDefault: 'At least 6 characters',
         // repeat password input
         LoginPagePasswordRepeatInputLabel: 'Repeat password',
@@ -30,6 +30,7 @@ export const loginTranslations = {
         RegisterPasswordTooLong: `Password too long, maximum ${PASSWORD_MAX_LENGTH} characters are allowed`,
         RegisterPasswordInvalidCharacters: 'Password need to have at least one capital letter and one number',
         LoginWrongUserOrPassword: 'Wrong user name or password',
+        LoginMissingRequiredFields: 'Required field empty',
         LoginEmpty: 'Empty login field',
         PasswordEmpty: 'Empty password field',
         UnknownError: 'Temporary issue, please check later',

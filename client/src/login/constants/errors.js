@@ -9,6 +9,7 @@ export const loginSubmitErrorCodeToMessageMap = new Proxy({
     1004: loginTranslations[LANG].RegisterPasswordTooLong,
     1005: loginTranslations[LANG].RegisterPasswordInvalidCharacters,
     1000: loginTranslations[LANG].LoginWrongUserOrPassword,
+    1008: loginTranslations[LANG].LoginMissingRequiredFields,
 }, {
     get(target, p) {
         if (p in target) {
@@ -16,5 +17,17 @@ export const loginSubmitErrorCodeToMessageMap = new Proxy({
         }
 
         return loginTranslations[LANG].UnknownError;
+    }
+});
+export const loginSubmitErrorCodeToComponentStateFields = new Proxy({
+    1000: ['loginInputHasError', 'passwordInputHasError'],
+    1008: ['loginInputHasError', 'passwordInputHasError'],
+}, {
+    get(target, property) {
+        if (property in target) {
+            return target[property];
+        }
+
+        return [];
     }
 });

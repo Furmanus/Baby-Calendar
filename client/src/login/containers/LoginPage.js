@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, TextField, Typography} from '@material-ui/core';
+import {Box, Button, TextField, Typography, withStyles} from '@material-ui/core';
 import {loginTranslations} from '../constants/translations';
 import {registerSubmit, loginSubmit} from '../../api/api';
 import {
@@ -7,7 +7,11 @@ import {
     FORM_NAME,
     FORM_PASSWORD_INPUT,
     FORM_REPEAT_PASSWORD_INPUT,
-} from '../constants/form';
+} from '../constants/login_form';
+import {
+    loginSubmitErrorCodeToComponentStateFields,
+    loginSubmitErrorCodeToMessageMap,
+} from '../constants/errors';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -24,33 +28,51 @@ const helperProps = {
     style: {
         fontSize: 10,
         marginLeft: 0,
+        minHeight: 16,
+    },
+};
+const styles = {
+    textField: {
+        marginBottom: 0,
     },
 };
 
-export class LoginPage extends React.Component {
+class LoginPageClass extends React.Component {
     state = {
         loginMode: true,
         loginValue: '',
         passwordValue: '',
         repeatPasswordValue: '',
+        loginInputHasError: false,
+        passwordInputHasError: false,
+        repeatPasswordInputHasError: false,
     };
 
     renderLoginInput() {
         const {
             loginMode,
             loginValue,
+            loginInputHasError,
         } = this.state;
-        const helperText = loginMode ?
+        let helperText = loginMode ?
             loginTranslations[LANG].LoginPageLoginInputHintLoginMode :
             loginTranslations[LANG].LoginPageLoginInputHintDefault;
+
+        if (loginInputHasError) {
+            helperText = loginInputHasError;
+        }
 
         return (
             <TextField
                 id="login"
                 name={FORM_LOGIN_INPUT}
+                className={this.props.classes.textField}
                 size="large"
+                error={loginInputHasError}
                 label={loginTranslations[LANG].LoginPageLoginInputLabel}
                 autofocus={true}
+                onFocus={this.onLoginInputFocus}
+                onBlur={this.onLoginInputBlur}
                 InputProps={{
                     ...commonInputProps,
                 }}
@@ -70,18 +92,27 @@ export class LoginPage extends React.Component {
         const {
             loginMode,
             passwordValue,
+            passwordInputHasError,
         } = this.state;
-        const helperText = loginMode ?
+        let helperText = loginMode ?
             loginTranslations[LANG].LoginPagePasswordInputLabelLoginMode :
             loginTranslations[LANG].LoginPagePasswordInputHintDefault;
+
+        if (passwordInputHasError) {
+            helperText = passwordInputHasError;
+        }
 
         return (
             <TextField
                 id="password"
                 name={FORM_PASSWORD_INPUT}
+                className={this.props.classes.textField}
                 size="large"
                 type="password"
+                error={passwordInputHasError}
                 label={loginTranslations[LANG].LoginPagePasswordInputLabel}
+                onFocus={this.onPasswordInputFocus}
+                onBlur={this.onPasswordInputBlur}
                 InputProps={{
                     ...commonInputProps,
                 }}
@@ -101,6 +132,7 @@ export class LoginPage extends React.Component {
         const {
             loginMode,
             repeatPasswordValue,
+            repeatPasswordInputHasError,
         } = this.state;
         const classNames = `form-inputs-repeat-container ${loginMode ? '' : 'form-inputs-repeat-container-expanded'}`
 
@@ -109,9 +141,13 @@ export class LoginPage extends React.Component {
                 <TextField
                     id="repeat-password"
                     name={FORM_REPEAT_PASSWORD_INPUT}
+                    className={this.props.classes.textField}
                     size="large"
                     type="password"
+                    error={repeatPasswordInputHasError}
                     label={loginTranslations[LANG].LoginPagePasswordRepeatInputLabel}
+                    onFocus={this.onRepeatPasswordInputFocus}
+                    onBlur={this.onRepeatPasswordInputBlur}
                     InputProps={{
                         ...commonInputProps,
                     }}
@@ -158,6 +194,49 @@ export class LoginPage extends React.Component {
         });
     }
 
+    onLoginInputFocus = () => {
+        const {
+            loginMode,
+        } = this.state;
+
+        this.setState(state => ({
+            ...state,
+            loginInputHasError: false,
+            passwordInputHasError: loginMode ? false : state.passwordInputHasError,
+        }));
+    }
+
+    onLoginInputBlur = () => {
+
+    }
+
+    onPasswordInputFocus = () => {
+        const {
+            loginMode,
+        } = this.props;
+
+        this.setState(state => ({
+            ...state,
+            loginInputHasError: loginMode ? false : state.loginInputHasError,
+            passwordInputHasError: false,
+        }));
+    }
+
+    onPasswordInputBlur = () => {
+
+    }
+
+    onRepeatPasswordInputFocus = () => {
+        this.setState({
+            passwordInputHasError: false,
+            repeatPasswordInputHasError: false,
+        });
+    }
+
+    onRepeatPasswordInputBlur = () => {
+
+    }
+
     onFormSubmit = async (e) => {
         const {
             loginValue,
@@ -173,15 +252,34 @@ export class LoginPage extends React.Component {
         }
 
         if (loginMode) {
-            await loginSubmit({
-                user: loginValue,
-                password: passwordValue,
-            });
+            try {
+                await loginSubmit({
+                    user: loginValue, password: passwordValue,
+                });
+            } catch (e) {
+                this.setFormError(e);
+            }
         } else {
             await registerSubmit({
                 user: loginValue,
                 password: passwordValue,
             });
+        }
+    }
+
+    setFormError(e) {
+        if (e.code) {
+            const fieldsWithErrors = loginSubmitErrorCodeToComponentStateFields[e.code];
+
+            if (fieldsWithErrors.length) {
+                const newState = fieldsWithErrors.reduce((result, current) => {
+                    result[current] = loginSubmitErrorCodeToMessageMap[e.code];
+
+                    return result;
+                }, {});
+
+                this.setState(newState);
+            }
         }
     }
 
@@ -192,6 +290,9 @@ export class LoginPage extends React.Component {
             loginValue: '',
             passwordValue: '',
             repeatPasswordValue: '',
+            loginInputHasError: false,
+            passwordInputHasError: false,
+            repeatPasswordInputHasError: false,
         }));
     };
 
@@ -226,7 +327,7 @@ export class LoginPage extends React.Component {
                         {this.renderLoginInput()}
                         {this.renderPasswordInput()}
                         {this.renderRepeatPasswordInput()}
-                        <Box my="16px">
+                        <Box mb="16px" mt="8px">
                             <Button style={{fontSize: 14}} variant="contained" color="secondary" type="submit" size="large" fullWidth>
                                 {loginTranslations[LANG].LoginPageLoginButton}
                             </Button>
@@ -245,3 +346,5 @@ export class LoginPage extends React.Component {
         );
     }
 }
+
+export const LoginPage = withStyles(styles)(LoginPageClass);
