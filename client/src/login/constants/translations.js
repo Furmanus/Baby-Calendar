@@ -11,7 +11,7 @@ export const loginTranslations = {
         // password input
         LoginPagePasswordInputLabel: 'Password',
         LoginPagePasswordInputLabelLoginMode: ' ',
-        LoginPagePasswordInputHintDefault: `{count}/${PASSWORD_MAX_LENGTH} Use at least one number, minimum ${PASSWORD_MIN_LENGTH} characters required`,
+        LoginPagePasswordInputHintDefault: `{count}/${PASSWORD_MAX_LENGTH} Use at least ${PASSWORD_MIN_LENGTH} characters`,
         // repeat password input
         LoginPagePasswordRepeatInputLabel: 'Repeat password',
         LoginPagePasswordRepeatInputHintDefault: 'Type exactly same password as above',
@@ -28,11 +28,12 @@ export const loginTranslations = {
         RegisterLoginTooLong: `User name too long, maximum ${LOGIN_MAX_LENGTH} characters are allowed`,
         RegisterPasswordTooShort: `Password too short, minimum ${PASSWORD_MIN_LENGTH} characters are required`,
         RegisterPasswordTooLong: `Password too long, maximum ${PASSWORD_MAX_LENGTH} characters are allowed`,
-        RegisterPasswordInvalidCharacters: 'Password need to have at least one capital letter and one number',
+        RegisterPasswordInvalidCharacters: 'Password need to have at least capital one letter and one number',
         LoginWrongUserOrPassword: 'Wrong user name or password',
         LoginMissingRequiredFields: 'Required field empty',
         LoginEmpty: 'Empty login field',
         PasswordEmpty: 'Empty password field',
+        RepeatPasswordWrong: 'Repeated password doesn\'t match above password',
         UnknownError: 'Temporary issue, please check later',
     }
 };

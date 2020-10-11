@@ -13,6 +13,7 @@ import {
     loginSubmitErrorCodeToMessageMap,
 } from '../constants/errors';
 import {replaceTextVariables} from '../../common/helpers/text';
+import {validateRepeatPassword, validateUserLogin, validateUserPassword} from '../helpers/validators';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -30,6 +31,7 @@ const helperProps = {
         fontSize: 10,
         marginLeft: 0,
         minHeight: 16,
+        transition: 'color 0.3s ease-in-out',
     },
 };
 const styles = {
@@ -47,6 +49,7 @@ class LoginPageClass extends React.Component {
         loginInputHasError: false,
         passwordInputHasError: false,
         repeatPasswordInputHasError: false,
+        repeatPasswordInputHasBeenTouched: false,
     };
 
     renderLoginInput() {
@@ -212,7 +215,7 @@ class LoginPageClass extends React.Component {
     }
 
     onLoginInputBlur = () => {
-
+        this.validateLoginInput();
     }
 
     onPasswordInputFocus = () => {
@@ -228,18 +231,20 @@ class LoginPageClass extends React.Component {
     }
 
     onPasswordInputBlur = () => {
-
+        this.validatePasswordInput();
+        this.validateRepeatPasswordInput();
     }
 
     onRepeatPasswordInputFocus = () => {
         this.setState({
             passwordInputHasError: false,
             repeatPasswordInputHasError: false,
+            repeatPasswordInputHasBeenTouched: true,
         });
     }
 
     onRepeatPasswordInputBlur = () => {
-
+        this.validateRepeatPasswordInput();
     }
 
     onFormSubmit = async (e) => {
@@ -301,6 +306,40 @@ class LoginPageClass extends React.Component {
         }));
     };
 
+    validateLoginInput() {
+        const {
+            loginValue,
+        } = this.state;
+
+        this.setState({
+            loginInputHasError: validateUserLogin(loginValue),
+        });
+    }
+
+    validatePasswordInput() {
+        const {
+            passwordValue,
+        } = this.state;
+
+        this.setState({
+            passwordInputHasError: validateUserPassword(passwordValue),
+        });
+    }
+
+    validateRepeatPasswordInput(validateOnSubmit) {
+        const {
+            passwordValue,
+            repeatPasswordValue,
+            repeatPasswordInputHasBeenTouched,
+        } = this.state;
+
+        if (validateOnSubmit || repeatPasswordInputHasBeenTouched) {
+            this.setState({
+                repeatPasswordInputHasError: validateRepeatPassword(repeatPasswordValue, passwordValue),
+            });
+        }
+    }
+
     render() {
         const {
             loginMode,
@@ -314,6 +353,9 @@ class LoginPageClass extends React.Component {
         const loginRegisterButtonText = loginMode ?
             loginTranslations[LANG].LoginPageRegisterButtonText :
             loginTranslations[LANG].LoginPageAlreadyHaveAccountButtonText;
+        const loginButtonText = loginMode ?
+            loginTranslations[LANG].LoginPageLoginButton :
+            loginTranslations[LANG].LoginPageRegisterButton;
 
         return (
             <Box
@@ -334,7 +376,7 @@ class LoginPageClass extends React.Component {
                         {this.renderRepeatPasswordInput()}
                         <Box mb="16px" mt="8px">
                             <Button style={{fontSize: 14}} variant="contained" color="secondary" type="submit" size="large" fullWidth>
-                                {loginTranslations[LANG].LoginPageLoginButton}
+                                {loginButtonText}
                             </Button>
                         </Box>
                         <Box display="flex" flexDirection="row" justifyContent="space-evenly" alignItems="center">
