@@ -237,7 +237,6 @@ class LoginPageClass extends React.Component {
 
     onRepeatPasswordInputFocus = () => {
         this.setState({
-            passwordInputHasError: false,
             repeatPasswordInputHasError: false,
             repeatPasswordInputHasBeenTouched: true,
         });
