@@ -250,30 +250,36 @@ class LoginPageClass extends React.Component {
     onFormSubmit = async (e) => {
         const {
             loginValue,
-            repeatPasswordValue,
             passwordValue,
             loginMode,
         } = this.state;
 
         e.preventDefault();
 
-        if (!loginMode && repeatPasswordValue !== passwordValue) {
+        this.validateForm();
+
+        if (!this.canSubmit()) {
             return;
         }
 
         if (loginMode) {
             try {
                 await loginSubmit({
-                    user: loginValue, password: passwordValue,
+                    user: loginValue,
+                    password: passwordValue,
                 });
             } catch (e) {
                 this.setFormError(e);
             }
         } else {
-            await registerSubmit({
-                user: loginValue,
-                password: passwordValue,
-            });
+            try {
+                await registerSubmit({
+                    user: loginValue,
+                    password: passwordValue,
+                });
+            } catch (e) {
+                this.setFormError(e);
+            }
         }
     }
 
@@ -305,6 +311,24 @@ class LoginPageClass extends React.Component {
             repeatPasswordInputHasError: false,
         }));
     };
+
+    canSubmit() {
+        const {
+            loginInputHasError,
+            passwordInputHasError,
+            repeatPasswordInputHasError,
+        } = this.state;
+
+        return !loginInputHasError && !passwordInputHasError && !repeatPasswordInputHasError;
+    }
+
+    validateForm() {
+        if (!this.state.loginMode) {
+            this.validateLoginInput();
+            this.validatePasswordInput();
+            this.validateRepeatPasswordInput();
+        }
+    }
 
     validateLoginInput() {
         const {
