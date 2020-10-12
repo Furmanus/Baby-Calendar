@@ -8,6 +8,7 @@ import {
     FORM_PASSWORD_INPUT,
     FORM_REPEAT_PASSWORD_INPUT,
 } from '../constants/login_form';
+import {PasswordVisibilityAdornment} from '../components/PasswordVisibilityAdornment';
 import {
     loginSubmitErrorCodeToComponentStateFields,
     loginSubmitErrorCodeToMessageMap,
@@ -50,6 +51,8 @@ class LoginPageClass extends React.Component {
         passwordInputHasError: false,
         repeatPasswordInputHasError: false,
         repeatPasswordInputHasBeenTouched: false,
+        showPassword: false,
+        showRepeatPassword: false,
     };
 
     renderLoginInput() {
@@ -99,6 +102,7 @@ class LoginPageClass extends React.Component {
             loginMode,
             passwordValue,
             passwordInputHasError,
+            showPassword,
         } = this.state;
         let helperText = loginMode ?
             loginTranslations[LANG].LoginPagePasswordInputLabelLoginMode :
@@ -116,13 +120,14 @@ class LoginPageClass extends React.Component {
                 name={FORM_PASSWORD_INPUT}
                 className={this.props.classes.textField}
                 size="large"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 error={passwordInputHasError}
                 label={loginTranslations[LANG].LoginPagePasswordInputLabel}
                 onFocus={this.onPasswordInputFocus}
                 onBlur={this.onPasswordInputBlur}
                 InputProps={{
                     ...commonInputProps,
+                    endAdornment: (<PasswordVisibilityAdornment onClick={this.togglePasswordVisibility} isVisible={showPassword}/>),
                 }}
                 onChange={this.onPasswordChange}
                 InputLabelProps={labelProps}
@@ -136,11 +141,19 @@ class LoginPageClass extends React.Component {
         );
     }
 
+    togglePasswordVisibility = () => {
+        this.setState(state => ({
+            ...state,
+            showPassword: !state.showPassword,
+        }));
+    }
+
     renderRepeatPasswordInput() {
         const {
             loginMode,
             repeatPasswordValue,
             repeatPasswordInputHasError,
+            showRepeatPassword,
         } = this.state;
         const classNames = `form-inputs-repeat-container ${loginMode ? '' : 'form-inputs-repeat-container-expanded'}`
 
@@ -151,13 +164,16 @@ class LoginPageClass extends React.Component {
                     name={FORM_REPEAT_PASSWORD_INPUT}
                     className={this.props.classes.textField}
                     size="large"
-                    type="password"
+                    type={showRepeatPassword ? "text" : "password"}
                     error={repeatPasswordInputHasError}
                     label={loginTranslations[LANG].LoginPagePasswordRepeatInputLabel}
                     onFocus={this.onRepeatPasswordInputFocus}
                     onBlur={this.onRepeatPasswordInputBlur}
                     InputProps={{
                         ...commonInputProps,
+                        endAdornment: (
+                            <PasswordVisibilityAdornment onClick={this.toggleRepeatPasswordVisibility} isVisible={showRepeatPassword}/>
+                        ),
                     }}
                     value={repeatPasswordValue}
                     onChange={this.onRepeatPasswordChange}
@@ -170,6 +186,13 @@ class LoginPageClass extends React.Component {
                 />
             </Box>
         );
+    }
+
+    toggleRepeatPasswordVisibility = () => {
+        this.setState(state => ({
+            ...state,
+            showRepeatPassword: !state.showRepeatPassword,
+        }));
     }
 
     onLoginValueChange = (e) => {
@@ -308,6 +331,8 @@ class LoginPageClass extends React.Component {
             loginInputHasError: false,
             passwordInputHasError: false,
             repeatPasswordInputHasError: false,
+            showPassword: false,
+            showRepeatPassword: false,
         }));
     };
 
