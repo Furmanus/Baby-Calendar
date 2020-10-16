@@ -426,7 +426,7 @@ class LoginPageClass extends React.Component {
                         {this.renderLoginInput()}
                         {this.renderPasswordInput()}
                         {this.renderRepeatPasswordInput()}
-                        <Box mb="16px" mt="8px">
+                        <Box mb="16px" mt={loginMode ? '8px' : '16px'}>
                             <Button style={{fontSize: 14}} variant="contained" color="secondary" type="submit" size="large" fullWidth>
                                 {loginButtonText}
                             </Button>
