@@ -238,7 +238,9 @@ class LoginPageClass extends React.Component {
     }
 
     onLoginInputBlur = () => {
-        this.validateLoginInput();
+        if (!this.state.loginMode) {
+            this.validateLoginInput();
+        }
     }
 
     onPasswordInputFocus = () => {
@@ -254,8 +256,10 @@ class LoginPageClass extends React.Component {
     }
 
     onPasswordInputBlur = () => {
-        this.validatePasswordInput();
-        this.validateRepeatPasswordInput();
+        if (!this.state.loginMode) {
+            this.validatePasswordInput();
+            this.validateRepeatPasswordInput();
+        }
     }
 
     onRepeatPasswordInputFocus = () => {
