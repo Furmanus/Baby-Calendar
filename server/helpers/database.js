@@ -105,7 +105,7 @@ const databaseMethods = {
 
                 dbConnection.close();
 
-                callback(200, {
+                callback(201, {
                     user: userRecord.ops[0].user,
                     id: userRecord.ops[0]._id
                 });

@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
             user,
             password
         }, (statusCode, data) => {
-            if (200 === statusCode) {
+            if (201 === statusCode) {
                 req.session.userId = data.id;
                 req.session.user = data.user;
             }

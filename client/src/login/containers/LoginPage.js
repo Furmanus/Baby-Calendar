@@ -15,6 +15,7 @@ import {
 } from '../constants/errors';
 import {replaceTextVariables} from '../../common/helpers/text';
 import {validateRepeatPassword, validateUserLogin, validateUserPassword} from '../helpers/validators';
+import {redirectPath} from '../utils/utils';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -288,24 +289,20 @@ class LoginPageClass extends React.Component {
             return;
         }
 
-        if (loginMode) {
-            try {
+        try {
+            if (loginMode) {
                 await loginSubmit({
-                    user: loginValue,
-                    password: passwordValue,
+                    user: loginValue, password: passwordValue,
                 });
-            } catch (e) {
-                this.setFormError(e);
-            }
-        } else {
-            try {
+            } else {
                 await registerSubmit({
-                    user: loginValue,
-                    password: passwordValue,
+                    user: loginValue, password: passwordValue,
                 });
-            } catch (e) {
-                this.setFormError(e);
             }
+
+            redirectPath('dashboard');
+        } catch (e) {
+            this.setFormError(e);
         }
     }
 
