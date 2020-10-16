@@ -19,7 +19,7 @@ const blankUserDataEntry = {
 const databaseMethods = {
     async createConnection() {
         try {
-            return connectionObject = await MongoClient.connect(url);
+            return MongoClient.connect(url);
         } catch (err) {
             console.error(err);
         }
@@ -94,11 +94,12 @@ const databaseMethods = {
 
                 callback(409, {
                     error: true,
-                    message: 'User already exists'
+                    message: 'User already exists',
+                    code: loginErrorCodes.RegisterUserAlreadyExists,
                 });
             } else {
                 userRecord = await dbObject.collection(constants.USERS).insertOne(data);
-                userDataRecord = await dbObject.collection(constants.USERS_DATA).insertOne(
+                await dbObject.collection(constants.USERS_DATA).insertOne(
                     Object.assign({}, blankUserDataEntry, {userId: userRecord.ops[0]._id.toHexString()})
                 );
 
@@ -132,7 +133,7 @@ const databaseMethods = {
             } else {
                 callback(400, {
                     error: true,
-                    message: 'Can\'t find specified user data or user doesn\'t exists'
+                    message: 'Can\'t find specified user data or user doesn\'t exists',
                 });
             }
             dbConnection.close();
@@ -172,7 +173,7 @@ const databaseMethods = {
 
                 if (userDataRecord.imageData) {
                     try {
-                        deletionResult = await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
+                        await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
                     } catch (e) {
                         console.warn(e);
                     }

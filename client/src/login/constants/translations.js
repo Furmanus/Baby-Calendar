@@ -31,6 +31,7 @@ export const loginTranslations = {
         RegisterPasswordInvalidCharacters: 'Password need to have at least capital one letter and one number',
         LoginWrongUserOrPassword: 'Wrong user name or password',
         LoginMissingRequiredFields: 'Required field empty',
+        RegisterUserAlreadyExists: 'User already exists',
         LoginEmpty: 'Empty login field',
         PasswordEmpty: 'Empty password field',
         RepeatPasswordWrong: 'Repeated password doesn\'t match above password',
