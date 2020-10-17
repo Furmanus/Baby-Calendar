@@ -16,6 +16,7 @@ import {
 import {replaceTextVariables} from '../../common/helpers/text';
 import {validateRepeatPassword, validateUserLogin, validateUserPassword} from '../helpers/validators';
 import {redirectPath} from '../utils/utils';
+import {AppLogo} from '../../common/components/AppLogo';
 
 const LANG = 'en';
 const commonInputProps = {
@@ -55,7 +56,7 @@ class LoginPageClass extends React.Component {
         showPassword: false,
         showRepeatPassword: false,
     };
-
+    // TODO ADD LOADER ON SUBMITTING
     renderLoginInput() {
         const {
             loginMode,
@@ -393,9 +394,6 @@ class LoginPageClass extends React.Component {
         const {
             loginMode,
         } = this.state;
-        const loginHeaderText = loginMode ?
-            loginTranslations[LANG].LoginPageHeaderLogin :
-            loginTranslations[LANG].LoginPageHeaderRegister;
         const loginRegisterText = loginMode ?
             loginTranslations[LANG].LoginPageRegisterAccountText :
             loginTranslations[LANG].LoginPageAlreadyHaveAccountText;
@@ -415,9 +413,7 @@ class LoginPageClass extends React.Component {
                 alignItems="center"
                 width="50%"
             >
-                <Typography component="h1" variant="h2">
-                    {loginHeaderText}
-                </Typography>
+                <AppLogo/>
                 <form name={FORM_NAME} className="form" onSubmit={this.onFormSubmit}>
                     <Box display="flex" flexDirection="column" width={1}>
                         {this.renderLoginInput()}

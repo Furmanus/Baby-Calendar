@@ -2,8 +2,6 @@ import {LOGIN_MAX_LENGTH, LOGIN_MIN_LENGTH, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LE
 
 export const loginTranslations = {
     en: {
-        LoginPageHeaderLogin: 'Login',
-        LoginPageHeaderRegister: 'Register',
         // login input
         LoginPageLoginInputLabel: 'Login',
         LoginPageLoginInputHintLoginMode: ' ',
