@@ -10,6 +10,7 @@ Baby calendar is written in JavaScript with usage of React.js and Redux (client 
 Express.js and MongoDB (server side). App uses free basic plan of MongoDB hosting from mLab, so there might be downtimes
 where application won't work or database connection won't work. If you can't enter app website, please try again later.
 Please note that it is currently at very early development stage, so please expect bugs, crashes and rudimentary visual side of app.
+Application currently is under rewrite.
 
 ## Features
 
