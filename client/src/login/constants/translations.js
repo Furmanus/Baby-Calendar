@@ -26,7 +26,7 @@ export const loginTranslations = {
         RegisterLoginTooLong: `User name too long, maximum ${LOGIN_MAX_LENGTH} characters are allowed`,
         RegisterPasswordTooShort: `Password too short, minimum ${PASSWORD_MIN_LENGTH} characters are required`,
         RegisterPasswordTooLong: `Password too long, maximum ${PASSWORD_MAX_LENGTH} characters are allowed`,
-        RegisterPasswordInvalidCharacters: 'Password need to have at least capital one letter and one number',
+        RegisterPasswordInvalidCharacters: 'Password need to have at least one letter and one number',
         LoginWrongUserOrPassword: 'Wrong user name or password',
         LoginMissingRequiredFields: 'Required field empty',
         RegisterUserAlreadyExists: 'User already exists',
