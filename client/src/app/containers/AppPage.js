@@ -15,7 +15,7 @@ import {
     UPLOAD,
     WEIGHT
 } from '../constants/app_tabs';
-import autobind from 'autobind-decorator';
+import {boundMethod} from 'autobind-decorator';
 import {fetchUserData} from '../actions/app_actions';
 import {ChildInfoSettingsContainer} from './ChildInfoSettingsContainer';
 import {AppWeightTable} from './AppWeightTable';
@@ -51,7 +51,7 @@ export class AppPage extends React.Component {
 
         fetchUserData();
     }
-    @autobind
+    @boundMethod
     renderActiveTab() {
         const {
             activeTab,

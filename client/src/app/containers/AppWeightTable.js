@@ -1,15 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import autobind from 'autobind-decorator';
+import {boundMethod} from 'autobind-decorator';
 import {EmptyData} from '../components/EmptyData';
 import {
     updateUserData,
     deleteUserDataRecord,
     replaceUserData
 } from '../actions/app_actions';
-import {
-    Table
-} from 'react-bootstrap';
 import {WeightTableRow} from '../components/WeightTableRow';
 import PerfectScrollBar from 'react-perfect-scrollbar';
 import {ConfirmModal} from '../components/ConfirmModal';
@@ -78,13 +75,13 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     handleAddEntryClick() {
         this.setState({
             isAddingEntry: true
         });
     }
-    @autobind
+    @boundMethod
     handleAddEntryCancel() {
         this.setState({
             isAddingEntry: false,
@@ -92,7 +89,7 @@ export class AppWeightTable extends React.Component {
             newEntryChildWeightValue: ''
         });
     }
-    @autobind
+    @boundMethod
     handleAddEntryConfirm() {
         const {
             newEntryChildWeightValue,
@@ -117,7 +114,7 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     onAddEntryChildWeightChange(e) {
         const {
             value
@@ -129,7 +126,7 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     onAddEntryWeightDateChange(e) {
         const {
             value
@@ -139,7 +136,7 @@ export class AppWeightTable extends React.Component {
             newEntryDateValue: value
         });
     }
-    @autobind
+    @boundMethod
     addEntryModalBodyRenderer() {
         const {
             newEntryChildWeightValue,
@@ -167,13 +164,13 @@ export class AppWeightTable extends React.Component {
             </Form>
         );
     }
-    @autobind
+    @boundMethod
     handleEditClick(entry) {
         this.setState({
             editedEntry: entry
         });
     }
-    @autobind
+    @boundMethod
     handleRemoveClick(entry) {
         if (entry) {
             this.setState({
@@ -181,7 +178,7 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     handleConfirmRemove() {
         const {
             entrySelectedToDelete
@@ -198,13 +195,13 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     handleRejectRemove() {
         this.setState({
             entrySelectedToDelete: null
         });
     }
-    @autobind
+    @boundMethod
     handleCancelEdit() {
         this.setState({
             editedEntry: null,
@@ -212,7 +209,7 @@ export class AppWeightTable extends React.Component {
             editedEntryNewChildWeightValue: ''
         });
     }
-    @autobind
+    @boundMethod
     handleConfirmEdit() {
         const {
             replaceUserData
@@ -233,7 +230,6 @@ export class AppWeightTable extends React.Component {
             replaceUserData(editedEntryNewChildWeightValue, editedEntryNewDateValue, editedEntry);
         }
     }
-    @autobind
     deleteEntryModalBodyRenderer() {
         return (
             <p>Are you sure you want to remove selected entry?</p>
@@ -251,7 +247,7 @@ export class AppWeightTable extends React.Component {
             </tr>
         );
     }
-    @autobind
+    @boundMethod
     weightTableRowRenderer(entry, index) {
         const {
             childWeightEntries
@@ -268,7 +264,6 @@ export class AppWeightTable extends React.Component {
             />
         );
     }
-    @autobind
     renderContent() {
         const {
             childWeightEntries
@@ -288,7 +283,7 @@ export class AppWeightTable extends React.Component {
             return <EmptyData/>;
         }
     }
-    @autobind
+    @boundMethod
     onEditedEntryDateChange(e) {
         const {
             value
@@ -298,7 +293,7 @@ export class AppWeightTable extends React.Component {
             editedEntryNewDateValue: value
         });
     }
-    @autobind
+    @boundMethod
     onEditedEntryWeightChange(e) {
         const {
             value
@@ -310,7 +305,7 @@ export class AppWeightTable extends React.Component {
             });
         }
     }
-    @autobind
+    @boundMethod
     editEntryModalBodyRenderer() {
         const {
             editedEntryNewDateValue,

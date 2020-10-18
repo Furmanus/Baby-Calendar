@@ -37,23 +37,23 @@ export function logout() {
         });
 
         try {
-            const response = await apiLogout();
+            await apiLogout();
 
-            dispatch(logoutSuccess(response));
+            dispatch(logoutSuccess());
         } catch (err) {
             dispatch(logoutFailure(err));
             console.error(err);
         }
     };
 }
-function logoutSuccess(response) {
+function logoutSuccess() {
     navigateTo('/login');
 
     return {
         type: LOGOUT_SUCCESS
     };
 }
-function logoutFailure(err) {
+function logoutFailure() {
     //TODO show alert
     return {
         type: LOGOUT_FAILURE

@@ -1,3 +1,4 @@
+const loginErrorCodes = require('../constants/errors_codes');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config/config');
 const url = config.mongoDbUrl;
@@ -18,7 +19,7 @@ const blankUserDataEntry = {
 const databaseMethods = {
     async createConnection() {
         try {
-            return connectionObject = await MongoClient.connect(url);
+            return MongoClient.connect(url);
         } catch (err) {
             console.error(err);
         }
@@ -47,20 +48,33 @@ const databaseMethods = {
                 } else {
                     callback(400, {
                         error: true,
-                        message: 'Wrong user login or password'
+                        message: 'Wrong user login or password',
+                        code: loginErrorCodes.LoginWrongUserOrPassword,
                     });
                 }
             } catch (err) {
                 console.error(err);
                 callback(500, {
                     error: err,
-                    message: 'Error while fetching user data from database'
+                    message: 'Error while fetching user data from database',
+                    code: 500,
                 });
             }
         } else {
+            let code;
+
+            if (!user && !password) {
+                code = loginErrorCodes.LoginAndPasswordFieldEmpty;
+            } else if (!user && password) {
+                code = loginErrorCodes.LoginFieldEmpty;
+            } else if (user && !password) {
+                code = loginErrorCodes.PasswordFieldEmpty;
+            }
+
             callback(400, {
                 error: true,
-                message: 'Missing required fields'
+                message: 'Missing required fields',
+                code,
             });
         }
     },
@@ -80,17 +94,18 @@ const databaseMethods = {
 
                 callback(409, {
                     error: true,
-                    message: 'User already exists'
+                    message: 'User already exists',
+                    code: loginErrorCodes.RegisterUserAlreadyExists,
                 });
             } else {
                 userRecord = await dbObject.collection(constants.USERS).insertOne(data);
-                userDataRecord = await dbObject.collection(constants.USERS_DATA).insertOne(
+                await dbObject.collection(constants.USERS_DATA).insertOne(
                     Object.assign({}, blankUserDataEntry, {userId: userRecord.ops[0]._id.toHexString()})
                 );
 
                 dbConnection.close();
 
-                callback(200, {
+                callback(201, {
                     user: userRecord.ops[0].user,
                     id: userRecord.ops[0]._id
                 });
@@ -118,7 +133,7 @@ const databaseMethods = {
             } else {
                 callback(400, {
                     error: true,
-                    message: 'Can\'t find specified user data or user doesn\'t exists'
+                    message: 'Can\'t find specified user data or user doesn\'t exists',
                 });
             }
             dbConnection.close();
@@ -158,7 +173,7 @@ const databaseMethods = {
 
                 if (userDataRecord.imageData) {
                     try {
-                        deletionResult = await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
+                        await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
                     } catch (e) {
                         console.warn(e);
                     }

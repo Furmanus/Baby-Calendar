@@ -11,7 +11,6 @@ import autobind from 'autobind-decorator';
 import {
     changeActiveTab,
     logout,
-    updateUserData
 } from '../actions/app_actions';
 import {
     INFO,

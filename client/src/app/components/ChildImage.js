@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {config} from '../../config/config';
 import {prepareImageUrl} from '../utility/image_helper';
 
 export class ChildImage extends React.Component {

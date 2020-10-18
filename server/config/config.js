@@ -2,7 +2,6 @@ const config = {
     development: {
         httpPort: 3000,
         httpsPort: 3001,
-        envName: 'development',
         mongoDbUrl: process.env.DB_URL,
         cryptoSecret: process.env.DB_SECRET,
         sessionConfig: {
@@ -15,7 +14,6 @@ const config = {
     production: {
         httpPort: 80,
         httpsPort: 443,
-        envName: 'production',
         mongoDbUrl: process.env.DB_URL,
         cryptoSecret: process.env.DB_SECRET,
         sessionConfig: {

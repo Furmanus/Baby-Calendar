@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "process": "readonly",
+    "cloudinary": "readonly"
+  },
+  "overrides": [
+    {
+      "files": "client/src/**",
+      "rules": {
+        "react/prop-types": "off"
+      }
+    },
+    {
+      "files": "client/src/api/api.js",
+      "rules": {
+        "no-useless-catch": "off"
+      }
+    }
+  ]
+}

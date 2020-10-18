@@ -2,15 +2,13 @@
 @import "../../common/styles/common";
 @import "../../common/styles/variables";
 @import "animations";
-@import "header";
-@import "tabs";
 
 html, body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  min-height: 100vh;
 }
 body {
-  background: @background-gradient;
+  background: @application-background;
 }
 #app {
   width: 100%;
@@ -19,4 +17,11 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  @media (max-height: 600px) {
+    padding-bottom: 30px;
+  }
+}
+.header {
+  text-align: center;
 }
