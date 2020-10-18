@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, TextField, Typography, withStyles} from '@material-ui/core';
+import {Box, Button, TextField, Typography, withStyles, CircularProgress} from '@material-ui/core';
 import {loginTranslations} from '../constants/translations';
 import {registerSubmit, loginSubmit} from '../../api/api';
 import {
@@ -55,8 +55,9 @@ class LoginPageClass extends React.Component {
         repeatPasswordInputHasBeenTouched: false,
         showPassword: false,
         showRepeatPassword: false,
+        isSubmitting: false,
     };
-    // TODO ADD LOADER ON SUBMITTING
+
     renderLoginInput() {
         const {
             loginMode,
@@ -290,6 +291,10 @@ class LoginPageClass extends React.Component {
             return;
         }
 
+        this.setState({
+            isSubmitting: true,
+        });
+
         try {
             if (loginMode) {
                 await loginSubmit({
@@ -304,7 +309,12 @@ class LoginPageClass extends React.Component {
             redirectPath('dashboard');
         } catch (e) {
             this.setFormError(e);
+        } finally {
+            this.setState({
+                isSubmitting: false,
+            });
         }
+
     }
 
     setFormError(e) {
@@ -393,6 +403,7 @@ class LoginPageClass extends React.Component {
     render() {
         const {
             loginMode,
+            isSubmitting,
         } = this.state;
         const loginRegisterText = loginMode ?
             loginTranslations[LANG].LoginPageRegisterAccountText :
@@ -420,15 +431,32 @@ class LoginPageClass extends React.Component {
                         {this.renderPasswordInput()}
                         {this.renderRepeatPasswordInput()}
                         <Box mb="16px" mt={loginMode ? '8px' : '16px'}>
-                            <Button style={{fontSize: 14}} variant="contained" color="secondary" type="submit" size="large" fullWidth>
+                            <Button
+                                style={{fontSize: 14}}
+                                variant="contained"
+                                color="secondary"
+                                type="submit"
+                                size="large"
+                                disabled={isSubmitting}
+                                fullWidth
+                            >
                                 {loginButtonText}
+                                {
+                                    isSubmitting && <CircularProgress style={{width: '20px', height: '20px', position: 'absolute', right: '15px'}}/>
+                                }
                             </Button>
                         </Box>
                         <Box display="flex" flexDirection="row" justifyContent="space-evenly" alignItems="center">
                             <Typography>
                                 {loginRegisterText}
                             </Typography>
-                            <Button variant="contained" type="button" size="medium" onClick={this.onToggleLoginRegisterClick}>
+                            <Button
+                                variant="contained"
+                                type="button"
+                                size="medium"
+                                onClick={this.onToggleLoginRegisterClick}
+                                disabled={isSubmitting}
+                            >
                                 {loginRegisterButtonText}
                             </Button>
                         </Box>
