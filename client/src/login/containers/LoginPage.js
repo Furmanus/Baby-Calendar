@@ -47,13 +47,13 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'center',
         width: '50%',
-        '@media only screen and (max-width: 768px)': {
+        '@media (max-width: 768px)': {
             width: '75%',
         },
-        '@media only screen (max-width: 620px)': {
+        '@media (max-width: 620px)': {
             width: '90%',
         },
-        '@media only screen (max-width: 480px)': {
+        '@media (max-width: 480px)': {
             width: '100%',
         },
     },
