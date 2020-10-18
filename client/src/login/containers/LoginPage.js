@@ -41,6 +41,22 @@ const styles = {
     textField: {
         marginBottom: 0,
     },
+    main: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: '50%',
+        '@media only screen and (max-width: 768px)': {
+            width: '75%',
+        },
+        '@media only screen (max-width: 620px)': {
+            width: '90%',
+        },
+        '@media only screen (max-width: 480px)': {
+            width: '100%',
+        },
+    },
 };
 
 class LoginPageClass extends React.Component {
@@ -405,6 +421,9 @@ class LoginPageClass extends React.Component {
             loginMode,
             isSubmitting,
         } = this.state;
+        const {
+            classes,
+        } = this.props;
         const loginRegisterText = loginMode ?
             loginTranslations[LANG].LoginPageRegisterAccountText :
             loginTranslations[LANG].LoginPageAlreadyHaveAccountText;
@@ -418,11 +437,7 @@ class LoginPageClass extends React.Component {
         return (
             <Box
                 component="main"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                width="50%"
+                className={classes.main}
             >
                 <AppLogo/>
                 <form name={FORM_NAME} className="form" onSubmit={this.onFormSubmit}>

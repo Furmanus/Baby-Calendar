@@ -1,9 +1,18 @@
 .form {
   max-width: 500px;
 
+  @media @smartphone {
+    max-width: unset;
+  }
+
   .flex-center-column();
   width: 70%;
   padding: 0 30px;
+
+  @media @smartphone {
+    width: 100%;
+    padding: 0 45px;
+  }
 
   &-button {
     &-container {
