@@ -8,7 +8,6 @@ import {
 } from '../actions/app_actions';
 import {EmptyData} from '../components/EmptyData';
 import {
-    Table,
     FormControl,
     ControlLabel,
     Form,

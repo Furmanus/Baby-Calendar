@@ -16,12 +16,12 @@ router.post('/register', async (req, res) => {
 
     if (user && password) {
         password = cryptoHelper.hashString(password);
-
+        // TODO Add backend validation for login and password same as on frontend
         databaseHelper.insertUser({
             user,
             password
         }, (statusCode, data) => {
-            if (200 === statusCode) {
+            if (201 === statusCode) {
                 req.session.userId = data.id;
                 req.session.user = data.user;
             }

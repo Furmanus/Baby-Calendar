@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import autobind from 'autobind-decorator';
 import {
     FormGroup,
     FormControl,
@@ -8,6 +7,7 @@ import {
     Button
 } from 'react-bootstrap';
 import {updateUserData} from '../actions/app_actions';
+import {boundMethod} from 'autobind-decorator';
 
 @connect(state => {
     return {
@@ -31,19 +31,19 @@ export class ChildInfoSettingsContainer extends React.Component {
             isSubmitting: false
         }
     }
-    @autobind
+    @boundMethod
     handleChangeName(ev) {
         this.setState({
             childname: ev.target.value
         });
     }
-    @autobind
+    @boundMethod
     handleChangeBirthdate(ev) {
         this.setState({
             birthdate: ev.target.value
         });
     }
-    @autobind
+    @boundMethod
     handleSubmit(ev) {
         const {
             updateUserData
@@ -71,10 +71,6 @@ export class ChildInfoSettingsContainer extends React.Component {
         }
     }
     render() {
-        const {
-            childname,
-            birthdate
-        } = this.props;
         const {
             isSubmitting,
         } = this.state;
