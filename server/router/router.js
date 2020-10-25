@@ -13,8 +13,7 @@ router.get('/login', (req, res) => {
     } = req.session;
 
     if (userId && user) {
-        //TODO consider stateful session stored in db?
-        res.redirect('/dashboard');
+        res.redirect('/info');
     } else {
         res.render('login');
     }
@@ -40,7 +39,7 @@ router.post('/login', async (req, res) => {
         res.status(statusCode).send(response);
     });
 });
-router.get('/dashboard', async (req, res) => {
+router.get('/info', async (req, res) => {
     const {
         userId,
         user

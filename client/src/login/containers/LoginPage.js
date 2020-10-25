@@ -322,7 +322,7 @@ class LoginPageClass extends React.Component {
                 });
             }
 
-            redirectPath('dashboard');
+            redirectPath('info');
         } catch (e) {
             this.setFormError(e);
         } finally {
