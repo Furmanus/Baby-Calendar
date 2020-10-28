@@ -31,21 +31,27 @@ export function AppSideMenu() {
     return (
         <List component="nav" aria-label="sections" disablePadding>
             {
-                routes.map(route => (
-                    <ListItem key={route.path}>
-                        <Link className={classes.link} to={route.path}>
-                            <ListItemIcon>
-                                <route.MenuIcon className={classes.icon}/>
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={route.menuText}
-                                classes={{
-                                    primary: classes.text,
-                                }}
-                            />
-                        </Link>
-                    </ListItem>
-                ))
+                routes.reduce((result, route) => {
+                    if (route.MenuIcon) {
+                        result.push(
+                            <ListItem key={route.path}>
+                                <Link className={classes.link} to={route.path}>
+                                    <ListItemIcon>
+                                        <route.MenuIcon className={classes.icon}/>
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={route.menuText}
+                                        classes={{
+                                            primary: classes.text,
+                                        }}
+                                    />
+                                </Link>
+                            </ListItem>
+                        );
+                    }
+
+                    return result;
+                }, [])
             }
         </List>
     );

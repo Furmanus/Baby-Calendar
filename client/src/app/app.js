@@ -12,7 +12,9 @@ import {routes} from './routes';
 const rootReducer = combineReducers({
     main: mainReducer,
     ...(routes.reduce((result, route) => {
-        result[route.name] = route.reducer;
+        if (route.reducer) {
+            result[route.name] = route.reducer;
+        }
 
         return result;
     }, {})),
