@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const databaseHelper = require('../helpers/database');
-const config = require('../config/config');
 
 router.get('/', (req, res) => {
     res.redirect('/login');
@@ -39,7 +38,17 @@ router.post('/login', async (req, res) => {
         res.status(statusCode).send(response);
     });
 });
-router.get('/info', async (req, res) => {
+router.get('/info', appRoutesHandler);
+router.get('/info/settings', appRoutesHandler);
+
+router.get('/logout', (req, res) => {
+    delete req.session.userId;
+    delete req.session.user;
+
+    res.status(200).send({response: 'ok'});
+});
+
+async function appRoutesHandler(req, res) {
     const {
         userId,
         user
@@ -53,13 +62,6 @@ router.get('/info', async (req, res) => {
     } else {
         res.redirect('/login');
     }
-});
-
-router.get('/logout', (req, res) => {
-    delete req.session.userId;
-    delete req.session.user;
-
-    res.status(200).send({response: 'ok'});
-});
+}
 
 module.exports = router;

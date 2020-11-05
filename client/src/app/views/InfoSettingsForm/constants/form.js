@@ -1,0 +1,3 @@
+export const INFO_SETTINGS_FORM_NAME = 'settings';
+export const INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MIN = 3;
+export const INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MAX = 32;

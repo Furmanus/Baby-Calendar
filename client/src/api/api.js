@@ -12,6 +12,9 @@ export function logout() {
 export function fetchUserData() {
     return getRequest('/data');
 }
+export function fetchChildDataApi() {
+    return getRequest('/api/info');
+}
 export function updateUserData(data) {
     return putRequest('/data', {
         childName: data.childname,

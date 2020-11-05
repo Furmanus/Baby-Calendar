@@ -17,26 +17,9 @@ import {replaceTextVariables} from '../../common/helpers/text';
 import {validateRepeatPassword, validateUserLogin, validateUserPassword} from '../helpers/validators';
 import {redirectPath} from '../utils/utils';
 import {AppLogo} from '../../common/components/AppLogo';
+import {commonInputProps, helperProps, labelProps} from '../../common/helpers/form';
 
 const LANG = 'en';
-const commonInputProps = {
-    style: {
-        fontSize: 16,
-    }
-};
-const labelProps = {
-    style: {
-        fontSize: 16,
-    },
-};
-const helperProps = {
-    style: {
-        fontSize: 10,
-        marginLeft: 0,
-        minHeight: 16,
-        transition: 'color 0.3s ease-in-out',
-    },
-};
 const styles = {
     textField: {
         marginBottom: 0,

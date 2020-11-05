@@ -103,4 +103,15 @@ router.put('/data_replace', async (req, res) => {
         res.status(statusCode).send(response);
     });
 });
+// V2 TODO remove things above
+router.get('/api/info', async (req, res) => {
+    const {
+        userId
+    } = req.session;
+
+    databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response);
+    });
+});
+
 module.exports = router;

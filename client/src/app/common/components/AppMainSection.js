@@ -5,11 +5,11 @@ import {routes} from '../../routes';
 
 export function AppMainSection() {
     return (
-        <Box height={1} component="main">
+        <Box display="flex" component="main">
             <Switch>
                 {
                     routes.map(route => (
-                        <Route path={route.path} key={route.path}>
+                        <Route exact={route.exact} path={route.path} key={route.path}>
                             <route.Component/>
                         </Route>
                     ))
