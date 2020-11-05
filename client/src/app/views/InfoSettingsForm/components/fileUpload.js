@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
         },
     },
     label: {
-        fontSize: '16px',
+        fontSize: '12px',
         fontWeight: 400,
         pointerEvents: 'none',
         letterSpacing: '0.00938em',
@@ -64,7 +64,7 @@ const useStyles = makeStyles(() => ({
         position: 'absolute',
         top: 0,
         left: 0,
-        transform: 'translate(7px, -4px) scale(0.75)',
+        transform: 'translate(12px, -2px)',
         color: 'rgba(0, 0, 0, 0.54)',
     },
     uploadIcon: {
@@ -180,9 +180,9 @@ export function FileUpload(props) {
                     <CancelOutlined fontSize="large"/>
                 </IconButton>
                 <legend className={classes.legend}>
-                    <span>Photo</span>
+                    <span>{infoSettingsTranslations.en.UploadLabel}</span>
                 </legend>
-                <label className={classes.label} htmlFor={id}>Photo</label>
+                <label className={classes.label} htmlFor={id}>{infoSettingsTranslations.en.UploadLabel}</label>
                 <div className={classes.imageContainer}>
                     {
                         displayPreview && <img

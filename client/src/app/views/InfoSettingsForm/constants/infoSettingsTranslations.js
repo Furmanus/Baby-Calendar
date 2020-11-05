@@ -10,6 +10,7 @@ export const infoSettingsTranslations = {
         SubmitButton: 'Submit',
         UploadButton: 'Upload photo',
         UploadHint: 'Upload photo of your child (optional)',
+        UploadLabel: 'Child photo',
         // form errors
         ChildNameInputMinLength: `You have to use at least ${INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MIN} characters`,
         ChildNameInputMaxLength: `You have to use no more than ${INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MAX} characters`,
