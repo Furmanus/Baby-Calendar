@@ -1,4 +1,7 @@
-import {INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MAX, INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MIN} from '../constants/form';
+import {
+    INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MAX,
+    INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MIN, INFO_SETTINGS_IMAGE_MAX_SIZE
+} from '../constants/form';
 import {infoSettingsTranslations} from '../constants/infoSettingsTranslations';
 import dayjs from 'dayjs';
 
@@ -16,6 +19,13 @@ export function validateInfoSettingsBirthDate(value) {
         return infoSettingsTranslations.en.BirthDateInvalidDateFormat;
     } else if (dayjs().diff(value) < 0) {
         return infoSettingsTranslations.en.BirthDatePastToday;
+    }
+
+    return null;
+}
+export function validateInfoSettingsChildImage(file) {
+    if (file && file.size > INFO_SETTINGS_IMAGE_MAX_SIZE) {
+        return infoSettingsTranslations.en.ImageSizeTooBig;
     }
 
     return null;

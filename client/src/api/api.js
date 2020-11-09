@@ -1,4 +1,5 @@
 import qs from 'query-string';
+import axios from 'axios';
 
 export function loginSubmit(formData) {
     return postRequest('/login', formData);
@@ -11,9 +12,6 @@ export function logout() {
 }
 export function fetchUserData() {
     return getRequest('/data');
-}
-export function fetchChildDataApi() {
-    return getRequest('/api/info');
 }
 export function updateUserData(data) {
     return putRequest('/data', {
@@ -42,6 +40,22 @@ export function deleteUserData(data) {
 export function replaceUserData(data) {
     return putRequest('/data_replace', data);
 }
+
+// V2
+
+export function fetchChildDataApi() {
+    return getRequest('/api/info');
+}
+export function setChildDataApi(formData) {
+    return axios.post('/api/info', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+}
+
+// HELPERS
+
 async function getRequest(url = '', data = {}) {
     data = prepareRequestData(data);
     url = `${url}?${qs.stringify(data)}`;
@@ -58,7 +72,7 @@ async function getRequest(url = '', data = {}) {
         throw err;
     }
 }
-async function postRequest(url = '', data = {}) {
+async function postRequest(url = '', data = {}, headers = {}) {
     data = prepareRequestData(data);
 
     try {
@@ -66,7 +80,7 @@ async function postRequest(url = '', data = {}) {
             method: 'POST',
             body: JSON.stringify(data),
             headers: new Headers(({
-                'Content-Type': 'application/json'
+                ...headers,
             }))
         });
         const preparedResponse = await prepareResponse(response);

@@ -22,8 +22,15 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         color: 'rgba(0, 0, 0, 0.87)',
+        transition: 'border-color 0.3s ease-in-out',
         '&:hover': {
             borderColor: 'rgba(0, 0, 0, 1)',
+        },
+    },
+    containerError: {
+        borderColor: '#f44336',
+        '&:hover': {
+            borderColor: '#f44336',
         },
     },
     disabled: {
@@ -67,6 +74,9 @@ const useStyles = makeStyles(() => ({
         transform: 'translate(12px, -2px)',
         color: 'rgba(0, 0, 0, 0.54)',
     },
+    labelError: {
+        color: '#f44336',
+    },
     uploadIcon: {
         marginLeft: '8px',
     },
@@ -102,6 +112,9 @@ const useStyles = makeStyles(() => ({
         fontWeight: 400,
         fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     },
+    hintError: {
+        color: '#f44336',
+    },
     cancelIcon: {
         position: 'absolute',
         right: 0,
@@ -127,6 +140,7 @@ export function FileUpload(props) {
         name,
         hint,
         disabled,
+        hasError,
     } = props;
     const onImageLoad = () => {
         changeImageVisibility(true);
@@ -175,14 +189,16 @@ export function FileUpload(props) {
 
     return (
         <div className={classes.wrapper}>
-            <fieldset className={`${classes.container} ${disabled ? classes.disabled : ''}`}>
+            <fieldset className={`${classes.container} ${disabled ? classes.disabled : ''} ${hasError ? classes.containerError : ''}`}>
                 <IconButton className={classes.cancelIcon} aria-label="delete" onClick={onCancelClick} disabled={disabled}>
                     <CancelOutlined fontSize="large"/>
                 </IconButton>
                 <legend className={classes.legend}>
                     <span>{infoSettingsTranslations.en.UploadLabel}</span>
                 </legend>
-                <label className={classes.label} htmlFor={id}>{infoSettingsTranslations.en.UploadLabel}</label>
+                <label className={`${classes.label} ${hasError ? classes.labelError : ''}`} htmlFor={id}>
+                    {infoSettingsTranslations.en.UploadLabel}
+                </label>
                 <div className={classes.imageContainer}>
                     {
                         displayPreview && <img
@@ -215,7 +231,7 @@ export function FileUpload(props) {
                 </div>
             </fieldset>
             {
-                hint && <p className={classes.hint}>{hint}</p>
+                hint && <p className={`${classes.hint} ${hasError ? classes.hintError : ''}`}>{hint}</p>
             }
         </div>
     );
@@ -225,6 +241,7 @@ FileUpload.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
     hint: PropTypes.string,
+    hasError: PropTypes.bool,
     previewUrl: PropTypes.string,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,

@@ -1,6 +1,12 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const databaseHelper = require('../helpers/database');
+const awsHelper = require('../helpers/aws');
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+});
 
 router.get('/data', async (req, res) => {
     const {
@@ -106,10 +112,37 @@ router.put('/data_replace', async (req, res) => {
 // V2 TODO remove things above
 router.get('/api/info', async (req, res) => {
     const {
-        userId
+        userId,
     } = req.session;
 
     databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response);
+    });
+});
+router.post('/api/info', upload.single('childImage'), async (req, res) => {
+    const {
+        userId,
+    } = req.session;
+    const {
+        body,
+        file,
+    } = req;
+    const {
+        childName,
+        birthDate,
+    } = body;
+    let fileUrl;
+
+    if (file) {
+        // TODO handle errors
+        fileUrl = await awsHelper.uploadFile(file);
+    }
+
+    databaseHelper.updateUserData(Object.assign({
+        childName,
+        birthDate,
+        userId
+    }, fileUrl ? {imageData: fileUrl} : {}), (statusCode, response) => {
         res.status(statusCode).send(response);
     });
 });

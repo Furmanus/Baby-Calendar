@@ -10,12 +10,6 @@ const ENV = require('./server/config/config').envName;
 const PRODUCTION = 'production';
 
 const plugins = [
-    new webpack.DefinePlugin({
-        'process.env': {
-            CLOUD_NAME: JSON.stringify(process.env.CLOUD_NAME),
-            UPLOAD_PRESET: JSON.stringify(process.env.UPLOAD_PRESET),
-        },
-    }),
     new CleanWebpackPlugin('client/dist/*.*', {
         exclude: [],
         verbose: true,

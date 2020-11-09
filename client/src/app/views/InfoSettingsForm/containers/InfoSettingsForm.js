@@ -5,8 +5,10 @@ import {commonInputProps, helperProps, labelProps} from '../../../../common/help
 import {FileUpload} from '../components/fileUpload';
 import {infoSettingsTranslations} from '../constants/infoSettingsTranslations';
 import {replaceTextVariables} from '../../../../common/helpers/text';
-import {validateInfoSettingsBirthDate, validateInfoSettingsChildName} from '../helpers/validators';
+import {validateInfoSettingsBirthDate, validateInfoSettingsChildImage, validateInfoSettingsChildName} from '../helpers/validators';
 import {INFO_SETTINGS_FORM_NAME} from '../constants/form';
+import {setChildDataApi} from '../../../../api/api';
+import {redirectPath} from '../../../../login/utils/utils';
 
 const styles = {
     page: {
@@ -61,9 +63,10 @@ class InfoSettingsFormClass extends React.PureComponent {
         const {
             childNameInputError,
             birthDateInputError,
+            childImageError,
         } = this.state;
 
-        return !childNameInputError && !birthDateInputError;
+        return !childNameInputError && !birthDateInputError && !childImageError;
     }
 
     state = {
@@ -72,10 +75,24 @@ class InfoSettingsFormClass extends React.PureComponent {
         birthDateInputValue: new Date().toISOString().split('T')[0],
         birthDateInputError: null,
         childImageValue: null,
+        childImageError: null,
         isSubmittingForm: false,
     };
 
-    onFormSubmit = (e) => {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.childImageValue !== this.state.childImageValue) {
+            this.validateImageValue();
+        }
+    }
+
+    onFormSubmit = async (e) => {
+        const {
+            childNameInputValue,
+            birthDateInputValue,
+            childImageValue,
+        } = this.state;
+        const formData = new FormData();
+
         e.preventDefault();
 
         this.validateFormFields();
@@ -87,6 +104,21 @@ class InfoSettingsFormClass extends React.PureComponent {
         this.setState({
             isSubmittingForm: true,
         });
+
+        formData.append('childName', childNameInputValue);
+        formData.append('birthDate', birthDateInputValue);
+
+        if (childImageValue) {
+            formData.append('childImage', childImageValue);
+        }
+
+        try {
+            await setChildDataApi(formData);
+
+            redirectPath('/info');
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     onChildNameInputValueChange = (e) => {
@@ -205,13 +237,16 @@ class InfoSettingsFormClass extends React.PureComponent {
         const {
             birthDateInputValue,
             childNameInputValue,
+            childImageValue,
         } = this.state;
         const childNameError = validateInfoSettingsChildName(childNameInputValue);
         const birthDateError = validateInfoSettingsBirthDate(birthDateInputValue);
+        const childImageError = validateInfoSettingsChildImage(childImageValue);
 
         this.setState({
             childNameInputError: childNameError,
             birthDateInputError: birthDateError,
+            childImageError,
         });
     }
 
@@ -221,12 +256,23 @@ class InfoSettingsFormClass extends React.PureComponent {
         });
     };
 
+    validateImageValue() {
+        const {
+            childImageValue,
+        } = this.state;
+
+        this.setState({
+            childImageError: validateInfoSettingsChildImage(childImageValue),
+        });
+    }
+
     render() {
         const {
             classes,
         } = this.props;
         const {
             isSubmittingForm,
+            childImageError,
         } = this.state;
         const buttonClassNames = `${classes.submitButton} ${isSubmittingForm ? classes.buttonLoading : ''}`;
         const progressContainerClassNames = `${classes.loaderContainer} ${isSubmittingForm ? classes.loaderContainerVisible : ''}`;
@@ -240,9 +286,10 @@ class InfoSettingsFormClass extends React.PureComponent {
                     <FileUpload
                         id="image"
                         name="image"
+                        hasError={!!childImageError}
                         disabled={isSubmittingForm}
                         onChange={this.onImageInputChange}
-                        hint={infoSettingsTranslations.en.UploadHint}
+                        hint={childImageError ? infoSettingsTranslations.en.ImageSizeTooBig : infoSettingsTranslations.en.UploadHint}
                     />
                     <Button
                         disabled={isSubmittingForm}
