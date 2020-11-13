@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {
     Paper,
-    CircularProgress,
     withStyles,
 } from '@material-ui/core';
+import {ChildDataCard} from '../components/ChildDataCard';
 import {fetchChildInfoAction} from '../actions/infoActions';
 import {
     getChildBirthDateSelector,
@@ -19,11 +19,6 @@ const styles = {
     container: {
         width: '100%',
         height: '100%',
-    },
-    loader: {
-        position: 'relative',
-        top: 'calc(50% - 20px)',
-        left: 'calc(50% - 20px)',
     },
 };
 
@@ -54,8 +49,21 @@ class InfoPageClass extends React.PureComponent {
         history: PropTypes.object,
     };
 
+    state = {
+        isFetchingData: false,
+        childData: null,
+    };
+
     componentDidMount() {
-        this.props.fetchUserData();
+        const {
+            childName,
+            birthDate,
+            fetchUserData,
+        } = this.props;
+
+        if (!childName || !birthDate) {
+            fetchUserData();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -66,28 +74,28 @@ class InfoPageClass extends React.PureComponent {
             history,
         } = this.props;
 
-        if (prevProps.isFetchingUserData && !isFetchingUserData && (!birthDate || childName)) {
+        if (prevProps.isFetchingUserData && !isFetchingUserData && (!birthDate || !childName)) {
             history.push('/info/settings');
         }
-    }
-
-    renderPageContent() {
-        return <div>datatable</div>
     }
 
     render() {
         const {
             classes,
             isFetchingUserData,
+            childName,
+            birthDate,
+            childImageUrl,
         } = this.props;
 
         return (
             <Paper className={classes.container} elevation={0} component="section" square>
-                {
-                    isFetchingUserData ?
-                        <CircularProgress className={classes.loader}/> :
-                        this.renderPageContent()
-                }
+                <ChildDataCard
+                    childName={childName}
+                    birthDate={birthDate}
+                    childImageUrl={childImageUrl}
+                    showLoader={isFetchingUserData}
+                />
             </Paper>
         );
     }

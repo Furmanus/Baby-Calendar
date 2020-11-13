@@ -134,8 +134,11 @@ router.post('/api/info', upload.single('childImage'), async (req, res) => {
     let fileUrl;
 
     if (file) {
-        // TODO handle errors
-        fileUrl = await awsHelper.uploadFile(file);
+        try {
+            fileUrl = await awsHelper.uploadFile(file);
+        } catch (error) {
+            res.status(500).send(error);
+        }
     }
 
     databaseHelper.updateUserData(Object.assign({

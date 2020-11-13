@@ -5,7 +5,7 @@ export function isFetchingChildInfoSelector(state) {
     return getInfoState(state).isFetchingUserData;
 }
 export function getChildNameSelector(state) {
-    return getInfoState(state).childInfo;
+    return getInfoState(state).childName;
 }
 export function getChildBirthDateSelector(state) {
     return getInfoState(state).birthDate;

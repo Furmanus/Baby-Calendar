@@ -15,6 +15,7 @@ class AwsHelper {
             Key: filename,
             Body: file.buffer,
         };
+
         return new Promise((resolve, reject) => {
             this.#s3.upload(params, (error, data) => {
                 if (error) {

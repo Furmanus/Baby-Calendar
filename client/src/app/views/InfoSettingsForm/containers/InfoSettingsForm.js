@@ -117,6 +117,7 @@ class InfoSettingsFormClass extends React.PureComponent {
 
             redirectPath('/info');
         } catch (e) {
+            // TODO show error modal
             console.log(e);
         }
     };
