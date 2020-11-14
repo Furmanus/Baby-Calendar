@@ -7,13 +7,13 @@ import {
     withStyles,
 } from '@material-ui/core';
 import {ChildDataCard} from '../components/ChildDataCard';
-import {fetchChildInfoAction} from '../actions/infoActions';
+import {fetchChildInfoAction} from '../../../common/actions/app_actions';
 import {
     getChildBirthDateSelector,
     getChildImageUrlSelector,
     getChildNameSelector,
     isFetchingChildInfoSelector
-} from '../selectors/infoSelectors';
+} from '../../../common/selectors/mainSelectors';
 
 const styles = {
     container: {
