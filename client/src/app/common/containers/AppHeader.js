@@ -6,6 +6,7 @@ import {AccountCircle, Menu as MenuIcon} from '@material-ui/icons';
 import {dashboardTranslations} from '../constants/translations';
 import {toggleExpandMenuAction} from '../actions/app_actions';
 import {isMenuExpandedSelector} from '../selectors/mainSelectors';
+import {logoutApi} from '../../../api/api';
 
 function mapStateToProps(state) {
     return {
@@ -59,9 +60,14 @@ class AppHeaderClass extends React.PureComponent {
         });
     };
 
-    onLogoutClick = () => {
-        this.closeSettings();
-        // TODO logout
+    onLogoutClick = async () => {
+        try {
+            await logoutApi();
+
+            window.location.reload();
+        } catch (error) {
+            // TODO handle error
+        }
     };
 
     render() {

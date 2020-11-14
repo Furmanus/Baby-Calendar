@@ -53,6 +53,9 @@ export function setChildDataApi(formData) {
         },
     });
 }
+export function logoutApi() {
+    return axios.get('/logout');
+}
 
 // HELPERS
 
@@ -80,6 +83,7 @@ async function postRequest(url = '', data = {}, headers = {}) {
             method: 'POST',
             body: JSON.stringify(data),
             headers: new Headers(({
+                'Content-Type': 'application/json',
                 ...headers,
             }))
         });

@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {
-    Paper,
-    withStyles,
+    Fade, Paper, withStyles,
 } from '@material-ui/core';
 import {ChildDataCard} from '../components/ChildDataCard';
 import {fetchChildInfoAction} from '../../../common/actions/app_actions';
@@ -55,15 +54,7 @@ class InfoPageClass extends React.PureComponent {
     };
 
     componentDidMount() {
-        const {
-            childName,
-            birthDate,
-            fetchUserData,
-        } = this.props;
-
-        if (!childName || !birthDate) {
-            fetchUserData();
-        }
+        this.props.fetchUserData();
     }
 
     componentDidUpdate(prevProps) {
@@ -89,14 +80,16 @@ class InfoPageClass extends React.PureComponent {
         } = this.props;
 
         return (
-            <Paper className={classes.container} elevation={0} component="section" square>
-                <ChildDataCard
-                    childName={childName}
-                    birthDate={birthDate}
-                    childImageUrl={childImageUrl}
-                    showLoader={isFetchingUserData}
-                />
-            </Paper>
+            <Fade in={true}>
+                <Paper className={classes.container} elevation={0} component="section" square>
+                    <ChildDataCard
+                        childName={childName}
+                        birthDate={birthDate}
+                        childImageUrl={childImageUrl}
+                        showLoader={isFetchingUserData}
+                    />
+                </Paper>
+            </Fade>
         );
     }
 }

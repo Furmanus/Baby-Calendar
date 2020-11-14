@@ -180,7 +180,7 @@ export function FileUpload(props) {
         if (previewUrl) {
             setDisplayPreview(previewUrl);
         }
-    }, []);
+    }, [previewUrl]);
     useEffect(() => {
         if (imageRef.current) {
             imageRef.current.src = displayPreview;

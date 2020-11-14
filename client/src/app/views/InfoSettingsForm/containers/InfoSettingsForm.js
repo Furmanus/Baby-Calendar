@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TextField, Paper, withStyles, Typography, Button, CircularProgress} from '@material-ui/core';
+import {TextField, Paper, withStyles, Typography, Button, CircularProgress, Fade} from '@material-ui/core';
 import {commonInputProps, helperProps, labelProps} from '../../../../common/helpers/form';
 import {FileUpload} from '../components/fileUpload';
 import {infoSettingsTranslations} from '../constants/infoSettingsTranslations';
@@ -9,6 +9,14 @@ import {validateInfoSettingsBirthDate, validateInfoSettingsChildImage, validateI
 import {INFO_SETTINGS_FORM_NAME} from '../constants/form';
 import {setChildDataApi} from '../../../../api/api';
 import {redirectPath} from '../../../../login/utils/utils';
+import {
+    getChildBirthDateSelector,
+    getChildImageUrlSelector,
+    getChildNameSelector,
+    isFetchingChildInfoSelector
+} from '../../../common/selectors/mainSelectors';
+import {fetchChildInfoAction} from '../../../common/actions/app_actions';
+import {connect} from 'react-redux';
 
 const styles = {
     page: {
@@ -17,8 +25,15 @@ const styles = {
         padding: '30px 60px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
+        transition: 'max-height 0.3s ease-in-out',
+        overflow: 'hidden',
+        maxWidth: 700,
+        maxHeight: 300,
+    },
+    pageLoaded: {
+        maxHeight: 800,
     },
     form: {
         width: '100%',
@@ -44,11 +59,35 @@ const styles = {
     loaderContainerVisible: {
         maxWidth: '40px',
     },
+    loader: {
+        margin: '80px 0',
+    },
 };
+
+function mapStateToProps(state) {
+    return {
+        childName: getChildNameSelector(state),
+        birthDate: getChildBirthDateSelector(state),
+        childImageUrl: getChildImageUrlSelector(state),
+        isFetchingChildData: isFetchingChildInfoSelector(state),
+    };
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchChildData: () => dispatch(fetchChildInfoAction()),
+    };
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 class InfoSettingsFormClass extends React.PureComponent {
     static propTypes = {
         mode: PropTypes.oneOf(['create', 'edit']),
+        childName: PropTypes.string,
+        birthDate: PropTypes.string,
+        childImageUrl: PropTypes.string,
+        isFetchingChildData: PropTypes.bool,
+        fetchChildData: PropTypes.func,
         classes: PropTypes.shape({
             page: PropTypes.object,
             form: PropTypes.object,
@@ -77,11 +116,45 @@ class InfoSettingsFormClass extends React.PureComponent {
         childImageValue: null,
         childImageError: null,
         isSubmittingForm: false,
+        imagePreviewUrl: null,
     };
 
+    async componentDidMount() {
+        const {
+            childName,
+            birthDate,
+            childImageUrl,
+            isFetchingChildData,
+            fetchChildData,
+        } = this.props;
+
+        if (!isFetchingChildData && !childName && !birthDate) {
+            fetchChildData();
+        } else {
+            this.setState(state => ({
+                childNameInputValue: childName || state.childNameInputValue,
+                birthDateInputValue: birthDate || state.birthDateInputValue,
+                imagePreviewUrl: childImageUrl || state.imagePreviewUrl,
+            }));
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
+        const {
+            childName,
+            birthDate,
+            childImageUrl,
+        } = this.props;
+
         if (prevState.childImageValue !== this.state.childImageValue) {
             this.validateImageValue();
+        }
+        if (prevProps.childName !== childName || prevProps.birthDate !== birthDate) {
+            this.setState(state => ({
+                childNameInputValue: childName || state.childNameInputValue,
+                birthDateInputValue: birthDate || state.birthDateInputValue,
+                imagePreviewUrl: childImageUrl || state.imagePreviewUrl,
+            }));
         }
     }
 
@@ -270,45 +343,53 @@ class InfoSettingsFormClass extends React.PureComponent {
     render() {
         const {
             classes,
+            isFetchingChildData,
         } = this.props;
         const {
             isSubmittingForm,
             childImageError,
+            imagePreviewUrl,
         } = this.state;
         const buttonClassNames = `${classes.submitButton} ${isSubmittingForm ? classes.buttonLoading : ''}`;
         const progressContainerClassNames = `${classes.loaderContainer} ${isSubmittingForm ? classes.loaderContainerVisible : ''}`;
+        const pageClassNames = `${classes.page} ${isFetchingChildData ? '' : classes.pageLoaded}`;
 
         return (
-            <Paper name={INFO_SETTINGS_FORM_NAME} className={classes.page} component="section">
+            <Paper name={INFO_SETTINGS_FORM_NAME} className={pageClassNames} component="section">
                 <Typography variant="h4">{infoSettingsTranslations.en.InfoSettingsFormHeading}</Typography>
-                <form className={classes.form} onSubmit={this.onFormSubmit}>
-                    {this.renderChildNameInput()}
-                    {this.renderBirthDateInput()}
-                    <FileUpload
-                        id="image"
-                        name="image"
-                        hasError={!!childImageError}
-                        disabled={isSubmittingForm}
-                        onChange={this.onImageInputChange}
-                        hint={childImageError ? infoSettingsTranslations.en.ImageSizeTooBig : infoSettingsTranslations.en.UploadHint}
-                    />
-                    <Button
-                        disabled={isSubmittingForm}
-                        className={buttonClassNames}
-                        variant="contained"
-                        type="submit"
-                        color="primary"
-                        size="large"
-                    >
-                        {infoSettingsTranslations.en.SubmitButton}
-                        <div className={progressContainerClassNames}>
-                            <CircularProgress style={{width: '20px', height: '20px', marginLeft: '11px'}}/>
-                        </div>
-                    </Button>
-                </form>
+                {
+                    isFetchingChildData ?
+                        <CircularProgress className={classes.loader}/> :
+                        <form className={classes.form} onSubmit={this.onFormSubmit}>
+                            {this.renderChildNameInput()}
+                            {this.renderBirthDateInput()}
+                            <FileUpload
+                                id="image"
+                                name="image"
+                                hasError={!!childImageError}
+                                disabled={isSubmittingForm}
+                                onChange={this.onImageInputChange}
+                                previewUrl={imagePreviewUrl}
+                                hint={childImageError ? infoSettingsTranslations.en.ImageSizeTooBig : infoSettingsTranslations.en.UploadHint}
+                            />
+                            <Button
+                                disabled={isSubmittingForm}
+                                className={buttonClassNames}
+                                variant="contained"
+                                type="submit"
+                                color="primary"
+                                size="large"
+                            >
+                                {infoSettingsTranslations.en.SubmitButton}
+                                <div className={progressContainerClassNames}>
+                                    <CircularProgress style={{width: '20px', height: '20px', marginLeft: '11px'}}/>
+                                </div>
+                            </Button>
+                        </form>
+                }
             </Paper>
         );
     }
 }
 
-export const InfoSettingsForm = withStyles(styles)(InfoSettingsFormClass);
+export const InfoSettingsForm = connector(withStyles(styles)(InfoSettingsFormClass));

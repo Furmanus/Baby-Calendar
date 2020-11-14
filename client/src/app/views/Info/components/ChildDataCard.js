@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {useHistory} from 'react-router-dom';
 import {Card, CardContent, CardMedia, Typography, CardActions, Button, CircularProgress} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {infoPageTranslations} from '../constants/translations';
@@ -46,7 +47,14 @@ export function ChildDataCard(props) {
         childImageUrl,
         showLoader,
     } = props;
+    const history = useHistory();
     const classes = useStyles();
+
+    const onEditButtonClick = e => {
+        e.preventDefault();
+
+        history.push('/info/settings');
+    };
 
     return (
         <Card className={classes.container}>
@@ -71,7 +79,7 @@ export function ChildDataCard(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button className={classes.button} size="large" href="/info/settings">
+                            <Button className={classes.button} onClick={onEditButtonClick} size="large" href="/info/settings">
                                 {infoPageTranslations.en.EditButton}
                             </Button>
                         </CardActions>
