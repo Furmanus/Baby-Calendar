@@ -17,7 +17,7 @@ import {
 
 const styles = {
     container: {
-        width: '100%',
+        margin: '30px auto',
         height: '100%',
     },
 };

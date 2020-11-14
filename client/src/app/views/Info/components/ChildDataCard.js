@@ -10,8 +10,8 @@ import {blue} from '@material-ui/core/colors';
 const useStyles = makeStyles({
     container: {
         position: 'relative',
-        maxWidth: 345,
-        margin: '30px auto',
+        width: 345,
+        margin: '0 auto',
         height: 250,
     },
     contentText: {
