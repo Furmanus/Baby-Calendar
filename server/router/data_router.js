@@ -3,6 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 const databaseHelper = require('../helpers/database');
 const awsHelper = require('../helpers/aws');
+const errorCodes = require('../constants/errors_codes');
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -130,22 +131,48 @@ router.post('/api/info', upload.single('childImage'), async (req, res) => {
     const {
         childName,
         birthDate,
+        wasImageDeleted,
     } = body;
     let fileUrl;
 
     if (file) {
-        try {
-            fileUrl = await awsHelper.uploadFile(file);
-        } catch (error) {
-            res.status(500).send(error);
+        const type = file.mimetype.match(/image\/([a-zA-Z]+)/);
+
+        if (type && type[1] && ['png', 'jpg', 'jpeg', 'gif'].includes(type[1])) {
+            try {
+                fileUrl = await awsHelper.uploadFile(file);
+            } catch (error) {
+                res.status(500).send(error);
+            }
+        } else {
+            return res.status(400).send({
+                error: true,
+                code: errorCodes.InvalidImageType,
+                fieldName: 'childImage',
+            });
         }
+    }
+
+    if (wasImageDeleted === 'true') {
+        fileUrl = '';
     }
 
     databaseHelper.updateUserData(Object.assign({
         childName,
         birthDate,
         userId
-    }, fileUrl ? {imageData: fileUrl} : {}), (statusCode, response) => {
+    }, fileUrl !== undefined && fileUrl !== null ? {imageData: fileUrl} : {}), async (statusCode, response) => {
+        const {
+            oldImageUrl,
+        } = response;
+        if ((fileUrl && oldImageUrl) || wasImageDeleted) {
+            try {
+                await awsHelper.deleteFile(oldImageUrl);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         res.status(statusCode).send(response);
     });
 });

@@ -17,6 +17,7 @@ import {
 } from '../../../common/selectors/mainSelectors';
 import {fetchChildInfoAction} from '../../../common/actions/app_actions';
 import {connect} from 'react-redux';
+import {infoSettingsErrorCodeToTextMap} from '../constants/errors';
 
 const styles = {
     page: {
@@ -117,6 +118,7 @@ class InfoSettingsFormClass extends React.PureComponent {
         childImageError: null,
         isSubmittingForm: false,
         imagePreviewUrl: null,
+        wasImageDeleted: false,
     };
 
     async componentDidMount() {
@@ -163,6 +165,7 @@ class InfoSettingsFormClass extends React.PureComponent {
             childNameInputValue,
             birthDateInputValue,
             childImageValue,
+            wasImageDeleted,
         } = this.state;
         const formData = new FormData();
 
@@ -180,6 +183,7 @@ class InfoSettingsFormClass extends React.PureComponent {
 
         formData.append('childName', childNameInputValue);
         formData.append('birthDate', birthDateInputValue);
+        formData.append('wasImageDeleted', wasImageDeleted);
 
         if (childImageValue) {
             formData.append('childImage', childImageValue);
@@ -190,10 +194,30 @@ class InfoSettingsFormClass extends React.PureComponent {
 
             redirectPath('/info');
         } catch (e) {
-            // TODO show error modal
-            console.log(e);
+            this.setFormStateFromError(e);
+        } finally {
+            this.setState({
+                isSubmittingForm: false,
+            });
         }
     };
+
+    setFormStateFromError(error) {
+        const data = error.response && error.response.data;
+
+        if (data) {
+            const errorData = infoSettingsErrorCodeToTextMap[data.code];
+            const newState = {};
+
+            switch (data.fieldName) {
+                case 'childImage':
+                    newState.childImageError = errorData.text;
+                    break;
+            }
+
+            this.setState(newState);
+        }
+    }
 
     onChildNameInputValueChange = (e) => {
         this.setState({
@@ -327,6 +351,7 @@ class InfoSettingsFormClass extends React.PureComponent {
     onImageInputChange = (image) => {
         this.setState({
             childImageValue: image,
+            wasImageDeleted: image === null,
         });
     };
 
@@ -370,7 +395,7 @@ class InfoSettingsFormClass extends React.PureComponent {
                                 disabled={isSubmittingForm}
                                 onChange={this.onImageInputChange}
                                 previewUrl={imagePreviewUrl}
-                                hint={childImageError ? infoSettingsTranslations.en.ImageSizeTooBig : infoSettingsTranslations.en.UploadHint}
+                                hint={childImageError || infoSettingsTranslations.en.UploadHint}
                             />
                             <Button
                                 disabled={isSubmittingForm}

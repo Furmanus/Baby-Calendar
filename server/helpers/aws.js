@@ -20,9 +20,27 @@ class AwsHelper {
             this.#s3.upload(params, (error, data) => {
                 if (error) {
                     reject(error);
+                } else {
+                    resolve(data.Location);
                 }
+            });
+        });
+    }
 
-                resolve(data.Location);
+    deleteFile(url) {
+        const key = url.match(/[a-zA-Z0-9-]+\.(jpeg|jpg|gif|png)$/g);
+        const params = {
+            Bucket: this.#bucketName,
+            Key: (key || [])[0],
+        };
+
+        return new Promise((resolve, reject) => {
+            this.#s3.deleteObject(params, (error, data) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(data);
+                }
             });
         });
     }

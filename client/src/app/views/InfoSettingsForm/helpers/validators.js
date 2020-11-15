@@ -24,8 +24,13 @@ export function validateInfoSettingsBirthDate(value) {
     return null;
 }
 export function validateInfoSettingsChildImage(file) {
+    const fileExtenstion = file && file.type.match(/image\/([a-zA-Z]+)/);
+
     if (file && file.size > INFO_SETTINGS_IMAGE_MAX_SIZE) {
         return infoSettingsTranslations.en.ImageSizeTooBig;
+    }
+    if (file && fileExtenstion[1] && !['png', 'jpg', 'jpeg', 'gif'].includes(fileExtenstion[1])) {
+        return infoSettingsTranslations.en.ImageTypeInvalid;
     }
 
     return null;

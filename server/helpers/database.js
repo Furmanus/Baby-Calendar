@@ -160,7 +160,7 @@ const databaseMethods = {
             const dbConnection = await this.createConnection();
             const dbObject = dbConnection.db(constants.DATABASE_NAME);
             const userDataRecord = await dbObject.collection(constants.USERS_DATA).findOne({userId});
-            let deletionResult;
+            const oldImageUrl = userDataRecord.imageData;
 
             if (userDataRecord) {
                 userDataRecord.childName = childName || userDataRecord.childName;
@@ -171,19 +171,7 @@ const databaseMethods = {
                 childInfectionEntry && userDataRecord.childInfectionsEntries.push(childInfectionEntry);
                 childNoteEntry && userDataRecord.childNotesEntries.push(childNoteEntry);
 
-                if (userDataRecord.imageData) {
-                    try {
-                        await cloudinaryHelper.removeImage(userDataRecord.imageData.public_id);
-                    } catch (e) {
-                        console.warn(e);
-                    }
-                    /**
-                     * Deletion result ignored on purpose. New image is already uploaded, so how app should react
-                     * on failed deletion of old image is a mystery. Wait till rewrite app, so client first sends image
-                     * to server and then server uploads image to cloudinary?
-                     */
-                }
-                if (imageData) {
+                if (imageData !== null && imageData !== undefined) {
                     userDataRecord.imageData = imageData;
                 }
 
@@ -191,7 +179,10 @@ const databaseMethods = {
                     $set: {...userDataRecord}
                 });
                 dbConnection.close();
-                callback(200, userDataRecord);
+                callback(200, {
+                    ...userDataRecord,
+                    oldImageUrl,
+                });
             } else {
                 callback(400, {
                     error: true,

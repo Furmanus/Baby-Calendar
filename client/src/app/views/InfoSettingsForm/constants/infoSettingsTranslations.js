@@ -17,5 +17,7 @@ export const infoSettingsTranslations = {
         BirthDateInvalidDateFormat: 'Invalid date format',
         BirthDatePastToday: 'Can\'t set future date',
         ImageSizeTooBig: `Image size too big, max ${INFO_SETTINGS_IMAGE_MAX_SIZE / 1024} kilobytes are allowed`,
+        ImageTypeInvalid: 'You can use only jpg, jpeg, gif and png images',
+        UnknownError: 'Failed to submit form data',
     },
 };
