@@ -11,6 +11,7 @@ export const infoSettingsTranslations = {
         UploadButton: 'Upload photo',
         UploadHint: `Upload photo of your child, ${INFO_SETTINGS_IMAGE_MAX_SIZE / 1024} kilobytes allowed (optional)`,
         UploadLabel: 'Child photo',
+        FormUploadSuccessPopupText: 'Data uploaded successfully',
         // form errors
         ChildNameInputMinLength: `You have to use at least ${INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MIN} characters`,
         ChildNameInputMaxLength: `You have to use no more than ${INFO_SETTINGS_FORM_CHILD_NAME_INPUT_MAX} characters`,

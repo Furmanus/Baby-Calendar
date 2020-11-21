@@ -5,9 +5,17 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {AppHeader} from './AppHeader';
 import {AppSideMenu} from '../components/AppSideMenu';
-import {toggleExpandMenuAction} from '../actions/app_actions';
-import {isMenuExpandedSelector} from '../selectors/mainSelectors';
+import {hideSnackBarDialog, resetSnackBarDialogState, toggleExpandMenuAction} from '../actions/app_actions';
+import {
+    getSnackBarMenuModeSelector,
+    getSnackBarMenuTextSelector,
+    getSnackBarPopupExitCallback,
+    getSnackBarPopupHideDuration,
+    isMenuExpandedSelector,
+    isSnackBarPopupOpenSelector
+} from '../selectors/mainSelectors';
 import {AppMainSection} from '../components/AppMainSection';
+import {AppSnackBarPopup} from '../components/AppSnackBarPopup';
 
 const MENU_CONTAINER_WIDTH = 184;
 const COLLAPSED_MENU_WIDTH = 60;
@@ -15,12 +23,19 @@ const COLLAPSED_MENU_WIDTH = 60;
 function mapStateToProps(state) {
     return {
         isMenuExpanded: isMenuExpandedSelector(state),
+        isSnackBarMenuOpen: isSnackBarPopupOpenSelector(state),
+        snackBarPopupMode: getSnackBarMenuModeSelector(state),
+        snackBarPopupText: getSnackBarMenuTextSelector(state),
+        snackBarPopupExitCallback: getSnackBarPopupExitCallback(state),
+        snackBarPopupHideDuration: getSnackBarPopupHideDuration(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         toggleExpandMenu: () => dispatch(toggleExpandMenuAction()),
+        hideSnackBarPopup: () => dispatch(hideSnackBarDialog()),
+        resetSnackBar: () => dispatch(resetSnackBarDialogState()),
     };
 }
 
@@ -61,16 +76,34 @@ class AppPageClass extends React.PureComponent {
     static propTypes = {
         isMenuExpanded: PropTypes.bool,
         toggleExpandMenu: PropTypes.func,
+        isSnackBarMenuOpen: PropTypes.bool,
+        snackBarPopupMode: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
+        snackBarPopupText: PropTypes.string,
+        snackBarPopupExitCallback: PropTypes.func,
+        snackBarPopupHideDuration: PropTypes.number,
+        resetSnackBar: PropTypes.func,
+        hideSnackBarPopup: PropTypes.func,
     };
 
     onHideMenuClick = () => {
         this.props.toggleExpandMenu();
     };
 
+    onCloseDialogClick = () => {
+        this.props.hideSnackBarPopup();
+    };
+
     render() {
         const {
             classes,
             isMenuExpanded,
+            hideSnackBarPopup,
+            isSnackBarMenuOpen,
+            snackBarPopupMode,
+            snackBarPopupText,
+            snackBarPopupExitCallback,
+            snackBarPopupHideDuration,
+            resetSnackBar,
         } = this.props;
 
         return (
@@ -103,6 +136,15 @@ class AppPageClass extends React.PureComponent {
                         <AppMainSection/>
                     </Box>
                 </Box>
+                <AppSnackBarPopup
+                    text={snackBarPopupText}
+                    mode={snackBarPopupMode}
+                    onClose={hideSnackBarPopup}
+                    isOpen={isSnackBarMenuOpen}
+                    hideDuration={snackBarPopupHideDuration}
+                    callback={snackBarPopupExitCallback}
+                    resetState={resetSnackBar}
+                />
             </Container>
         );
     }

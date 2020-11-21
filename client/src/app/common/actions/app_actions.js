@@ -1,4 +1,11 @@
-import {TOGGLE_EXPAND_MENU_ACTION, FETCH_CHILD_DATA, FETCH_CHILD_DATA_SUCCESS, FETCH_CHILD_DATA_FAILURE} from '../constants/app_actions';
+import {
+    TOGGLE_EXPAND_MENU_ACTION,
+    FETCH_CHILD_DATA,
+    FETCH_CHILD_DATA_SUCCESS,
+    FETCH_CHILD_DATA_FAILURE,
+    SHOW_SNACKBAR_POPUP,
+    HIDE_SNACKBAR_POPUP, RESET_SNACKBAR_POPUP
+} from '../constants/app_actions';
 import {fetchChildDataApi} from '../../../api/api';
 
 export function toggleExpandMenuAction() {
@@ -32,5 +39,31 @@ function fetchChildInfoSuccessAction(data) {
 function fetchChildInfoFailureAction() {
     return {
         type: FETCH_CHILD_DATA_FAILURE,
+    };
+}
+export function showSnackBarDialog(config) {
+    const {
+        text,
+        mode,
+        hideDuration,
+        callback,
+    } = config;
+
+    return {
+        type: SHOW_SNACKBAR_POPUP,
+        text,
+        mode,
+        hideDuration,
+        callback,
+    };
+}
+export function hideSnackBarDialog() {
+    return {
+        type: HIDE_SNACKBAR_POPUP,
+    };
+}
+export function resetSnackBarDialogState() {
+    return {
+        type: RESET_SNACKBAR_POPUP,
     };
 }

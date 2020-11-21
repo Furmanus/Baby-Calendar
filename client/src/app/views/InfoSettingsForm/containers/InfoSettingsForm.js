@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TextField, Paper, withStyles, Typography, Button, CircularProgress, Fade} from '@material-ui/core';
+import {TextField, Paper, withStyles, Typography, Button, CircularProgress} from '@material-ui/core';
 import {commonInputProps, helperProps, labelProps} from '../../../../common/helpers/form';
 import {FileUpload} from '../components/fileUpload';
 import {infoSettingsTranslations} from '../constants/infoSettingsTranslations';
@@ -15,7 +15,7 @@ import {
     getChildNameSelector,
     isFetchingChildInfoSelector
 } from '../../../common/selectors/mainSelectors';
-import {fetchChildInfoAction} from '../../../common/actions/app_actions';
+import {fetchChildInfoAction, showSnackBarDialog} from '../../../common/actions/app_actions';
 import {connect} from 'react-redux';
 import {infoSettingsErrorCodeToTextMap} from '../constants/errors';
 
@@ -76,6 +76,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchChildData: () => dispatch(fetchChildInfoAction()),
+        showPopup: (config) => dispatch(showSnackBarDialog(config)),
     };
 }
 
@@ -89,6 +90,7 @@ class InfoSettingsFormClass extends React.PureComponent {
         childImageUrl: PropTypes.string,
         isFetchingChildData: PropTypes.bool,
         fetchChildData: PropTypes.func,
+        showPopup: PropTypes.func,
         classes: PropTypes.shape({
             page: PropTypes.object,
             form: PropTypes.object,
@@ -162,6 +164,9 @@ class InfoSettingsFormClass extends React.PureComponent {
 
     onFormSubmit = async (e) => {
         const {
+            showPopup,
+        } = this.props;
+        const {
             childNameInputValue,
             birthDateInputValue,
             childImageValue,
@@ -192,7 +197,11 @@ class InfoSettingsFormClass extends React.PureComponent {
         try {
             await setChildDataApi(formData);
 
-            redirectPath('/info');
+            showPopup({
+                text: infoSettingsTranslations.en.FormUploadSuccessPopupText,
+                mode: 'success',
+                callback: this.onFormSubmitSuccess,
+            });
         } catch (e) {
             this.setFormStateFromError(e);
         } finally {
@@ -201,6 +210,10 @@ class InfoSettingsFormClass extends React.PureComponent {
             });
         }
     };
+
+    onFormSubmitSuccess() {
+        redirectPath('/info');
+    }
 
     setFormStateFromError(error) {
         const data = error.response && error.response.data;
@@ -212,6 +225,9 @@ class InfoSettingsFormClass extends React.PureComponent {
             switch (data.fieldName) {
                 case 'childImage':
                     newState.childImageError = errorData.text;
+                    break;
+                default:
+                    // TODO show growler with usage of material-ui snackbar
                     break;
             }
 
