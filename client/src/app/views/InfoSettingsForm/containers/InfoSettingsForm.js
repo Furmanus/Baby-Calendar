@@ -216,6 +216,9 @@ class InfoSettingsFormClass extends React.PureComponent {
     }
 
     setFormStateFromError(error) {
+        const {
+            showPopup,
+        } = this.props;
         const data = error.response && error.response.data;
 
         if (data) {
@@ -227,7 +230,10 @@ class InfoSettingsFormClass extends React.PureComponent {
                     newState.childImageError = errorData.text;
                     break;
                 default:
-                    // TODO show growler with usage of material-ui snackbar
+                    showPopup({
+                        text: errorData.text,
+                        mode: 'error',
+                    });
                     break;
             }
 
