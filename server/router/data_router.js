@@ -165,7 +165,8 @@ router.post('/api/info', upload.single('childImage'), async (req, res) => {
         const {
             oldImageUrl,
         } = response;
-        if ((fileUrl && oldImageUrl) || wasImageDeleted) {
+
+        if ((fileUrl && oldImageUrl) || wasImageDeleted === 'true') {
             try {
                 await awsHelper.deleteFile(oldImageUrl);
             } catch (error) {
