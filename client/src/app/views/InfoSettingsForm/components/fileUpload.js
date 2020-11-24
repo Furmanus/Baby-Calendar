@@ -14,7 +14,8 @@ const useStyles = makeStyles(() => ({
     container: {
         position: 'relative',
         padding: '0 8px',
-        width: '100%',
+        marginInlineStart: 0,
+        marginInlineEnd: 0,
         borderRadius: '4px',
         border: '1px solid rgba(0, 0, 0, 0.23)',
         display: 'flex',
@@ -55,6 +56,7 @@ const useStyles = makeStyles(() => ({
         display: 'block',
         fontSize: '12px',
         textAlign: 'left',
+        fontWeight: 400,
         padding: 0,
         visibility: 'hidden',
         '& > span': {
@@ -83,6 +85,7 @@ const useStyles = makeStyles(() => ({
     uploadButton: {
         paddingRight: '8px',
         marginBottom: '15px',
+        fontSize: '12px',
     },
     imageElement: {
         width: '100px',
@@ -117,11 +120,17 @@ const useStyles = makeStyles(() => ({
     },
     cancelIcon: {
         position: 'absolute',
-        right: 0,
-        top: 0,
+        padding: 0,
+        width: 32,
+        height: 32,
+        right: 10,
+        top: 18,
         color: 'rgba(0, 0, 0, 0.54)',
         '&:hover': {
             color: 'rgba(0, 0, 0, 1)'
+        },
+        '& svg': {
+            fontSize: 'inherit',
         },
     },
 }));
@@ -190,7 +199,12 @@ export function FileUpload(props) {
     return (
         <div className={classes.wrapper}>
             <fieldset className={`${classes.container} ${disabled ? classes.disabled : ''} ${hasError ? classes.containerError : ''}`}>
-                <IconButton className={classes.cancelIcon} aria-label="delete" onClick={onCancelClick} disabled={disabled}>
+                <IconButton
+                    className={classes.cancelIcon}
+                    aria-label="delete"
+                    onClick={onCancelClick}
+                    disabled={disabled}
+                >
                     <CancelOutlined fontSize="large"/>
                 </IconButton>
                 <legend className={classes.legend}>
@@ -223,7 +237,7 @@ export function FileUpload(props) {
                         disabled={disabled}
                     />
                     <label htmlFor={id}>
-                        <Button variant="contained" color="primary" component="span" className={classes.uploadButton} disabled={disabled}>
+                        <Button variant="contained" color="primary" size="small" component="span" className={classes.uploadButton} disabled={disabled}>
                             {infoSettingsTranslations.en.UploadButton}
                             <PhotoCamera className={classes.uploadIcon}/>
                         </Button>

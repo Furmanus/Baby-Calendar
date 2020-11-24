@@ -56,15 +56,31 @@ const styles = {
     menuHeadContainerOpen: {
         maxWidth: MENU_CONTAINER_WIDTH,
     },
+    mainContent: {
+        width: '100%',
+        display: 'flex',
+        flexGrow: 1,
+        flexDirection: 'row',
+        overflowX: 'hidden',
+    },
     menuContainer: {
         transition: 'max-width 0.2s ease-in-out',
         width: MENU_CONTAINER_WIDTH,
         maxWidth: COLLAPSED_MENU_WIDTH,
         borderRight: '1px solid #CAC7C7',
         overflowX: 'hidden',
+        '@media (max-width: 480px)': {
+            maxWidth: 0,
+            width: '100%',
+            borderRight: 'none',
+            overflowX: 'initial',
+        },
     },
     menuContainerOpen: {
         maxWidth: MENU_CONTAINER_WIDTH,
+        '@media (max-width: 480px)': {
+            maxWidth: '100%',
+        },
     },
     icon: {
         width: 24,
@@ -111,7 +127,7 @@ class AppPageClass extends React.PureComponent {
                 className={classes.container}
                 maxWidth={false}
             >
-                <Box display="flex" flexDirection="row" height={64} width="100%">
+                <Box display="flex" flexDirection="row" width="100%">
                     <Box
                         className={`${classes.menuHeadContainer} ${isMenuExpanded ? classes.menuHeadContainerOpen : ''}`}
                         display="flex"
@@ -126,7 +142,7 @@ class AppPageClass extends React.PureComponent {
                         <AppHeader/>
                     </Box>
                 </Box>
-                <Box display="flex" flexDirection="row" flexGrow={1} width="100%">
+                <Box className={classes.mainContent}>
                     <Box
                         className={`${classes.menuContainer} ${isMenuExpanded ? classes.menuContainerOpen : ''}`}
                     >

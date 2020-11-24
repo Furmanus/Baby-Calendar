@@ -18,6 +18,9 @@ const styles = {
     container: {
         margin: '30px auto',
         height: '100%',
+        '@media (max-width: 480px)': {
+            margin: 0,
+        },
     },
 };
 

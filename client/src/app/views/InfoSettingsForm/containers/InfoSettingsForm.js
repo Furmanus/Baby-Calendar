@@ -425,7 +425,7 @@ class InfoSettingsFormClass extends React.PureComponent {
                                 variant="contained"
                                 type="submit"
                                 color="primary"
-                                size="large"
+                                size="small"
                             >
                                 {infoSettingsTranslations.en.SubmitButton}
                                 <div className={progressContainerClassNames}>

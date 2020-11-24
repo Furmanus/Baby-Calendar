@@ -12,8 +12,24 @@ const useStyles = makeStyles({
     container: {
         position: 'relative',
         width: 345,
+        maxWidth: '100vw',
         margin: '0 auto',
         height: 250,
+        boxSizing: 'border-box',
+        '@media (max-width: 480px)': {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: '20px 0',
+        },
+    },
+    spaceFill: {
+        padding: 0,
+        flexGrow: 0,
+        '@media (max-width: 480px)': {
+            flexGrow: 1,
+        },
     },
     contentText: {
         fontSize: 12,
@@ -78,6 +94,7 @@ export function ChildDataCard(props) {
                                 {replaceTextVariables(infoPageTranslations.en.AgeInWeeks, {ageInWeeks: calculateAgeInWeeks(birthDate)})}
                             </Typography>
                         </CardContent>
+                        <CardContent className={classes.spaceFill}/>
                         <CardActions>
                             <Button className={classes.button} onClick={onEditButtonClick} size="large" href="/info/settings">
                                 {infoPageTranslations.en.EditButton}
