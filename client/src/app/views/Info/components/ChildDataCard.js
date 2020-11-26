@@ -22,6 +22,7 @@ const useStyles = makeStyles({
             flexDirection: 'column',
             justifyContent: 'flex-start',
             padding: '20px 0',
+            width: '100vw'
         },
     },
     spaceFill: {
