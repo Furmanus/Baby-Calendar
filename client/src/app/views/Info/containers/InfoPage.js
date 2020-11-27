@@ -20,6 +20,7 @@ const styles = {
         height: '100%',
         '@media (max-width: 480px)': {
             margin: 0,
+            width: '100%',
         },
     },
 };

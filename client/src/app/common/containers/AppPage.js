@@ -64,7 +64,7 @@ const styles = {
         overflowX: 'hidden',
     },
     menuContainer: {
-        transition: 'max-width 0.2s ease-in-out',
+        transition: 'max-width 0.2s ease-in-out, min-width 0.2s ease-in-out',
         width: MENU_CONTAINER_WIDTH,
         maxWidth: COLLAPSED_MENU_WIDTH,
         borderRight: '1px solid #CAC7C7',
@@ -73,13 +73,14 @@ const styles = {
             maxWidth: 0,
             width: '100%',
             borderRight: 'none',
-            overflowX: 'initial',
+            minWidth: 0,
         },
     },
     menuContainerOpen: {
         maxWidth: MENU_CONTAINER_WIDTH,
         '@media (max-width: 480px)': {
             maxWidth: '100%',
+            minWidth: '100%',
         },
     },
     icon: {

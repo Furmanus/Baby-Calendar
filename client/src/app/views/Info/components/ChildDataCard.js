@@ -12,7 +12,6 @@ const useStyles = makeStyles({
     container: {
         position: 'relative',
         width: 345,
-        maxWidth: '100vw',
         margin: '0 auto',
         height: 250,
         boxSizing: 'border-box',
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
             flexDirection: 'column',
             justifyContent: 'flex-start',
             padding: '20px 0',
-            width: '100vw'
+            width: '100%'
         },
     },
     spaceFill: {

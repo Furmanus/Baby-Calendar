@@ -32,6 +32,12 @@ const styles = {
         overflow: 'hidden',
         maxWidth: 700,
         maxHeight: 300,
+        '@media (max-width: 480px)': {
+            minHeight: '100%',
+            width: '100%',
+            padding: '10px',
+            margin: 0,
+        },
     },
     pageLoaded: {
         maxHeight: 800,
