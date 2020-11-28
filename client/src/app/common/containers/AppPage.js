@@ -147,7 +147,7 @@ class AppPageClass extends React.PureComponent {
                     <Box
                         className={`${classes.menuContainer} ${isMenuExpanded ? classes.menuContainerOpen : ''}`}
                     >
-                        <AppSideMenu/>
+                        <AppSideMenu onMenuItemClick={this.onHideMenuClick}/>
                     </Box>
                     <Box flexGrow={1}>
                         <AppMainSection/>

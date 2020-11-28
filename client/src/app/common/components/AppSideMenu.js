@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {List, ListItem, ListItemIcon, ListItemText, makeStyles} from '@material-ui/core';
 import {routes} from '../../routes';
 import {Link} from 'react-router-dom';
@@ -53,7 +54,7 @@ const useStyles = makeStyles({
     },
 });
 
-export function AppSideMenu() {
+export function AppSideMenu(props) {
     const classes = useStyles();
 
     return (
@@ -62,7 +63,7 @@ export function AppSideMenu() {
                 routes.reduce((result, route) => {
                     if (route.MenuIcon) {
                         result.push(
-                            <ListItem key={route.path} className={classes.listItem}>
+                            <ListItem key={route.path} className={classes.listItem} onClick={props.onMenuItemClick}>
                                 <Link className={classes.link} to={route.path}>
                                     <ListItemIcon className={classes.iconContainer}>
                                         <route.MenuIcon className={classes.icon}/>
@@ -85,3 +86,7 @@ export function AppSideMenu() {
         </List>
     );
 }
+
+AppSideMenu.propTypes = {
+    onMenuItemClick: PropTypes.func,
+};
