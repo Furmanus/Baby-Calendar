@@ -35,7 +35,7 @@ const styles = {
         '@media (max-width: 480px)': {
             minHeight: '100%',
             width: '100%',
-            padding: '10px',
+            padding: '20px',
             margin: 0,
         },
     },
