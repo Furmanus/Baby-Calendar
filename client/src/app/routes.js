@@ -1,8 +1,10 @@
-import {INFO_SECTION, INFO_SETTINGS_SECTION} from './common/constants/sections';
+import {INFO_SECTION, INFO_SETTINGS_SECTION, WEIGHT_SECTION} from './common/constants/sections';
 import {Info} from '@material-ui/icons';
 import {dashboardTranslations} from './common/constants/translations';
 import {InfoPage} from './views/Info/containers/InfoPage';
 import {InfoSettingsForm} from './views/InfoSettingsForm/containers/InfoSettingsForm';
+import {AppWeightManage} from './views/weight/containers/AppWeightManage';
+import {WeightIcon} from '../assets/weight';
 
 export const routes = [
     {
@@ -22,5 +24,13 @@ export const routes = [
         menuText: null,
         reducer: null,
         Component: InfoSettingsForm,
+    },
+    {
+        name: WEIGHT_SECTION,
+        path: '/weight',
+        MenuIcon: WeightIcon,
+        menuText: dashboardTranslations.en.WeightSection,
+        reducer: null,
+        Component: AppWeightManage,
     }
 ];

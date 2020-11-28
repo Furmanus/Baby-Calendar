@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {List, ListItem, ListItemIcon, ListItemText, makeStyles} from '@material-ui/core';
 import {routes} from '../../routes';
@@ -57,13 +57,19 @@ const useStyles = makeStyles({
 export function AppSideMenu(props) {
     const classes = useStyles();
 
+    const onMenuItemClick = useCallback(() => {
+        if (window.innerWidth < 480) {
+            props.onMenuItemClick();
+        }
+    }, []);
+
     return (
         <List className={classes.container} component="nav" aria-label="sections" disablePadding>
             {
                 routes.reduce((result, route) => {
                     if (route.MenuIcon) {
                         result.push(
-                            <ListItem key={route.path} className={classes.listItem} onClick={props.onMenuItemClick}>
+                            <ListItem key={route.path} className={classes.listItem} onClick={onMenuItemClick}>
                                 <Link className={classes.link} to={route.path}>
                                     <ListItemIcon className={classes.iconContainer}>
                                         <route.MenuIcon className={classes.icon}/>

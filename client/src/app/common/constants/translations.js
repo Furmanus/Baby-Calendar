@@ -3,5 +3,6 @@ export const dashboardTranslations = {
         HeaderText: 'Dashboard',
         SettingsMenuLogout: 'Logout',
         InfoSection: 'Info',
+        WeightSection: 'Weight',
     },
 };
