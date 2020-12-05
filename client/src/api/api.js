@@ -56,6 +56,9 @@ export function setChildDataApi(formData) {
 export function logoutApi() {
     return axios.get('/logout');
 }
+export function fetchChildWeightApi() {
+    return axios.get('/api/weight');
+}
 
 // HELPERS
 

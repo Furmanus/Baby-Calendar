@@ -177,5 +177,14 @@ router.post('/api/info', upload.single('childImage'), async (req, res) => {
         res.status(statusCode).send(response);
     });
 });
+router.get('/api/weight',(req, res) => {
+    const {
+        userId,
+    } = req.session;
+
+    databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response.childWeightEntries || response);
+    });
+});
 
 module.exports = router;
