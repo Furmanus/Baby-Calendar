@@ -7,6 +7,7 @@ import {appReducer as mainReducer} from './common/reducers/app_reducer';
 import './styles/app.less';
 import {AppPage} from './common/containers/AppPage';
 import {BrowserRouter} from 'react-router-dom';
+import logger from 'redux-logger';
 import {routes} from './routes';
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
         return result;
     }, {})),
 });
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const middlewares = [thunk, logger]; // TODO conditionally add logger middleware only for development mode
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 ReactDom.render(
     <Provider store={store}>

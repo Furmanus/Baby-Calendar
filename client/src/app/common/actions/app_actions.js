@@ -4,7 +4,10 @@ import {
     FETCH_CHILD_DATA_SUCCESS,
     FETCH_CHILD_DATA_FAILURE,
     SHOW_SNACKBAR_POPUP,
-    HIDE_SNACKBAR_POPUP, RESET_SNACKBAR_POPUP
+    HIDE_SNACKBAR_POPUP,
+    RESET_SNACKBAR_POPUP,
+    OPEN_CONFIRM_MODAL,
+    CLOSE_CONFIRM_MODAL,
 } from '../constants/app_actions';
 import {fetchChildDataApi} from '../../../api/api';
 
@@ -65,5 +68,30 @@ export function hideSnackBarDialog() {
 export function resetSnackBarDialogState() {
     return {
         type: RESET_SNACKBAR_POPUP,
+    };
+}
+export function showConfirm(config) {
+    const {
+        title,
+        content,
+        cancelText,
+        confirmText,
+        onConfirm,
+    } = config;
+
+    return {
+        type: OPEN_CONFIRM_MODAL,
+        confirmModalConfig: {
+            title,
+            content,
+            cancelText,
+            confirmText,
+            onConfirm,
+        },
+    };
+}
+export function closeConfirm() {
+    return {
+        type: CLOSE_CONFIRM_MODAL,
     };
 }

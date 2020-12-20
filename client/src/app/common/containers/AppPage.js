@@ -5,8 +5,14 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {AppHeader} from './AppHeader';
 import {AppSideMenu} from '../components/AppSideMenu';
-import {hideSnackBarDialog, resetSnackBarDialogState, toggleExpandMenuAction} from '../actions/app_actions';
 import {
+    closeConfirm,
+    hideSnackBarDialog,
+    resetSnackBarDialogState,
+    toggleExpandMenuAction,
+} from '../actions/app_actions';
+import {
+    getConfirmModalConfig,
     getSnackBarMenuModeSelector,
     getSnackBarMenuTextSelector,
     getSnackBarPopupExitCallback,
@@ -16,6 +22,7 @@ import {
 } from '../selectors/mainSelectors';
 import {AppMainSection} from '../components/AppMainSection';
 import {AppSnackBarPopup} from '../components/AppSnackBarPopup';
+import {AppConfirmModal} from '../components/AppConfirmModal';
 
 const MENU_CONTAINER_WIDTH = 184;
 const COLLAPSED_MENU_WIDTH = 60;
@@ -28,6 +35,7 @@ function mapStateToProps(state) {
         snackBarPopupText: getSnackBarMenuTextSelector(state),
         snackBarPopupExitCallback: getSnackBarPopupExitCallback(state),
         snackBarPopupHideDuration: getSnackBarPopupHideDuration(state),
+        confirmModalConfig: getConfirmModalConfig(state),
     };
 }
 
@@ -36,6 +44,7 @@ function mapDispatchToProps(dispatch) {
         toggleExpandMenu: () => dispatch(toggleExpandMenuAction()),
         hideSnackBarPopup: () => dispatch(hideSnackBarDialog()),
         resetSnackBar: () => dispatch(resetSnackBarDialogState()),
+        closeConfirm: () => dispatch(closeConfirm()),
     };
 }
 
@@ -100,6 +109,9 @@ class AppPageClass extends React.PureComponent {
         snackBarPopupHideDuration: PropTypes.number,
         resetSnackBar: PropTypes.func,
         hideSnackBarPopup: PropTypes.func,
+        confirmModalConfig: PropTypes.object,
+        showConfirm: PropTypes.func,
+        closeConfirm: PropTypes.func,
     };
 
     onHideMenuClick = () => {
@@ -110,11 +122,16 @@ class AppPageClass extends React.PureComponent {
         this.props.hideSnackBarPopup();
     };
 
+    closeConfirmDialog = () => {
+        this.props.closeConfirm();
+    };
+
     render() {
         const {
             classes,
             isMenuExpanded,
             hideSnackBarPopup,
+            confirmModalConfig,
             isSnackBarMenuOpen,
             snackBarPopupMode,
             snackBarPopupText,
@@ -161,6 +178,15 @@ class AppPageClass extends React.PureComponent {
                     hideDuration={snackBarPopupHideDuration}
                     callback={snackBarPopupExitCallback}
                     resetState={resetSnackBar}
+                />
+                <AppConfirmModal
+                    isOpen={!!confirmModalConfig}
+                    title={confirmModalConfig && confirmModalConfig.title}
+                    content={confirmModalConfig && confirmModalConfig.content}
+                    cancelButton={confirmModalConfig && confirmModalConfig.cancelText}
+                    confirmButton={confirmModalConfig && confirmModalConfig.confirmText}
+                    onConfirm={confirmModalConfig && confirmModalConfig.onConfirm}
+                    onClose={this.closeConfirmDialog}
                 />
             </Container>
         );

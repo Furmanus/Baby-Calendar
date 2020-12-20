@@ -4,7 +4,9 @@ import {
     FETCH_CHILD_DATA_SUCCESS,
     FETCH_CHILD_DATA_FAILURE,
     SHOW_SNACKBAR_POPUP,
-    HIDE_SNACKBAR_POPUP, RESET_SNACKBAR_POPUP
+    HIDE_SNACKBAR_POPUP,
+    RESET_SNACKBAR_POPUP,
+    OPEN_CONFIRM_MODAL, CLOSE_CONFIRM_MODAL
 } from '../constants/app_actions';
 
 const username = window.babyCalendarAppUser || 'anonymous';
@@ -25,6 +27,7 @@ export const initialState = {
     snackBarPopupHideDuration: 2000,
     snackBarPopupMode: 'info',
     snackBarPopupExitCallback: () => {},
+    confirmModalConfig: null,
 };
 
 export function appReducer(state = initialState, action) {
@@ -78,6 +81,16 @@ export function appReducer(state = initialState, action) {
                 snackBarPopupExitCallback: () => {},
                 snackBarPopupHideDuration: 2000,
 
+            };
+        case OPEN_CONFIRM_MODAL:
+            return {
+                ...state,
+                confirmModalConfig: action.confirmModalConfig,
+            };
+        case CLOSE_CONFIRM_MODAL:
+            return {
+                ...state,
+                confirmModalConfig: null,
             };
         default:
             return state;

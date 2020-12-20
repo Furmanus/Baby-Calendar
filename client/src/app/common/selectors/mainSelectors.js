@@ -32,3 +32,6 @@ export function getSnackBarPopupExitCallback(state) {
 export function getSnackBarPopupHideDuration(state) {
     return getMainStore(state).snackBarPopupHideDuration;
 }
+export function getConfirmModalConfig(state) {
+    return getMainStore(state).confirmModalConfig;
+}

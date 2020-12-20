@@ -3,3 +3,5 @@ node_modules
 client/dist
 .env
 certs
+backup.json
+backup2.json

@@ -5,6 +5,7 @@ import {InfoPage} from './views/Info/containers/InfoPage';
 import {InfoSettingsForm} from './views/InfoSettingsForm/containers/InfoSettingsForm';
 import {AppWeightManage} from './views/weight/containers/AppWeightManage';
 import {WeightIcon} from '../assets/weight';
+import {appWeightReducer} from './views/weight/reducers/appWeightReducer';
 
 export const routes = [
     {
@@ -30,7 +31,7 @@ export const routes = [
         path: '/weight',
         MenuIcon: WeightIcon,
         menuText: dashboardTranslations.en.WeightSection,
-        reducer: null,
+        reducer: appWeightReducer,
         Component: AppWeightManage,
     }
 ];

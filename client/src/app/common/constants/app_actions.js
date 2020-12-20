@@ -1,7 +1,9 @@
-export const TOGGLE_EXPAND_MENU_ACTION = 'expand_menu_action';
-export const FETCH_CHILD_DATA = 'fetch_child_data';
-export const FETCH_CHILD_DATA_SUCCESS = 'fetch_child_data_success';
-export const FETCH_CHILD_DATA_FAILURE = 'fetch_child_data_failure';
-export const SHOW_SNACKBAR_POPUP = 'show_snackbar_popup';
-export const HIDE_SNACKBAR_POPUP = 'hide_snackbar_popup';
-export const RESET_SNACKBAR_POPUP = 'reset_snackbar_popup';
+export const TOGGLE_EXPAND_MENU_ACTION = 'TOGGLE_EXPAND_MENU_ACTION';
+export const FETCH_CHILD_DATA = 'FETCH_CHILD_DATA';
+export const FETCH_CHILD_DATA_SUCCESS = 'FETCH_CHILD_DATA_SUCCESS';
+export const FETCH_CHILD_DATA_FAILURE = 'FETCH_CHILD_DATA_FAILURE';
+export const SHOW_SNACKBAR_POPUP = 'SHOW_SNACKBAR_POPUP';
+export const HIDE_SNACKBAR_POPUP = 'HIDE_SNACKBAR_POPUP';
+export const RESET_SNACKBAR_POPUP = 'RESET_SNACKBAR_POPUP';
+export const OPEN_CONFIRM_MODAL = 'OPEN_CONFIRM_MODAL';
+export const CLOSE_CONFIRM_MODAL = 'CLOSE_CONFIRM_MODAL';

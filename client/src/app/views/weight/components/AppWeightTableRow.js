@@ -15,6 +15,8 @@ export function AppWeightTableRow(props) {
     const {
         childWeight,
         weightDate,
+        onDeleteClick,
+        onEditClick,
     } = props;
     const [menuAnchor, setMenuAnchor] = React.useState(null);
     const onMoreActionsClick = (ev) => {
@@ -24,6 +26,14 @@ export function AppWeightTableRow(props) {
         setMenuAnchor(null);
     };
     const classes = useStyles();
+    const handleEditClick = () => {
+        closeMoreActions();
+        onEditClick(weightDate, childWeight);
+    };
+    const handleDeleteClick = () => {
+        closeMoreActions();
+        onDeleteClick(weightDate, childWeight);
+    };
 
     return (
         <TableRow>
@@ -49,10 +59,10 @@ export function AppWeightTableRow(props) {
                         onClose={closeMoreActions}
                         keepMounted
                     >
-                        <MenuItem>
+                        <MenuItem onClick={handleEditClick}>
                             <Typography className={classes.text}>{weightManageTranslations.en.MenuActionEdit}</Typography>
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={handleDeleteClick}>
                             <Typography className={classes.text}>{weightManageTranslations.en.MenuActionDelete}</Typography>
                         </MenuItem>
                     </Menu>
@@ -65,4 +75,6 @@ export function AppWeightTableRow(props) {
 AppWeightTableRow.propTypes = {
     weightDate: PropTypes.string.isRequired,
     childWeight: PropTypes.string.isRequired,
+    onEditClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
 };

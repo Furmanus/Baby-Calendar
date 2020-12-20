@@ -4,5 +4,9 @@ export const dashboardTranslations = {
         SettingsMenuLogout: 'Logout',
         InfoSection: 'Info',
         WeightSection: 'Weight',
+        ConfirmDialogDefaultTitle: 'Confirm',
+        ConfirmDialogDefaultOkButton: 'Ok',
+        ConfirmDialogDefaultContent: 'Are you sure?',
+        ConfirmDialogDefaultCancelButton: 'Cancel',
     },
 };

@@ -53,6 +53,22 @@ export function setChildDataApi(formData) {
         },
     });
 }
+export function createDataEntry(data) {
+    return axios.put('/api/data', data, {
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+export function replaceDataEntry(data) {
+    return axios.post('/api/data', data, {
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+export function deleteDataEntry(data) {
+    return axios.delete('/api/data', {
+        headers: {'Content-Type': 'application/json'},
+        data,
+    });
+}
 export function logoutApi() {
     return axios.get('/logout');
 }
