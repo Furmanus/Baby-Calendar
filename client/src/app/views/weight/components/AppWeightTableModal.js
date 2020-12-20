@@ -18,6 +18,9 @@ const useStyles = makeStyles({
         '& > div': {
             marginBottom: 30,
         },
+        '@media (max-width: 480px)': {
+            minWidth: 'unset',
+        },
     },
     header: {
         textAlign: 'center',

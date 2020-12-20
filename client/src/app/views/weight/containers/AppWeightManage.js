@@ -33,6 +33,13 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         overflowX: 'initial',
+        '@media (max-width: 480px)': {
+            minHeight: '100%',
+            width: '100%',
+            padding: '20px',
+            margin: 0,
+            minWidth: 'unset',
+        },
     },
     headerRow: {
         fontWeight: 500,
@@ -204,6 +211,7 @@ class AppWeightManageClass extends React.PureComponent {
                                         count={weightEntries.length}
                                         onChangePage={this.handlePageChange}
                                         onChangeRowsPerPage={this.handlePerPageChange}
+                                        labelRowsPerPage={weightManageTranslations.en.TablePaginationInputLabel}
                                     />
                                 </TableFooter>
                             </Table>

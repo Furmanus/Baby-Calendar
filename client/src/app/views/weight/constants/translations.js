@@ -21,5 +21,6 @@ export const weightManageTranslations = {
         DeleteConfirmConfirmText: 'Yes, delete',
         DeleteSuccessPopup: 'Entry deleted successfully',
         DeleteFailurePopup: 'Failed to delete entry',
+        TablePaginationInputLabel: 'Per page:',
     },
 };

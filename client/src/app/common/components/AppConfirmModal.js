@@ -10,6 +10,10 @@ const useStyles = makeStyles({
         padding: 30,
         display: 'flex',
         flexDirection: 'column',
+        '@media (max-width: 480px)': {
+            width: '100%',
+            padding: 0,
+        },
     },
     buttonsContainer: {
         padding: '16px 24px',
