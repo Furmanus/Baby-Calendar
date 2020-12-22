@@ -75,6 +75,9 @@ export function logoutApi() {
 export function fetchChildWeightApi() {
     return axios.get('/api/weight');
 }
+export function fetchChildInoculationsApi() {
+    return axios.get('/api/inoculations');
+}
 
 // HELPERS
 

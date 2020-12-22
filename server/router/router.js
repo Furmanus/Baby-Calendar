@@ -41,6 +41,7 @@ router.post('/login', async (req, res) => {
 router.get('/info', appRoutesHandler);
 router.get('/info/settings', appRoutesHandler);
 router.get('/weight', appRoutesHandler);
+router.get('/inoculations', appRoutesHandler);
 
 router.get('/logout', (req, res) => {
     delete req.session.userId;

@@ -4,6 +4,7 @@ export const dashboardTranslations = {
         SettingsMenuLogout: 'Logout',
         InfoSection: 'Info',
         WeightSection: 'Weight',
+        InoculationsSection: 'Inoculations',
         ConfirmDialogDefaultTitle: 'Confirm',
         ConfirmDialogDefaultOkButton: 'Ok',
         ConfirmDialogDefaultContent: 'Are you sure?',

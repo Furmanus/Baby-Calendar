@@ -123,6 +123,15 @@ router.get('/api/weight',(req, res) => {
         res.status(statusCode).send(response.childWeightEntries || response);
     });
 });
+router.get('/api/inoculations', (req, res) => {
+    const {
+        userId,
+    } = req.session;
+
+    databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response.childInoculationsEntries || response);
+    });
+});
 router.put('/api/data', async (req, res) => {
     const {
         userId
