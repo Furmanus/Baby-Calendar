@@ -366,17 +366,20 @@ const databaseMethods = {
                 if (inoculationEntry && originalInoculationEntry) {
                     const {
                         inoculationDate: originalInoculationDate,
-                        description: originalDescription
+                        description: originalDescription,
+                        inoculationSideEffects: originalInoculationSideEffects,
                     } = originalInoculationEntry;
 
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.map(entry => {
                         const {
                             inoculationDate,
-                            description
+                            description,
+                            inoculationSideEffects,
                         } = entry;
                         const areEntriesSame = (
                             originalInoculationDate === inoculationDate &&
-                            originalDescription === description
+                            originalDescription === description &&
+                            originalInoculationSideEffects === inoculationSideEffects
                         );
 
                         if (areEntriesSame && !entryChanged) {

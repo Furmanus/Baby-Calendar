@@ -4,19 +4,28 @@ import PropTypes from 'prop-types';
 import {
     getInoculationsEntriesSelector,
     isFetchingInoculationsEntriesSelector,
+    isSubmittingInoculationsFormSelector,
 } from '../selectors/appInoculationsSelectors';
-import {fetchInoculationsEntriesAction} from '../actions/inoculations_actions';
+import {fetchInoculationsEntriesAction} from '../actions/appInoculationsActions';
 import {materialDataTableStyles} from '../../../styles/materialStyles';
 import {
     Button,
     CircularProgress,
-    Paper, Table, TableBody, TableCell,
-    TableContainer, TableFooter, TableHead, TablePagination, TableRow,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableFooter,
+    TableHead,
+    TablePagination,
+    TableRow,
     withStyles
 } from '@material-ui/core';
 import {appInoculationsManageTranslations as translations} from '../contants/translations';
 import {tablePaginationOptions} from '../../../common/constants/data_table';
 import {AppInoculationsTableRow} from '../components/AppInoculationsTableRow';
+import {AppInoculationsCreateModal} from './AppInoculationsCreateModal';
 
 const styles = {
     ...materialDataTableStyles,
@@ -25,6 +34,7 @@ const styles = {
 function mapStateToProps(state) {
     return {
         isFetchingInoculationsEntries: isFetchingInoculationsEntriesSelector(state),
+        isSubmittingForm: isSubmittingInoculationsFormSelector(state),
         inoculationsEntries: getInoculationsEntriesSelector(state),
     };
 }
@@ -38,6 +48,7 @@ function mapDispatchToProps(dispatch) {
 class AppInoculationsManageClass extends React.PureComponent {
     static propTypes = {
         isFetchingInoculationsEntries: PropTypes.bool,
+        isSubmittingForm: PropTypes.bool,
         inoculationsEntries: PropTypes.arrayOf(PropTypes.object),
         fetchInoculationEntries: PropTypes.func,
     };
@@ -46,8 +57,9 @@ class AppInoculationsManageClass extends React.PureComponent {
         rowsPerPage: 5,
         currentPage: 0,
         modalState: null,
-        editedEntryDate: null,
-        editedEntryWeight: null,
+        editedInoculationDate: null,
+        editedInoculationDescription: null,
+        editedInoculationSideEffects: null,
     };
 
     componentDidMount() {
@@ -74,8 +86,28 @@ class AppInoculationsManageClass extends React.PureComponent {
         });
     };
 
+    onAddEntryClick = () => {
+        this.setState({
+            modalState: 'create',
+        });
+    };
+
+    onModalClose = () => {
+        this.setState({
+            modalState: null,
+            editedInoculationDate: null,
+            editedInoculationDescription: null,
+            editedInoculationSideEffects: null,
+        });
+    };
+
     onEditClick = (inoculationDate, inoculationDescription, inoculationSideEffects) => {
-        console.log(inoculationDate, inoculationDescription, inoculationSideEffects);
+        this.setState({
+            modalState: 'edit',
+            editedInoculationDate: inoculationDate,
+            editedInoculationDescription: inoculationDescription,
+            editedInoculationSideEffects: inoculationSideEffects,
+        });
     };
 
     onDeleteClick = (inoculationDate, inoculationDescription, inoculationSideEffects) => {
@@ -87,15 +119,20 @@ class AppInoculationsManageClass extends React.PureComponent {
             classes,
             inoculationsEntries,
             isFetchingInoculationsEntries,
+            isSubmittingForm,
         } = this.props;
         const {
             rowsPerPage,
             currentPage,
+            modalState,
+            editedInoculationDate,
+            editedInoculationDescription,
+            editedInoculationSideEffects,
         } = this.state;
 
         return (
             <React.Fragment>
-                {isFetchingInoculationsEntries || !inoculationsEntries ?
+                {isFetchingInoculationsEntries || isSubmittingForm || !inoculationsEntries ?
                     <CircularProgress className={classes.loader}/> :
                     <TableContainer className={classes.container} component={Paper}>
                         <h2 className={classes.heading}>{translations.en.ManageHeading}</h2>
@@ -105,6 +142,7 @@ class AppInoculationsManageClass extends React.PureComponent {
                             color="primary"
                             size="small"
                             className={classes.addEntryButton}
+                            onClick={this.onAddEntryClick}
                         >
                             {translations.en.AddEntryButton}
                         </Button>
@@ -126,7 +164,7 @@ class AppInoculationsManageClass extends React.PureComponent {
                                                 key={`${item.inoculationDate}-${item.description}`}
                                                 inoculationDate={item.inoculationDate}
                                                 inoculationDescription={item.description}
-                                                inoculationSideEffects={item.inoculationDescription}
+                                                inoculationSideEffects={item.inoculationSideEffects}
                                                 onEditClick={this.onEditClick}
                                                 onDeleteClick={this.onDeleteClick}
                                             />
@@ -147,6 +185,17 @@ class AppInoculationsManageClass extends React.PureComponent {
                             </TableFooter>
                         </Table>
                     </TableContainer>
+                }
+                {
+                    !!modalState && (
+                        <AppInoculationsCreateModal
+                            mode={modalState}
+                            onClose={this.onModalClose}
+                            editedInoculationDate={editedInoculationDate}
+                            editedInoculationDescription={editedInoculationDescription}
+                            editedInoculationSideEffects={editedInoculationSideEffects}
+                        />
+                    )
                 }
             </React.Fragment>
         );

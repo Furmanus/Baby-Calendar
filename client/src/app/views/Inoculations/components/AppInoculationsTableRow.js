@@ -28,9 +28,11 @@ export function AppInoculationsTableRow(props) {
         setMenuAnchor(null);
     };
     const handleDeleteClick = () => {
+        closeMenuActions();
         onDeleteClick(inoculationDate, inoculationDescription, inoculationSideEffects);
     };
     const handleEditClick = () => {
+        closeMenuActions();
         onEditClick(inoculationDate, inoculationDescription, inoculationSideEffects);
     };
 

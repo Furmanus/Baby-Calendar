@@ -9,3 +9,9 @@ export function isFetchingInoculationsEntriesSelector(state) {
 export function getInoculationsEntriesSelector(state) {
     return getInoculationsState(state).inoculationsEntries;
 }
+export function isSubmittingInoculationsFormSelector(state) {
+    return getInoculationsState(state).isSubmittingForm;
+}
+export function isDeletingInoculationEntrySelector(state) {
+    return getInoculationsState(state).isDeletingEntry;
+}

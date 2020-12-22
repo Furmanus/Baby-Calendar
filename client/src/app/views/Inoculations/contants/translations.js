@@ -9,5 +9,9 @@ export const appInoculationsManageTranslations = {
         TableActionsRowHeading: 'Actions',
         TableActionsEditMenuItem: 'Edit',
         TableActionsDeleteMenuItem: 'Delete',
+        CreateModalCreateTitle: 'Add entry',
+        CreateModalEditTitle: 'Edit entry',
+        CreateModalSubmitButtonAdd: 'Submit',
+        CreateModalSubmitButtonEdit: 'Edit',
     },
 };
