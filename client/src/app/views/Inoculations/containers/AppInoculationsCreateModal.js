@@ -17,7 +17,6 @@ export function AppInoculationsCreateModal(props) {
         onClose,
         editedInoculationDate,
         editedInoculationDescription,
-        editedInoculationSideEffects,
     } = props;
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -28,7 +27,6 @@ export function AppInoculationsCreateModal(props) {
 
     const [inoculationDate, setInoculationDate] = React.useState(mode === 'edit' ? editedInoculationDate : '');
     const [inoculationDescription, setInoculationDescription] = React.useState(mode === 'edit' ? editedInoculationDescription : '');
-    const [inoculationSideEffects, setInoculationSideEffects] = React.useState(mode === 'edit' ? editedInoculationSideEffects : '');
 
     const onFormSubmit = (ev) => {
         ev.preventDefault();
@@ -38,10 +36,8 @@ export function AppInoculationsCreateModal(props) {
             mode,
             editedInoculationDate,
             editedInoculationDescription,
-            editedInoculationSideEffects,
             inoculationDate,
             inoculationDescription,
-            inoculationSideEffects,
         }));
     };
     const onInoculationDateChange = (ev) => {
@@ -49,9 +45,6 @@ export function AppInoculationsCreateModal(props) {
     };
     const onInoculationDescriptionChange = (ev) => {
         setInoculationDescription(ev.target.value);
-    };
-    const onInoculationSideEffectsChange = (ev) => {
-        setInoculationSideEffects(ev.target.value);
     };
 
     return (
@@ -86,20 +79,6 @@ export function AppInoculationsCreateModal(props) {
                     multiline
                     fullWidth
                 />
-                <TextField
-                    id="inoculationSideEffects"
-                    variant="outlined"
-                    label="side effects"
-                    InputLabelProps={{
-                        ...labelProps,
-                        shrink: true,
-                    }}
-                    onChange={onInoculationSideEffectsChange}
-                    value={inoculationSideEffects}
-                    rows={5}
-                    multiline
-                    fullWidth
-                />
                 <Button
                     disabled={isSubmittingChildWeightForm}
                     variant="contained"
@@ -123,5 +102,4 @@ AppInoculationsCreateModal.propTypes = {
     onClose: PropTypes.func,
     editedInoculationDate: PropTypes.string,
     editedInoculationDescription: PropTypes.string,
-    editedInoculationSideEffects: PropTypes.string,
 };

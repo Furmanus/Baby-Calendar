@@ -7,7 +7,7 @@ import {
     isSubmittingInoculationsFormSelector,
 } from '../selectors/appInoculationsSelectors';
 import {deleteInoculationAttempt, fetchInoculationsEntriesAction} from '../actions/appInoculationsActions';
-import {materialDataTableStyles} from '../../../styles/materialStyles';
+import {materialDataTableCellStyles, materialDataTableStyles} from '../../../styles/materialStyles';
 import {
     Button,
     CircularProgress,
@@ -29,6 +29,7 @@ import {AppInoculationsCreateModal} from './AppInoculationsCreateModal';
 
 const styles = {
     ...materialDataTableStyles,
+    tableCell: materialDataTableCellStyles,
 };
 
 function mapStateToProps(state) {
@@ -43,7 +44,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchInoculationEntries: () => dispatch(fetchInoculationsEntriesAction()),
-        deleteInoculationEntry: (date, description, sideEffects) => dispatch(deleteInoculationAttempt(date, description, sideEffects)),
+        deleteInoculationEntry: (date, description) => dispatch(deleteInoculationAttempt(date, description)),
     };
 }
 
@@ -63,7 +64,6 @@ class AppInoculationsManageClass extends React.PureComponent {
         modalState: null,
         editedInoculationDate: null,
         editedInoculationDescription: null,
-        editedInoculationSideEffects: null,
     };
 
     componentDidMount() {
@@ -101,21 +101,19 @@ class AppInoculationsManageClass extends React.PureComponent {
             modalState: null,
             editedInoculationDate: null,
             editedInoculationDescription: null,
-            editedInoculationSideEffects: null,
         });
     };
 
-    onEditClick = (inoculationDate, inoculationDescription, inoculationSideEffects) => {
+    onEditClick = (inoculationDate, inoculationDescription) => {
         this.setState({
             modalState: 'edit',
             editedInoculationDate: inoculationDate,
             editedInoculationDescription: inoculationDescription,
-            editedInoculationSideEffects: inoculationSideEffects,
         });
     };
 
-    onDeleteClick = (inoculationDate, inoculationDescription, inoculationSideEffects) => {
-        this.props.deleteInoculationEntry(inoculationDate, inoculationDescription, inoculationSideEffects);
+    onDeleteClick = (inoculationDate, inoculationDescription) => {
+        this.props.deleteInoculationEntry(inoculationDate, inoculationDescription);
     };
 
     render() {
@@ -132,7 +130,6 @@ class AppInoculationsManageClass extends React.PureComponent {
             modalState,
             editedInoculationDate,
             editedInoculationDescription,
-            editedInoculationSideEffects,
         } = this.state;
 
         return (
@@ -154,10 +151,9 @@ class AppInoculationsManageClass extends React.PureComponent {
                         <Table className={classes.table}>
                             <TableHead>
                                 <TableRow className={classes.headerRow}>
-                                    <TableCell align="left">{translations.en.TableDateRowHeading}</TableCell>
-                                    <TableCell align="left">{translations.en.TableDescriptionRowHeading}</TableCell>
-                                    <TableCell align="left">{translations.en.TableSideEffectsRowHeading}</TableCell>
-                                    <TableCell align="right">{translations.en.TableActionsRowHeading}</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">{translations.en.TableDateRowHeading}</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">{translations.en.TableDescriptionRowHeading}</TableCell>
+                                    <TableCell className={classes.tableCell} align="right">{translations.en.TableActionsRowHeading}</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -169,7 +165,6 @@ class AppInoculationsManageClass extends React.PureComponent {
                                                 key={`${item.inoculationDate}-${item.description}`}
                                                 inoculationDate={item.inoculationDate}
                                                 inoculationDescription={item.description}
-                                                inoculationSideEffects={item.inoculationSideEffects}
                                                 onEditClick={this.onEditClick}
                                                 onDeleteClick={this.onDeleteClick}
                                             />
@@ -198,7 +193,6 @@ class AppInoculationsManageClass extends React.PureComponent {
                             onClose={this.onModalClose}
                             editedInoculationDate={editedInoculationDate}
                             editedInoculationDescription={editedInoculationDescription}
-                            editedInoculationSideEffects={editedInoculationSideEffects}
                         />
                     )
                 }

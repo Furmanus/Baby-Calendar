@@ -4,18 +4,19 @@ import {TableRow, TableCell, Menu, MenuItem, Box, IconButton, Typography} from '
 import {MoreVert} from '@material-ui/icons';
 import {appInoculationsManageTranslations as translations} from '../contants/translations';
 import {makeStyles} from '@material-ui/core/styles';
+import {materialDataTableCellStyles} from '../../../styles/materialStyles';
 
 const useStyles = makeStyles({
     text: {
         fontSize: 14,
     },
+    tableCell: materialDataTableCellStyles,
 });
 
 export function AppInoculationsTableRow(props) {
     const {
         inoculationDate,
         inoculationDescription,
-        inoculationSideEffects,
         onDeleteClick,
         onEditClick,
     } = props;
@@ -29,19 +30,18 @@ export function AppInoculationsTableRow(props) {
     };
     const handleDeleteClick = () => {
         closeMenuActions();
-        onDeleteClick(inoculationDate, inoculationDescription, inoculationSideEffects);
+        onDeleteClick(inoculationDate, inoculationDescription);
     };
     const handleEditClick = () => {
         closeMenuActions();
-        onEditClick(inoculationDate, inoculationDescription, inoculationSideEffects);
+        onEditClick(inoculationDate, inoculationDescription);
     };
 
     return (
         <TableRow>
-            <TableCell align="left">{inoculationDate}</TableCell>
-            <TableCell align="left">{inoculationDescription}</TableCell>
-            <TableCell align="left">{inoculationSideEffects}</TableCell>
-            <TableCell align="right">
+            <TableCell className={classes.tableCell} align="left">{inoculationDate}</TableCell>
+            <TableCell className={classes.tableCell} align="left">{inoculationDescription}</TableCell>
+            <TableCell className={classes.tableCell} align="right">
                 <Box>
                     <IconButton onClick={onMoreActionsClick}>
                         <MoreVert/>
@@ -77,7 +77,6 @@ export function AppInoculationsTableRow(props) {
 AppInoculationsTableRow.propTypes = {
     inoculationDate: PropTypes.string,
     inoculationDescription: PropTypes.string,
-    inoculationSideEffects: PropTypes.string,
     onEditClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
 };

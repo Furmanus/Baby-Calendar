@@ -259,9 +259,8 @@ const databaseMethods = {
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.filter(entry => {
                         const descriptionsEqual = (entry.description === childInoculationEntry.description);
                         const datesEqual = (entry.inoculationDate === childInoculationEntry.inoculationDate);
-                        const sideEffectsEqual = entry.inoculationSideEffects === childInoculationEntry.inoculationSideEffects;
 
-                        if (descriptionsEqual && datesEqual && sideEffectsEqual && !entryDeleted) {
+                        if (descriptionsEqual && datesEqual && !entryDeleted) {
                             entryDeleted = true;
                             return false;
                         }
@@ -368,19 +367,16 @@ const databaseMethods = {
                     const {
                         inoculationDate: originalInoculationDate,
                         description: originalDescription,
-                        inoculationSideEffects: originalInoculationSideEffects,
                     } = originalInoculationEntry;
 
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.map(entry => {
                         const {
                             inoculationDate,
                             description,
-                            inoculationSideEffects,
                         } = entry;
                         const areEntriesSame = (
                             originalInoculationDate === inoculationDate &&
-                            originalDescription === description &&
-                            originalInoculationSideEffects === inoculationSideEffects
+                            originalDescription === description
                         );
 
                         if (areEntriesSame && !entryChanged) {

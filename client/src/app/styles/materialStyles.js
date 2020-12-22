@@ -31,3 +31,6 @@ export const materialDataTableStyles = {
         alignSelf: 'flex-end',
     },
 };
+export const materialDataTableCellStyles = {
+    maxWidth: 200,
+};

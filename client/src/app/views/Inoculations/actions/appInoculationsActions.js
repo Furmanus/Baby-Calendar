@@ -47,10 +47,8 @@ export function submitInoculationForm(config) {
         mode,
         inoculationDate,
         inoculationDescription,
-        inoculationSideEffects,
         editedInoculationDate,
         editedInoculationDescription,
-        editedInoculationSideEffects,
         callback,
     } = config;
 
@@ -67,7 +65,6 @@ export function submitInoculationForm(config) {
                     childInoculationEntry: {
                         description: inoculationDescription,
                         inoculationDate,
-                        inoculationSideEffects,
                     },
                 });
             } else {
@@ -75,12 +72,10 @@ export function submitInoculationForm(config) {
                     inoculationEntry: {
                         description: inoculationDescription,
                         inoculationDate,
-                        inoculationSideEffects,
                     },
                     originalInoculationEntry: {
                         description: editedInoculationDescription,
                         inoculationDate: editedInoculationDate,
-                        inoculationSideEffects: editedInoculationSideEffects,
                     },
                 });
             }
@@ -109,7 +104,7 @@ function submitInoculationFormFailure() {
     };
 }
 
-export function deleteInoculationAttempt(inoculationDate, inoculationDescription, inoculationSideEffect) {
+export function deleteInoculationAttempt(inoculationDate, inoculationDescription) {
     return dispatch => {
         dispatch({
             type: DELETE_INOCULATION_ENTRY_ATTEMPT,
@@ -120,12 +115,12 @@ export function deleteInoculationAttempt(inoculationDate, inoculationDescription
             cancelText: translations.en.ConfirmDeleteDialogCancelButton,
             confirmText: translations.en.ConfirmDeleteDialogOkButton,
             onConfirm: () => {
-                dispatch(deleteInoculationConfirmed(inoculationDate, inoculationDescription, inoculationSideEffect));
+                dispatch(deleteInoculationConfirmed(inoculationDate, inoculationDescription));
             },
         }));
     };
 }
-function deleteInoculationConfirmed(inoculationDate, inoculationDescription, inoculationSideEffects) {
+function deleteInoculationConfirmed(inoculationDate, inoculationDescription) {
     return async dispatch => {
         dispatch({
             type: DELETE_INOCULATION_ENTRY_CONFIRMED,
@@ -137,7 +132,6 @@ function deleteInoculationConfirmed(inoculationDate, inoculationDescription, ino
                 childInoculationEntry: {
                     description: inoculationDescription,
                     inoculationDate,
-                    inoculationSideEffects,
                 },
             });
 
