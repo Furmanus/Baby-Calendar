@@ -259,8 +259,9 @@ const databaseMethods = {
                     userDataRecord.childInoculationsEntries = userDataRecord.childInoculationsEntries.filter(entry => {
                         const descriptionsEqual = (entry.description === childInoculationEntry.description);
                         const datesEqual = (entry.inoculationDate === childInoculationEntry.inoculationDate);
+                        const sideEffectsEqual = entry.inoculationSideEffects === childInoculationEntry.inoculationSideEffects;
 
-                        if (descriptionsEqual && datesEqual && !entryDeleted) {
+                        if (descriptionsEqual && datesEqual && sideEffectsEqual && !entryDeleted) {
                             entryDeleted = true;
                             return false;
                         }

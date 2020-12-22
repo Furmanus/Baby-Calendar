@@ -13,5 +13,9 @@ export const appInoculationsManageTranslations = {
         CreateModalEditTitle: 'Edit entry',
         CreateModalSubmitButtonAdd: 'Submit',
         CreateModalSubmitButtonEdit: 'Edit',
+        ConfirmDeleteDialogTitle: 'Please confirm',
+        ConfirmDeleteDialogContent: 'Are you sure you want to delete selected entry?',
+        ConfirmDeleteDialogOkButton: 'Yes, delete',
+        ConfirmDeleteDialogCancelButton: 'No, keep it',
     },
 };

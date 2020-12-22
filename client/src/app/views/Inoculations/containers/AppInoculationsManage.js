@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-    getInoculationsEntriesSelector,
+    getInoculationsEntriesSelector, isDeletingInoculationEntrySelector,
     isFetchingInoculationsEntriesSelector,
     isSubmittingInoculationsFormSelector,
 } from '../selectors/appInoculationsSelectors';
-import {fetchInoculationsEntriesAction} from '../actions/appInoculationsActions';
+import {deleteInoculationAttempt, fetchInoculationsEntriesAction} from '../actions/appInoculationsActions';
 import {materialDataTableStyles} from '../../../styles/materialStyles';
 import {
     Button,
@@ -34,6 +34,7 @@ const styles = {
 function mapStateToProps(state) {
     return {
         isFetchingInoculationsEntries: isFetchingInoculationsEntriesSelector(state),
+        isDeletingInoculationEntry: isDeletingInoculationEntrySelector(state),
         isSubmittingForm: isSubmittingInoculationsFormSelector(state),
         inoculationsEntries: getInoculationsEntriesSelector(state),
     };
@@ -42,15 +43,18 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchInoculationEntries: () => dispatch(fetchInoculationsEntriesAction()),
+        deleteInoculationEntry: (date, description, sideEffects) => dispatch(deleteInoculationAttempt(date, description, sideEffects)),
     };
 }
 
 class AppInoculationsManageClass extends React.PureComponent {
     static propTypes = {
         isFetchingInoculationsEntries: PropTypes.bool,
+        isDeletingInoculationEntry: PropTypes.bool,
         isSubmittingForm: PropTypes.bool,
         inoculationsEntries: PropTypes.arrayOf(PropTypes.object),
         fetchInoculationEntries: PropTypes.func,
+        deleteInoculationEntry: PropTypes.func,
     };
 
     state = {
@@ -111,7 +115,7 @@ class AppInoculationsManageClass extends React.PureComponent {
     };
 
     onDeleteClick = (inoculationDate, inoculationDescription, inoculationSideEffects) => {
-        console.log(inoculationDate, inoculationDescription, inoculationSideEffects);
+        this.props.deleteInoculationEntry(inoculationDate, inoculationDescription, inoculationSideEffects);
     };
 
     render() {
@@ -119,6 +123,7 @@ class AppInoculationsManageClass extends React.PureComponent {
             classes,
             inoculationsEntries,
             isFetchingInoculationsEntries,
+            isDeletingInoculationEntry,
             isSubmittingForm,
         } = this.props;
         const {
@@ -132,7 +137,7 @@ class AppInoculationsManageClass extends React.PureComponent {
 
         return (
             <React.Fragment>
-                {isFetchingInoculationsEntries || isSubmittingForm || !inoculationsEntries ?
+                {isFetchingInoculationsEntries || isDeletingInoculationEntry || isSubmittingForm || !inoculationsEntries ?
                     <CircularProgress className={classes.loader}/> :
                     <TableContainer className={classes.container} component={Paper}>
                         <h2 className={classes.heading}>{translations.en.ManageHeading}</h2>
