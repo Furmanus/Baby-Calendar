@@ -17,5 +17,11 @@ export const appInoculationsManageTranslations = {
         ConfirmDeleteDialogContent: 'Are you sure you want to delete selected entry?',
         ConfirmDeleteDialogOkButton: 'Yes, delete',
         ConfirmDeleteDialogCancelButton: 'No, keep it',
+        SnackbarEditEntrySuccess: 'Entry edited successfully',
+        SnackbarEditEntryFailure: 'Failed to edit entry: error',
+        SnackbarCreateEntrySuccess: 'Entry created successfully',
+        SnackbarCreateEntryFailure: 'Failed to create entry: error',
+        SnackbarDeleteEntrySuccess: 'Entry deleted successfully',
+        SnackbarDeleteEntryFailure: 'Failed to delete entry: error',
     },
 };

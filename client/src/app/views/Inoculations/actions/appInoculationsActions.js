@@ -10,7 +10,7 @@ import {
     SUBMIT_INOCULATIONS_FORM_SUCCESS,
 } from '../contants/actionTypes';
 import {createDataEntry, deleteDataEntry, fetchChildInoculationsApi, replaceDataEntry} from '../../../../api/api';
-import {closeConfirm, showConfirm} from '../../../common/actions/app_actions';
+import {closeConfirm, showConfirm, showSnackBarDialog} from '../../../common/actions/app_actions';
 import {appInoculationsManageTranslations as translations} from '../contants/translations';
 import {DELETE_WEIGHT_ENTRY_ATTEMPT_FAILURE} from '../../Weight/constants/actionTypes';
 
@@ -80,8 +80,16 @@ export function submitInoculationForm(config) {
                 });
             }
 
+            dispatch(showSnackBarDialog({
+                mode: 'success',
+                text: mode === 'create' ? translations.en.SnackbarCreateEntrySuccess : translations.en.SnackbarEditEntrySuccess,
+            }));
             dispatch(submitInoculationFormSuccess(response.data.childInoculationsEntries));
         } catch (e) {
+            dispatch(showSnackBarDialog({
+                mode: 'error',
+                text: mode === 'create' ? translations.en.SnackbarCreateEntryFailure : translations.en.SnackbarEditEntryFailure,
+            }));
             dispatch(submitInoculationFormFailure());
         }
 
@@ -135,8 +143,16 @@ function deleteInoculationConfirmed(inoculationDate, inoculationDescription) {
                 },
             });
 
+            dispatch(showSnackBarDialog({
+                mode: 'success',
+                text: translations.en.SnackbarDeleteEntrySuccess,
+            }));
             dispatch(deleteInoculationSuccess(response.data.childInoculationsEntries));
         } catch (e) {
+            dispatch(showSnackBarDialog({
+                mode: 'error',
+                text: translations.en.SnackbarDeleteEntryFailure,
+            }));
             dispatch(deleteInoculationFailure());
         }
     };
