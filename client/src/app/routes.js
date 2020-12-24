@@ -3,6 +3,7 @@ import {
     INFO_SETTINGS_SECTION,
     WEIGHT_SECTION,
     INOCULATIONS_SECTION,
+    INFECTIONS_SECTION,
 } from './common/constants/sections';
 import {dashboardTranslations} from './common/constants/translations';
 import {InfoPage} from './views/Info/containers/InfoPage';
@@ -14,6 +15,9 @@ import {InfoIcon} from '../assets/info';
 import {appWeightReducer} from './views/weight/reducers/appWeightReducer';
 import {appInoculationsReducer} from './views/Inoculations/reducers/appInoculationsReducer';
 import {AppInoculationsManage} from './views/Inoculations/containers/AppInoculationsManage';
+import {appInfectionsReducer} from './views/Infections/reducers/appInfectionsReducer';
+import {AppInfectionsManage} from './views/Infections/containers/AppInfectionsManage';
+import {ThermometerIcon} from '../assets/thermometer';
 
 export const routes = [
     {
@@ -50,5 +54,13 @@ export const routes = [
         reducer: appInoculationsReducer,
         Component: AppInoculationsManage,
 
-    }
+    },
+    {
+        name: INFECTIONS_SECTION,
+        path: '/infections',
+        MenuIcon: ThermometerIcon,
+        menuText: dashboardTranslations.en.InfectionsSection,
+        reducer: appInfectionsReducer,
+        Component: AppInfectionsManage,
+    },
 ];
