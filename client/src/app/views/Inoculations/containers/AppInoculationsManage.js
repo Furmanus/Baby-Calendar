@@ -2,35 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-    getInoculationsEntriesSelector, isDeletingInoculationEntrySelector,
+    getInoculationsEntriesSelector,
+    isDeletingInoculationEntrySelector,
     isFetchingInoculationsEntriesSelector,
     isSubmittingInoculationsFormSelector,
 } from '../selectors/appInoculationsSelectors';
-import {deleteInoculationAttempt, fetchInoculationsEntriesAction} from '../actions/appInoculationsActions';
-import {materialDataTableCellStyles, materialDataTableStyles} from '../../../styles/materialStyles';
 import {
-    Button,
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableFooter,
-    TableHead,
-    TablePagination,
-    TableRow,
-    withStyles
-} from '@material-ui/core';
+    deleteInoculationAttempt,
+    fetchInoculationsEntriesAction,
+    submitInoculationForm,
+} from '../actions/appInoculationsActions';
 import {appInoculationsManageTranslations as translations} from '../contants/translations';
-import {tablePaginationOptions} from '../../../common/constants/data_table';
-import {AppInoculationsTableRow} from '../components/AppInoculationsTableRow';
-import {AppInoculationsCreateModal} from './AppInoculationsCreateModal';
-
-const styles = {
-    ...materialDataTableStyles,
-    tableCell: materialDataTableCellStyles,
-};
+import {AppDataDashboard} from '../../../common/components/AppDataDashboard';
 
 function mapStateToProps(state) {
     return {
@@ -45,19 +28,24 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchInoculationEntries: () => dispatch(fetchInoculationsEntriesAction()),
         deleteInoculationEntry: (date, description) => dispatch(deleteInoculationAttempt(date, description)),
+        submitInoculationForm: (config) => dispatch(submitInoculationForm(config)),
     };
 }
 
-class AppInoculationsManageClass extends React.PureComponent {
-    static propTypes = {
-        isFetchingInoculationsEntries: PropTypes.bool,
-        isDeletingInoculationEntry: PropTypes.bool,
-        isSubmittingForm: PropTypes.bool,
-        inoculationsEntries: PropTypes.arrayOf(PropTypes.object),
-        fetchInoculationEntries: PropTypes.func,
-        deleteInoculationEntry: PropTypes.func,
-    };
+const columns = [
+    {
+        label: translations.en.TableDateRowHeading,
+        key: 'inoculationDate',
+        type: 'date',
+    },
+    {
+        label: translations.en.TableDescriptionRowHeading,
+        key: 'description',
+        type: 'multiline',
+    },
+];
 
+class AppInoculationsManageClass extends React.PureComponent {
     state = {
         rowsPerPage: 5,
         currentPage: 0,
@@ -104,101 +92,58 @@ class AppInoculationsManageClass extends React.PureComponent {
         });
     };
 
-    onEditClick = (inoculationDate, inoculationDescription) => {
-        this.setState({
-            modalState: 'edit',
-            editedInoculationDate: inoculationDate,
-            editedInoculationDescription: inoculationDescription,
-        });
-    };
-
     onDeleteClick = (inoculationDate, inoculationDescription) => {
         this.props.deleteInoculationEntry(inoculationDate, inoculationDescription);
     };
 
+    handleCreateFormSubmit = (mode, values, editedValues) => {
+        const {
+            submitInoculationForm,
+            isSubmittingForm,
+        } = this.props;
+
+        event.preventDefault();
+
+        if (!isSubmittingForm) {
+            submitInoculationForm({
+                editedInoculationDate: editedValues && editedValues.inoculationDate,
+                editedInoculationDescription: editedValues && editedValues.description,
+                mode,
+                ...values,
+            });
+        }
+    };
+
     render() {
         const {
-            classes,
             inoculationsEntries,
             isFetchingInoculationsEntries,
             isDeletingInoculationEntry,
             isSubmittingForm,
         } = this.props;
-        const {
-            rowsPerPage,
-            currentPage,
-            modalState,
-            editedInoculationDate,
-            editedInoculationDescription,
-        } = this.state;
 
         return (
-            <React.Fragment>
-                {isFetchingInoculationsEntries || isDeletingInoculationEntry || isSubmittingForm || !inoculationsEntries ?
-                    <CircularProgress className={classes.loader}/> :
-                    <TableContainer className={classes.container} component={Paper}>
-                        <h2 className={classes.heading}>{translations.en.ManageHeading}</h2>
-                        <Button
-                            variant="contained"
-                            type="submit"
-                            color="primary"
-                            size="small"
-                            className={classes.addEntryButton}
-                            onClick={this.onAddEntryClick}
-                        >
-                            {translations.en.AddEntryButton}
-                        </Button>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow className={classes.headerRow}>
-                                    <TableCell className={classes.tableCell} align="left">{translations.en.TableDateRowHeading}</TableCell>
-                                    <TableCell className={classes.tableCell} align="left">{translations.en.TableDescriptionRowHeading}</TableCell>
-                                    <TableCell className={classes.tableCell} align="right">{translations.en.TableActionsRowHeading}</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    [...inoculationsEntries].reverse()
-                                        .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                                        .map(item => (
-                                            <AppInoculationsTableRow
-                                                key={`${item.inoculationDate}-${item.description}`}
-                                                inoculationDate={item.inoculationDate}
-                                                inoculationDescription={item.description}
-                                                onEditClick={this.onEditClick}
-                                                onDeleteClick={this.onDeleteClick}
-                                            />
-                                        ))
-                                }
-                            </TableBody>
-                            <TableFooter>
-                                <TablePagination
-                                    rowsPerPageOptions={tablePaginationOptions}
-                                    colspan={3}
-                                    page={currentPage}
-                                    rowsPerPage={rowsPerPage}
-                                    count={inoculationsEntries.length}
-                                    onChangePage={this.handlePageChange}
-                                    onChangeRowsPerPage={this.handlePerPageChange}
-                                    labelRowsPerPage={translations.en.TablePaginationInputLabel}
-                                />
-                            </TableFooter>
-                        </Table>
-                    </TableContainer>
-                }
-                {
-                    !!modalState && (
-                        <AppInoculationsCreateModal
-                            mode={modalState}
-                            onClose={this.onModalClose}
-                            editedInoculationDate={editedInoculationDate}
-                            editedInoculationDescription={editedInoculationDescription}
-                        />
-                    )
-                }
-            </React.Fragment>
+            <AppDataDashboard
+                heading={translations.en.ManageHeading}
+                isSubmittingCreateForm={isSubmittingForm}
+                showLoader={isFetchingInoculationsEntries || isDeletingInoculationEntry}
+                handleDeleteEntry={this.onDeleteClick}
+                data={inoculationsEntries}
+                columns={columns}
+                handleCreateEntryFormSubmit={this.handleCreateFormSubmit}
+            />
         );
     }
 }
 
-export const AppInoculationsManage = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppInoculationsManageClass));
+export const AppInoculationsManage = connect(mapStateToProps, mapDispatchToProps)(AppInoculationsManageClass);
+
+AppInoculationsManage.propTypes = {
+    isFetchingInoculationsEntries: PropTypes.bool,
+    isDeletingInoculationEntry: PropTypes.bool,
+    isSubmittingForm: PropTypes.bool,
+    inoculationsEntries: PropTypes.arrayOf(PropTypes.object),
+    fetchInoculationEntries: PropTypes.func,
+    deleteInoculationEntry: PropTypes.func,
+    submitInoculationForm: PropTypes.func,
+};

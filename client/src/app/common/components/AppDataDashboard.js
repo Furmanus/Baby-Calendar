@@ -30,22 +30,6 @@ export const dataDashboardColumnsPropTypes = PropTypes.arrayOf(PropTypes.shape({
 }));
 
 class AppDataDashboardClass extends React.PureComponent {
-    static propTypes = {
-        classes: PropTypes.object,
-        heading: PropTypes.string,
-        data: PropTypes.arrayOf(PropTypes.object),
-        showLoader: PropTypes.bool,
-        columns: dataDashboardColumnsPropTypes,
-        addEntryButton: PropTypes.string,
-        handleCreateEntryFormSubmit: PropTypes.func,
-        isSubmittingCreateForm: PropTypes.bool,
-        handleDeleteEntry: PropTypes.func,
-    };
-
-    static defaultProps = {
-        addEntryButton: translations.en.AddEntryButtonDefaultText,
-    };
-
     state = {
         currentPage: 0,
         rowsPerPage: 5,
@@ -191,3 +175,19 @@ class AppDataDashboardClass extends React.PureComponent {
 }
 
 export const AppDataDashboard = withStyles(styles)(AppDataDashboardClass);
+
+AppDataDashboard.propTypes = {
+    classes: PropTypes.object,
+    heading: PropTypes.string,
+    data: PropTypes.arrayOf(PropTypes.object),
+    showLoader: PropTypes.bool,
+    columns: dataDashboardColumnsPropTypes,
+    addEntryButton: PropTypes.string,
+    handleCreateEntryFormSubmit: PropTypes.func,
+    isSubmittingCreateForm: PropTypes.bool,
+    handleDeleteEntry: PropTypes.func,
+};
+
+AppDataDashboard.defaultProps = {
+    addEntryButton: translations.en.AddEntryButtonDefaultText,
+};

@@ -46,10 +46,9 @@ export function submitInoculationForm(config) {
     const {
         mode,
         inoculationDate,
-        inoculationDescription,
+        description,
         editedInoculationDate,
         editedInoculationDescription,
-        callback,
     } = config;
 
     return async dispatch => {
@@ -63,14 +62,14 @@ export function submitInoculationForm(config) {
             if (mode === 'create') {
                 response = await createDataEntry({
                     childInoculationEntry: {
-                        description: inoculationDescription,
+                        description,
                         inoculationDate,
                     },
                 });
             } else {
                 response = await replaceDataEntry({
                     inoculationEntry: {
-                        description: inoculationDescription,
+                        description,
                         inoculationDate,
                     },
                     originalInoculationEntry: {
@@ -91,10 +90,6 @@ export function submitInoculationForm(config) {
                 text: mode === 'create' ? translations.en.SnackbarCreateEntryFailure : translations.en.SnackbarEditEntryFailure,
             }));
             dispatch(submitInoculationFormFailure());
-        }
-
-        if (callback) {
-            callback();
         }
     };
 }
@@ -128,7 +123,12 @@ export function deleteInoculationAttempt(inoculationDate, inoculationDescription
         }));
     };
 }
-function deleteInoculationConfirmed(inoculationDate, inoculationDescription) {
+function deleteInoculationConfirmed(entry) {
+    const {
+        description: inoculationDescription,
+        inoculationDate,
+    } = entry;
+
     return async dispatch => {
         dispatch({
             type: DELETE_INOCULATION_ENTRY_CONFIRMED,
