@@ -78,6 +78,9 @@ export function fetchChildWeightApi() {
 export function fetchChildInoculationsApi() {
     return axios.get('/api/inoculations');
 }
+export function fetchChildInfectionsApi() {
+    return axios.get('/api/infections');
+}
 
 // HELPERS
 

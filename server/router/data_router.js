@@ -132,6 +132,15 @@ router.get('/api/inoculations', (req, res) => {
         res.status(statusCode).send(response.childInoculationsEntries || response);
     });
 });
+router.get('/api/infections', (req, res) => {
+    const {
+        userId,
+    } = req.session;
+
+    databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response.childInfectionsEntries || response);
+    });
+});
 router.put('/api/data', async (req, res) => {
     const {
         userId
