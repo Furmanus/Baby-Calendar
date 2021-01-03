@@ -2,42 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
-    Paper,
-    CircularProgress,
-    withStyles,
-    TableHead,
-    Table,
-    TableRow,
-    TableCell,
-    TableBody,
-    TableContainer,
-    TableFooter,
-    TablePagination, Button,
-} from '@material-ui/core';
-import {weightManageTranslations} from '../constants/translations';
-import {AppWeightTableRow} from '../components/AppWeightTableRow';
-import {AppWeightTableModal} from '../components/AppWeightTableModal';
-import {
     getAppWeightEntriesSelector,
     isFetchingWeightEntriesSelector,
     isDeletingChildWeightEntrySelector,
+    isSubmittingChildWeightFormSelector,
 } from '../selectors/appWeightSelectors';
 import {
-    deleteWeightEntry,
-    fetchAppWeightData,
+    deleteWeightEntry, fetchAppWeightData, submitChildWeightFormAction,
 } from '../actions/appWeightActions';
-import {materialDataTableStyles} from '../../../styles/materialStyles';
-import {tablePaginationOptions} from '../../../common/constants/data_table';
-
-const styles = {
-    ...materialDataTableStyles,
-};
+import {weightManageTranslations as translations} from '../constants/translations';
+import {AppDataDashboard} from '../../../common/components/AppDataDashboard';
 
 function mapStateToProps(state) {
     return {
         weightEntries: getAppWeightEntriesSelector(state),
         isFetchingWeightEntries: isFetchingWeightEntriesSelector(state),
         isDeletingWeightEntry: isDeletingChildWeightEntrySelector(state),
+        isSubmittingWeightEntries: isSubmittingChildWeightFormSelector(state),
     };
 }
 
@@ -45,30 +26,32 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchWeightEntries: () => dispatch(fetchAppWeightData()),
         deleteEntry: (date, weight) => dispatch(deleteWeightEntry(date, weight)),
+        submitForm: (mode, weightDate, childWeight, editedWeightDate, editedChildWeight) => dispatch(submitChildWeightFormAction(mode, weightDate, childWeight, editedWeightDate, editedChildWeight)),
     };
 }
 
-class AppWeightManageClass extends React.PureComponent {
-    state = {
-        rowsPerPage: 5,
-        currentPage: 0,
-        modalState: null,
-        editedEntryDate: null,
-        editedEntryWeight: null,
-    };
+const columns = [
+    {
+        label: translations.en.WeightDateTableHeader,
+        key: 'weightDate',
+        type: 'date',
+    },
+    {
+        label: translations.en.ChildWeightTableHeader,
+        key: 'childWeight',
+        type: 'multiline',
+    },
+];
 
-    propTypes = {
-        classes: PropTypes.shape({
-            container: PropTypes.object,
-            loader: PropTypes.object,
-            table: PropTypes.object,
-            headerRow: PropTypes.object,
-        }),
+class AppWeightManageClass extends React.PureComponent {
+    static propTypes = {
         weightEntries: PropTypes.arrayOf(PropTypes.object),
         isFetchingWeightEntries: PropTypes.bool,
         isDeletingWeightEntry: PropTypes.bool,
         fetchWeightEntries: PropTypes.func,
         deleteEntry: PropTypes.func,
+        isSubmittingWeightEntries: PropTypes.bool,
+        submitForm: PropTypes.func,
     };
 
     componentDidMount() {
@@ -82,124 +65,52 @@ class AppWeightManageClass extends React.PureComponent {
         }
     }
 
-    handlePageChange = (event, newPage) => {
-        this.setState({
-            currentPage: newPage,
-        });
-    };
+    onDeleteClick = (entry) => {
+        const {
+            weightDate,
+            childWeight,
+        } = entry;
 
-    handlePerPageChange = (event) => {
-        this.setState({
-            rowsPerPage: parseInt(event.target.value, 10),
-            currentPage: 0,
-        });
-    };
-
-    onEditClick = (weightDate, childWeight) => {
-        this.setState({
-            modalState: 'edit',
-            editedEntryDate: weightDate,
-            editedEntryWeight: childWeight,
-        });
-    };
-
-    onDeleteClick = (weightDate, childWeight) => {
         this.props.deleteEntry(weightDate, childWeight);
     };
 
-    onAddEntryClick = () => {
-        this.setState({
-            modalState: 'create',
-        });
-    };
+    handleCreateFormSubmit = (mode, values, editedValues) => {
+        const {
+            isSubmittingWeightEntries,
+            submitForm,
+        } = this.props;
+        const {
+            weightDate,
+            childWeight,
+        } = values;
+        const editedWeightDate = editedValues && editedValues.weightDate;
+        const editedChildWeight = editedValues && editedValues.childWeight;
 
-    onModalClose = () => {
-        this.setState({
-            modalState: null,
-            editedEntryDate: null,
-            editedEntryWeight: null,
-        });
+        if (!isSubmittingWeightEntries) {
+            submitForm(mode, weightDate, childWeight, editedWeightDate, editedChildWeight);
+        }
     };
 
     render() {
         const {
-            currentPage,
-            rowsPerPage,
-            modalState,
-            editedEntryWeight,
-            editedEntryDate,
-        } = this.state;
-        const {
-            classes,
             weightEntries,
             isFetchingWeightEntries,
             isDeletingWeightEntry,
+            isSubmittingWeightEntries,
         } = this.props;
 
         return (
-            <React.Fragment>
-                {
-                    isFetchingWeightEntries || isDeletingWeightEntry || !weightEntries ?
-                        <CircularProgress className={classes.loader}/> :
-                        <TableContainer className={classes.container} component={Paper}>
-                            <h2 className={classes.heading}>{weightManageTranslations.en.WeightManageHeader}</h2>
-                            <Button
-                                variant="contained"
-                                type="submit"
-                                color="primary"
-                                size="small"
-                                className={classes.addEntryButton}
-                                onClick={this.onAddEntryClick}
-                            >
-                                {weightManageTranslations.en.AddEntryButton}
-                            </Button>
-                            <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow className={classes.headerRow}>
-                                        <TableCell align="left">{weightManageTranslations.en.WeightDateTableHeader}</TableCell>
-                                        <TableCell align="left">{weightManageTranslations.en.ChildWeightTableHeader}</TableCell>
-                                        <TableCell align="right">{weightManageTranslations.en.ActionHeader}</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        [...weightEntries].reverse()
-                                            .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                                            .map(item => (
-                                                <AppWeightTableRow
-                                                    key={`${item.weightDate}-${item.childWeight}`}
-                                                    weightDate={item.weightDate}
-                                                    childWeight={item.childWeight}
-                                                    onEditClick={this.onEditClick}
-                                                    onDeleteClick={this.onDeleteClick}
-                                                />
-                                            ))
-                                    }
-                                </TableBody>
-                                <TableFooter>
-                                    <TablePagination
-                                        rowsPerPageOptions={tablePaginationOptions}
-                                        colspan={3}
-                                        page={currentPage}
-                                        rowsPerPage={rowsPerPage}
-                                        count={weightEntries.length}
-                                        onChangePage={this.handlePageChange}
-                                        onChangeRowsPerPage={this.handlePerPageChange}
-                                        labelRowsPerPage={weightManageTranslations.en.TablePaginationInputLabel}
-                                    />
-                                </TableFooter>
-                            </Table>
-                        </TableContainer>
-                }
-                <AppWeightTableModal
-                    onClose={this.onModalClose}
-                    mode={modalState}
-                    editedDate={editedEntryDate}
-                    editedWeight={editedEntryWeight}
-                />
-            </React.Fragment>
+            <AppDataDashboard
+                heading={translations.en.WeightManageHeader}
+                isSubmittingCreateForm={isSubmittingWeightEntries}
+                showLoader={isFetchingWeightEntries || isDeletingWeightEntry}
+                handleDeleteEntry={this.onDeleteClick}
+                data={weightEntries}
+                columns={columns}
+                handleCreateEntryFormSubmit={this.handleCreateFormSubmit}
+            />
         );
     }
 }
 
-export const AppWeightManage = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppWeightManageClass));
+export const AppWeightManage = connect(mapStateToProps, mapDispatchToProps)(AppWeightManageClass);

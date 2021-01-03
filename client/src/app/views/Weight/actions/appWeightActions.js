@@ -48,7 +48,7 @@ function fetchAppWeightDataFailure() {
     };
 }
 
-export function submitChildWeightFormAction(mode, weightDate, childWeight, editedWeightDate, editedChildWeight, callback = () => {}) {
+export function submitChildWeightFormAction(mode, weightDate, childWeight, editedWeightDate, editedChildWeight) {
     return async dispatch => {
         dispatch({
             type: SUBMIT_CHILD_WEIGHT_FORM,
@@ -82,15 +82,12 @@ export function submitChildWeightFormAction(mode, weightDate, childWeight, edite
                 text: mode === 'create' ? weightManageTranslations.en.CreateEntryDialogSuccess : weightManageTranslations.en.EditEntryDialogSuccess,
             }));
             dispatch(submitCreateFormSuccess(response.data.childWeightEntries));
-
-            callback();
         } catch (error) {
             dispatch(showSnackBarDialog({
                 mode: 'error',
                 text: mode === 'create' ? weightManageTranslations.en.CreateEntryDialogFailure : weightManageTranslations.en.EditEntryDialogFailure,
             }));
             dispatch(submitCreateFormFailure());
-            callback();
         }
     };
 }

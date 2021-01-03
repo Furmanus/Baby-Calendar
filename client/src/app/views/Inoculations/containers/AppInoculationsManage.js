@@ -102,8 +102,6 @@ class AppInoculationsManageClass extends React.PureComponent {
             isSubmittingForm,
         } = this.props;
 
-        event.preventDefault();
-
         if (!isSubmittingForm) {
             submitInoculationForm({
                 editedInoculationDate: editedValues && editedValues.inoculationDate,
