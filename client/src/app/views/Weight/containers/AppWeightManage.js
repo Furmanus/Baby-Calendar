@@ -39,7 +39,7 @@ const columns = [
     {
         label: translations.en.ChildWeightTableHeader,
         key: 'childWeight',
-        type: 'multiline',
+        type: 'number',
     },
 ];
 

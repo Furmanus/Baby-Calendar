@@ -35,31 +35,28 @@ class AppDataTableCreateModalClass extends React.PureComponent {
     handlers = {};
 
     componentDidUpdate(prevProps) {
-        if (prevProps === this.props) {
-            return;
-        }
-
-        const {
-            data,
-            columns,
-        } = this.props;
-        const newState = columns.reduce((result, current) => {
+        if (!prevProps.data && this.props.data) {
             const {
-                key,
-            } = current;
+                data, columns,
+            } = this.props;
+            const newState = columns.reduce((result, current) => {
+                const {
+                    key,
+                } = current;
 
-            // TODO think about better and more optimal solution...
-            result[key] = data && data[key] || '';
-            this.handlers[key] = (e) => {
-                this.setState({
-                    [key]: e.target.value,
-                });
-            };
+                // TODO think about better and more optimal solution...
+                result[key] = data && data[key] || '';
+                this.handlers[key] = (e) => {
+                    this.setState({
+                        [key]: e.target.value,
+                    });
+                };
 
-            return result;
-        }, {});
+                return result;
+            }, {});
 
-        this.setState(newState);
+            this.setState(newState);
+        }
     }
 
     onFormSubmit = (e) => {
@@ -117,6 +114,7 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                             id={key}
                             variant="outlined"
                             label={label}
+                            disabled={isSubmittingForm}
                             InputLabelProps={{
                                 ...labelProps,
                                 shrink: true,
@@ -125,6 +123,24 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                             value={this.state[key]}
                             rows={5}
                             multiline
+                            fullWidth
+                        />
+                    );
+                    break;
+                case 'number':
+                    formFields.push(
+                        <TextField
+                            id={key}
+                            type="number"
+                            variant="outlined"
+                            label={label}
+                            disabled={isSubmittingForm}
+                            InputLabelProps={{
+                                ...labelProps,
+                                shrink: true,
+                            }}
+                            onChange={this.handlers[key]}
+                            value={this.state[key]}
                             fullWidth
                         />
                     );
