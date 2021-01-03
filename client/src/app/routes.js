@@ -4,6 +4,7 @@ import {
     WEIGHT_SECTION,
     INOCULATIONS_SECTION,
     INFECTIONS_SECTION,
+    NOTES_SECTION,
 } from './common/constants/sections';
 import {dashboardTranslations} from './common/constants/translations';
 import {InfoPage} from './views/Info/containers/InfoPage';
@@ -18,6 +19,9 @@ import {AppInoculationsManage} from './views/Inoculations/containers/AppInoculat
 import {appInfectionsReducer} from './views/Infections/reducers/appInfectionsReducer';
 import {AppInfectionsManage} from './views/Infections/containers/AppInfectionsManage';
 import {ThermometerIcon} from '../assets/thermometer';
+import {NotesIcon} from '../assets/notes';
+import {appNotesReducer} from './views/Notes/reducers/appNotesReducer';
+import {AppNotesManage} from './views/Notes/containers/AppNotesManage';
 
 export const routes = [
     {
@@ -62,5 +66,13 @@ export const routes = [
         menuText: dashboardTranslations.en.InfectionsSection,
         reducer: appInfectionsReducer,
         Component: AppInfectionsManage,
+    },
+    {
+        name: NOTES_SECTION,
+        path: '/notes',
+        MenuIcon: NotesIcon,
+        menuText: dashboardTranslations.en.NotesSection,
+        reducer: appNotesReducer,
+        Component: AppNotesManage,
     },
 ];

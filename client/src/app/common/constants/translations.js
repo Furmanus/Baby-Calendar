@@ -6,6 +6,7 @@ export const dashboardTranslations = {
         WeightSection: 'Weight',
         InoculationsSection: 'Inoculations',
         InfectionsSection: 'Infections',
+        NotesSection: 'Notes',
         ConfirmDialogDefaultTitle: 'Confirm',
         ConfirmDialogDefaultOkButton: 'Ok',
         ConfirmDialogDefaultContent: 'Are you sure?',
