@@ -141,6 +141,15 @@ router.get('/api/infections', (req, res) => {
         res.status(statusCode).send(response.childInfectionsEntries || response);
     });
 });
+router.get('/api/notes', (req, res) => {
+    const {
+        userId,
+    } = req.session;
+
+    databaseHelper.getUserData({userId}, (statusCode, response) => {
+        res.status(statusCode).send(response.childNotesEntries || response);
+    });
+});
 router.put('/api/data', async (req, res) => {
     const {
         userId
