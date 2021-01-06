@@ -37,11 +37,17 @@ const columns = [
         label: translations.en.TableDateColumnLabel,
         key: 'date',
         type: 'date',
+        validation: {
+            isRequired: true,
+        },
     },
     {
         label: translations.en.TableDescriptionColumnLabel,
         key: 'description',
         type: 'multiline',
+        validation: {
+            isRequired: true,
+        },
     },
 ];
 

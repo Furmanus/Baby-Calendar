@@ -26,9 +26,12 @@ const styles = {
 };
 
 export const dataDashboardColumnsPropTypes = PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    label: PropTypes.string,
-    type: PropTypes.oneOfType(['text', 'multiline', 'number']),
+    key: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.oneOfType(['text', 'multiline', 'number']).isRequired,
+    validation: PropTypes.shape({
+        isRequired: PropTypes.bool,
+    }),
 }));
 
 class AppDataDashboardClass extends React.PureComponent {

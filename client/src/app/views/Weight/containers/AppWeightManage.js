@@ -35,11 +35,17 @@ const columns = [
         label: translations.en.WeightDateTableHeader,
         key: 'weightDate',
         type: 'date',
+        validation: {
+            isRequired: true,
+        },
     },
     {
         label: translations.en.ChildWeightTableHeader,
         key: 'childWeight',
         type: 'number',
+        validation: {
+            isRequired: true,
+        },
     },
 ];
 

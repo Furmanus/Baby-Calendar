@@ -37,11 +37,17 @@ const columns = [
         label: translations.en.TableDateRowHeading,
         key: 'inoculationDate',
         type: 'date',
+        validation: {
+            isRequired: true,
+        },
     },
     {
         label: translations.en.TableDescriptionRowHeading,
         key: 'description',
         type: 'multiline',
+        validation: {
+            isRequired: true,
+        },
     },
 ];
 

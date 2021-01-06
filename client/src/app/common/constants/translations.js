@@ -20,5 +20,6 @@ export const dashboardTranslations = {
         AddEntryModalEdit: 'Edit entry',
         AddEntrySubmitButtonCreate: 'Create',
         AddEntrySubmitButtonEdit: 'Edit',
+        FieldIsRequiredHintError: 'Required field',
     },
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, CircularProgress, Dialog, DialogTitle, TextField, withStyles} from '@material-ui/core';
-import {labelProps} from '../../../../common/helpers/form';
+import {helperProps, labelProps} from '../../../../common/helpers/form';
 import {dataDashboardColumnsPropTypes} from '../AppDataDashboard';
-import {dashboardTranslations as translations} from '../../constants/translations';
+import {dashboardTranslations, dashboardTranslations as translations} from '../../constants/translations';
 import {createModalCommonStyles} from '../../constants/create_modal';
 
 class AppDataTableCreateModalClass extends React.PureComponent {
@@ -99,7 +99,11 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                 key,
                 type,
                 label,
+                validation,
             } = column;
+            const {isRequired} = validation;
+            const value = this.state[key];
+            const formHelperText = isRequired && (!value || !value.length) ? dashboardTranslations.en.FieldIsRequiredHintError : '';
 
             switch (type) {
                 case 'date':
@@ -115,7 +119,10 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                             }}
                             type="date"
                             onChange={this.handlers[key]}
-                            value={this.state[key]}
+                            error={!!formHelperText}
+                            helperText={formHelperText}
+                            FormHelperTextProps={helperProps}
+                            value={value}
                             fullWidth
                         />
                     );
@@ -132,7 +139,10 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                                 shrink: true,
                             }}
                             onChange={this.handlers[key]}
-                            value={this.state[key]}
+                            value={value}
+                            error={!!formHelperText}
+                            helperText={formHelperText}
+                            FormHelperTextProps={helperProps}
                             rows={5}
                             multiline
                             fullWidth
@@ -151,8 +161,11 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                                 ...labelProps,
                                 shrink: true,
                             }}
+                            error={!!formHelperText}
+                            helperText={formHelperText}
+                            FormHelperTextProps={helperProps}
                             onChange={this.handlers[key]}
-                            value={this.state[key]}
+                            value={value}
                             fullWidth
                         />
                     );
