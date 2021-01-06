@@ -20,7 +20,10 @@ class AppDataTableCreateModalClass extends React.PureComponent {
         data: {},
     };
 
-    state = {};
+    state = {
+        interactedElements: new Set(),
+        focusedElement: null,
+    };
 
     get formValues() {
         const {
@@ -35,6 +38,8 @@ class AppDataTableCreateModalClass extends React.PureComponent {
     }
 
     handlers = {};
+    focusHandlers = {};
+    blurHandlers = {};
 
     componentDidMount() {
         const {
@@ -47,6 +52,17 @@ class AppDataTableCreateModalClass extends React.PureComponent {
             this.handlers[key] = (e) => {
                 this.setState({
                     [key]: e.target.value,
+                });
+            };
+            this.focusHandlers[key] = () => {
+                this.setState(state => ({
+                    focusedElement: key,
+                    interactedElements: new Set([...Array.from(state.interactedElements), key]),
+                }));
+            };
+            this.blurHandlers[key] = () => {
+                this.setState({
+                    focusedElement: null,
                 });
             };
         }
@@ -101,9 +117,13 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                 label,
                 validation,
             } = column;
+            const {focusedElement, interactedElements} = this.state;
             const {isRequired} = validation;
             const value = this.state[key];
-            const formHelperText = isRequired && (!value || !value.length) ? dashboardTranslations.en.FieldIsRequiredHintError : '';
+            const isFocused = focusedElement === key;
+            const wasFocused = interactedElements.has(key);
+            const hasError = isRequired && (!value || !value.length) && !isFocused && wasFocused;
+            const formHelperText = hasError ? dashboardTranslations.en.FieldIsRequiredHintError : '';
 
             switch (type) {
                 case 'date':
@@ -119,7 +139,9 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                             }}
                             type="date"
                             onChange={this.handlers[key]}
-                            error={!!formHelperText}
+                            onFocus={this.focusHandlers[key]}
+                            onBlur={this.blurHandlers[key]}
+                            error={hasError}
                             helperText={formHelperText}
                             FormHelperTextProps={helperProps}
                             value={value}
@@ -139,8 +161,10 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                                 shrink: true,
                             }}
                             onChange={this.handlers[key]}
+                            onFocus={this.focusHandlers[key]}
+                            onBlur={this.blurHandlers[key]}
                             value={value}
-                            error={!!formHelperText}
+                            error={hasError}
                             helperText={formHelperText}
                             FormHelperTextProps={helperProps}
                             rows={5}
@@ -161,10 +185,12 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                                 ...labelProps,
                                 shrink: true,
                             }}
-                            error={!!formHelperText}
+                            error={hasError}
                             helperText={formHelperText}
                             FormHelperTextProps={helperProps}
                             onChange={this.handlers[key]}
+                            onFocus={this.focusHandlers[key]}
+                            onBlur={this.blurHandlers[key]}
                             value={value}
                             fullWidth
                         />
