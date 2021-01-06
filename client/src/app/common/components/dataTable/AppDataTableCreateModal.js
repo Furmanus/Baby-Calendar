@@ -20,6 +20,8 @@ class AppDataTableCreateModalClass extends React.PureComponent {
         data: {},
     };
 
+    state = {};
+
     get formValues() {
         const {
             columns,
@@ -34,6 +36,22 @@ class AppDataTableCreateModalClass extends React.PureComponent {
 
     handlers = {};
 
+    componentDidMount() {
+        const {
+            columns,
+        } = this.props;
+
+        for (const column of columns) {
+            const { key } = column;
+
+            this.handlers[key] = (e) => {
+                this.setState({
+                    [key]: e.target.value,
+                });
+            };
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (!prevProps.data && this.props.data) {
             const {
@@ -43,14 +61,8 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                 const {
                     key,
                 } = current;
-
                 // TODO think about better and more optimal solution...
                 result[key] = data && data[key] || '';
-                this.handlers[key] = (e) => {
-                    this.setState({
-                        [key]: e.target.value,
-                    });
-                };
 
                 return result;
             }, {});

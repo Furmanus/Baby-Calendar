@@ -7,8 +7,10 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer, TableFooter,
-    TableHead, TablePagination,
+    TableContainer,
+    TableFooter,
+    TableHead,
+    TablePagination,
     TableRow,
     withStyles,
 } from '@material-ui/core';
