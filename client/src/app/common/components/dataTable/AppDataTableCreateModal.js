@@ -177,7 +177,7 @@ class AppDataTableCreateModalClass extends React.PureComponent {
         const submitButtonLoaderClassNames = `${classes.loaderContainer} ${isSubmittingForm ? classes.loaderContainerVisible : ''}`;
 
         return (
-            <Dialog open={!!mode} onClose={onClose}>
+            <Dialog classes={{paper: classes.paperContainer}} open={!!mode} onClose={onClose}>
                 <DialogTitle className={classes.header}>{title}</DialogTitle>
                 <form className={classes.form} onSubmit={this.onFormSubmit}>
                     {this.renderFormFields()}

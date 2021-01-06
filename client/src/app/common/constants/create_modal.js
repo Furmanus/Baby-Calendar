@@ -30,4 +30,11 @@ export const createModalCommonStyles = {
     loaderContainerVisible: {
         maxWidth: '40px',
     },
+    paperContainer: {
+        width: 560,
+        paddingTop: 8,
+        '@media (max-width: 480px)': {
+            margin: 8,
+        },
+    },
 };
