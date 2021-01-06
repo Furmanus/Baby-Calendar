@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {AppDataDashboard} from '../../../common/components/AppDataDashboard';
 import {
     getNotesEntriesSelector,
+    isDeletingNoteEntrySelector,
     isFetchingNotesEntriesSelector,
     isSubmittingCreateFormSelector,
 } from '../selectors/appNotesSelectors';
 import {
-    fetchNotesEntriesAction,
-    submitNotesFormAction,
+    deleteNoteEntry, fetchNotesEntriesAction, submitNotesFormAction,
 } from '../actions/appNotesActions';
 import {appNotesManageTranslations as translations} from '../constants/translations';
 
@@ -18,6 +18,7 @@ function mapStateToProps(state) {
         isFetchingNotesEntries: isFetchingNotesEntriesSelector(state),
         notesEntries: getNotesEntriesSelector(state),
         isSubmittingCreateForm: isSubmittingCreateFormSelector(state),
+        isDeletingNoteEntry: isDeletingNoteEntrySelector(state),
     };
 }
 
@@ -25,6 +26,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchNotesEntries: () => dispatch(fetchNotesEntriesAction()),
         submitCreateForm: (config) => dispatch(submitNotesFormAction(config)),
+        deleteNoteEntry: (date, description) => dispatch(deleteNoteEntry(date, description)),
     };
 }
 
@@ -50,6 +52,8 @@ class AppNotesManageClass extends React.PureComponent {
         fetchNotesEntries: PropTypes.func,
         isSubmittingCreateForm: PropTypes.bool,
         submitCreateForm: PropTypes.func,
+        isDeletingNoteEntry: PropTypes.bool,
+        deleteNoteEntry: PropTypes.func,
     };
 
     componentDidMount() {
@@ -63,9 +67,13 @@ class AppNotesManageClass extends React.PureComponent {
         }
     }
 
-    onDeleteClick = (noteDate, noteDescription) => {
-        // this.props.deleteNoteEntry(noteDate, noteDescription);
-        console.log(noteDate, noteDescription);
+    onDeleteClick = (entry) => {
+        const {
+            date,
+            description,
+        } = entry;
+
+        this.props.deleteNoteEntry(date, description);
     };
 
     handleCreateFormSubmit = (mode, values, editedValues) => {
@@ -89,11 +97,12 @@ class AppNotesManageClass extends React.PureComponent {
             isFetchingNotesEntries,
             notesEntries,
             isSubmittingCreateForm,
+            isDeletingNoteEntry,
         } = this.props;
 
         return (
             <AppDataDashboard
-                showLoader={isFetchingNotesEntries}
+                showLoader={isFetchingNotesEntries || isDeletingNoteEntry}
                 data={notesEntries}
                 heading={translations.en.ManageHeading}
                 columns={columns}

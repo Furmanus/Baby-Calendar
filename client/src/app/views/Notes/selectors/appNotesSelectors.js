@@ -13,3 +13,7 @@ export function getNotesEntriesSelector(state) {
 export function isSubmittingCreateFormSelector(state) {
     return getAppNotesState(state).isSubmittingCreateForm;
 }
+
+export function isDeletingNoteEntrySelector(state) {
+    return getAppNotesState(state).isDeletingEntry;
+}

@@ -1,4 +1,7 @@
 import {
+    DELETE_NOTE_ENTRY_CONFIRMED,
+    DELETE_NOTE_ENTRY_FAILURE,
+    DELETE_NOTE_ENTRY_SUCCESS,
     FETCH_NOTES_ENTRIES,
     FETCH_NOTES_ENTRIES_FAILURE,
     FETCH_NOTES_ENTRIES_SUCCESS,
@@ -11,6 +14,7 @@ const initialState = {
     isFetchingNotesEntries: false,
     notesEntries: null,
     isSubmittingCreateForm: false,
+    isDeletingEntry: false,
 };
 
 export function appNotesReducer(state = initialState, action) {
@@ -50,6 +54,22 @@ export function appNotesReducer(state = initialState, action) {
             return {
                 ...state,
                 isSubmittingCreateForm: false,
+            };
+        case DELETE_NOTE_ENTRY_CONFIRMED:
+            return {
+                ...state,
+                isDeletingEntry: true,
+            };
+        case DELETE_NOTE_ENTRY_SUCCESS:
+            return {
+                ...state,
+                isDeletingEntry: false,
+                notesEntries: action.notesEntries,
+            };
+        case DELETE_NOTE_ENTRY_FAILURE:
+            return {
+                ...state,
+                isDeletingEntry: false,
             };
         default:
             return state;
