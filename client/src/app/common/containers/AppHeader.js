@@ -32,6 +32,11 @@ const styles = {
     menuItem: {
         fontSize: 14,
     },
+    menuButton: {
+        '@media (min-width: 480px)': {
+            marginLeft: -24,
+        },
+    },
 };
 
 class AppHeaderClass extends React.PureComponent {
@@ -66,7 +71,7 @@ class AppHeaderClass extends React.PureComponent {
 
             window.location.reload();
         } catch (error) {
-            // TODO handle error
+            console.error(error);
         }
     };
 
@@ -84,7 +89,7 @@ class AppHeaderClass extends React.PureComponent {
                 <Toolbar>
                     {
                         !isMenuExpanded && (
-                            <IconButton onClick={this.onMenuClick} edge="start" disableRipple>
+                            <IconButton className={classes.menuButton} onClick={this.onMenuClick} edge="start" disableRipple>
                                 <MenuIcon className={classes.icon}/>
                             </IconButton>
                         )
