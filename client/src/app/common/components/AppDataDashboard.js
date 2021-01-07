@@ -156,6 +156,7 @@ class AppDataDashboardClass extends React.PureComponent {
                                     <TablePagination
                                         rowsPerPageOptions={tablePaginationOptions}
                                         colspan={3}
+                                        labelRowsPerPage={translations.en.PaginationPerPageLabel}
                                         page={currentPage}
                                         rowsPerPage={rowsPerPage}
                                         count={data.length}

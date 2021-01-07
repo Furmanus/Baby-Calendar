@@ -23,5 +23,6 @@ export const dashboardTranslations = {
         FieldIsRequiredHintError: 'Required field, enter value',
         FieldDefaultHint: 'Required field',
         FieldDefaultOptionalHint: 'Optional field',
+        PaginationPerPageLabel: 'Per page:'
     },
 };
