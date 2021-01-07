@@ -10,7 +10,7 @@ export const materialDataTableStyles = {
         '@media (max-width: 480px)': {
             minHeight: '100%',
             width: '100%',
-            padding: '20px',
+            padding: '0 20px 20px',
             margin: 0,
             minWidth: 'unset',
         },
@@ -26,6 +26,7 @@ export const materialDataTableStyles = {
     },
     heading: {
         textAlign: 'center',
+        marginBottom: 16,
     },
     addEntryButton: {
         alignSelf: 'flex-end',
