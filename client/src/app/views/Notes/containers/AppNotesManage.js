@@ -66,9 +66,10 @@ class AppNotesManageClass extends React.PureComponent {
         const {
             isFetchingNotesEntries,
             fetchNotesEntries,
+            notesEntries,
         } = this.props;
 
-        if (!isFetchingNotesEntries) {
+        if (!isFetchingNotesEntries && !notesEntries) {
             fetchNotesEntries();
         }
     }
