@@ -23,6 +23,7 @@ class AppDataTableCreateModalClass extends React.PureComponent {
     state = {
         interactedElements: new Set(),
         focusedElement: null,
+        areFormFieldsValid: false,
     };
 
     get formValues() {
@@ -35,6 +36,14 @@ class AppDataTableCreateModalClass extends React.PureComponent {
 
             return result;
         }, {});
+    }
+
+    get areFormFieldsValid() {
+        const {
+            columns,
+        } = this.props;
+
+        return columns.every(this.isFieldValid);
     }
 
     handlers = {};
@@ -96,8 +105,46 @@ class AppDataTableCreateModalClass extends React.PureComponent {
 
         e.preventDefault();
 
-        handleSubmit(mode, this.formValues, data);
+        if (this.areFormFieldsValid) {
+            handleSubmit(mode, this.formValues, data);
+        }
     };
+
+    isFieldValid = (column) => {
+        const {validation, key} = column;
+
+        if (validation) {
+            const {isRequired} = validation;
+
+            if (isRequired) {
+                const value = this.state[key];
+
+                return value && value.length;
+            }
+        }
+    };
+
+    doesFieldHaveError(key) {
+        const {columns} = this.props;
+        const validation = columns.find(column => column.key === key).validation;
+
+        if (validation) {
+            const {isRequired} = validation;
+
+            if (isRequired) {
+                const {focusedElement, interactedElements} = this.state;
+                const isFocused = focusedElement === key;
+                const wasFocused = interactedElements.has(key);
+                const value = this.state[key];
+
+                return (!value || !value.length) && !isFocused && wasFocused;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
 
     renderFormFields() {
         const {
@@ -117,13 +164,11 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                 label,
                 validation,
             } = column;
-            const {focusedElement, interactedElements} = this.state;
             const {isRequired} = validation;
             const value = this.state[key];
-            const isFocused = focusedElement === key;
-            const wasFocused = interactedElements.has(key);
-            const hasError = isRequired && (!value || !value.length) && !isFocused && wasFocused;
-            const formHelperText = hasError ? dashboardTranslations.en.FieldIsRequiredHintError : '';
+            const hasError = this.doesFieldHaveError(key);
+            const defaultHintText = isRequired ? dashboardTranslations.en.FieldDefaultHint : dashboardTranslations.en.FieldDefaultOptionalHint;
+            const formHelperText = hasError ? dashboardTranslations.en.FieldIsRequiredHintError : defaultHintText;
 
             switch (type) {
                 case 'date':
@@ -221,7 +266,7 @@ class AppDataTableCreateModalClass extends React.PureComponent {
                 <form className={classes.form} onSubmit={this.onFormSubmit}>
                     {this.renderFormFields()}
                     <Button
-                        disabled={isSubmittingForm}
+                        disabled={isSubmittingForm || !this.areFormFieldsValid}
                         variant="contained"
                         type="submit"
                         color="primary"
