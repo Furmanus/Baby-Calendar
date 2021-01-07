@@ -12,6 +12,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    Fade,
     withStyles,
 } from '@material-ui/core';
 import {materialDataTableCellStyles, materialDataTableStyles} from '../../styles/materialStyles';
@@ -108,64 +109,66 @@ class AppDataDashboardClass extends React.PureComponent {
                 {
                     showLoader || !data ?
                         <CircularProgress className={classes.loader}/> :
-                        <TableContainer className={classes.container} component={Paper}>
-                            <h2 className={classes.heading}>{heading}</h2>
-                            <Button
-                                variant="contained"
-                                type="submit"
-                                color="primary"
-                                size="small"
-                                className={classes.addEntryButton}
-                                onClick={this.onAddEntryClick}
-                            >
-                                {addEntryButton}
-                            </Button>
-                            <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow className={classes.headerRow}>
+                        <Fade in={true}>
+                            <TableContainer className={classes.container} component={Paper}>
+                                <h2 className={classes.heading}>{heading}</h2>
+                                <Button
+                                    variant="contained"
+                                    type="submit"
+                                    color="primary"
+                                    size="small"
+                                    className={classes.addEntryButton}
+                                    onClick={this.onAddEntryClick}
+                                >
+                                    {addEntryButton}
+                                </Button>
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow className={classes.headerRow}>
+                                            {
+                                                columns.map(column => (
+                                                    <TableCell
+                                                        key={Math.random()}
+                                                        className={classes.tableCell}
+                                                        align="left"
+                                                    >
+                                                        {column.label}
+                                                    </TableCell>
+                                                ))
+                                            }
+                                            <TableCell className={classes.tableCell} align="right">{translations.en.ActionsColumnLabel}</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
                                         {
-                                            columns.map(column => (
-                                                <TableCell
-                                                    key={Math.random()}
-                                                    className={classes.tableCell}
-                                                    align="left"
-                                                >
-                                                    {column.label}
-                                                </TableCell>
-                                            ))
+                                            [...data].reverse()
+                                                .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
+                                                .map(item => (
+                                                    <AppDataDashboardRow
+                                                        key={Math.random()}
+                                                        columns={columns}
+                                                        data={item}
+                                                        onEditClick={this.onEditEntryClick}
+                                                        onDeleteClick={this.onDeleteEntryClick}
+                                                    />
+                                                ))
                                         }
-                                        <TableCell className={classes.tableCell} align="right">{translations.en.ActionsColumnLabel}</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        [...data].reverse()
-                                            .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                                            .map(item => (
-                                                <AppDataDashboardRow
-                                                    key={Math.random()}
-                                                    columns={columns}
-                                                    data={item}
-                                                    onEditClick={this.onEditEntryClick}
-                                                    onDeleteClick={this.onDeleteEntryClick}
-                                                />
-                                            ))
-                                    }
-                                </TableBody>
-                                <TableFooter>
-                                    <TablePagination
-                                        rowsPerPageOptions={tablePaginationOptions}
-                                        colspan={3}
-                                        labelRowsPerPage={translations.en.PaginationPerPageLabel}
-                                        page={currentPage}
-                                        rowsPerPage={rowsPerPage}
-                                        count={data.length}
-                                        onChangePage={this.handlePageChange}
-                                        onChangeRowsPerPage={this.handlePerPageChange}
-                                    />
-                                </TableFooter>
-                            </Table>
-                        </TableContainer>
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TablePagination
+                                            rowsPerPageOptions={tablePaginationOptions}
+                                            colspan={3}
+                                            labelRowsPerPage={translations.en.PaginationPerPageLabel}
+                                            page={currentPage}
+                                            rowsPerPage={rowsPerPage}
+                                            count={data.length}
+                                            onChangePage={this.handlePageChange}
+                                            onChangeRowsPerPage={this.handlePerPageChange}
+                                        />
+                                    </TableFooter>
+                                </Table>
+                            </TableContainer>
+                        </Fade>
                 }
                 <AppDataTableCreateModal
                     mode={createModalState}
