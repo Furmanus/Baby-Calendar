@@ -10,4 +10,7 @@ module.exports = {
     PasswordFieldEmpty: 1007,
     LoginAndPasswordFieldEmpty: 1008,
     RegisterUserAlreadyExists: 1009,
+    // INFO SETTINGS
+    FailedToUploadImage: 1100,
+    InvalidImageType: 1101,
 };

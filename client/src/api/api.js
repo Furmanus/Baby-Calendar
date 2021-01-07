@@ -1,4 +1,5 @@
 import qs from 'query-string';
+import axios from 'axios';
 
 export function loginSubmit(formData) {
     return postRequest('/login', formData);
@@ -39,6 +40,53 @@ export function deleteUserData(data) {
 export function replaceUserData(data) {
     return putRequest('/data_replace', data);
 }
+
+// V2
+
+export function fetchChildDataApi() {
+    return getRequest('/api/info');
+}
+export function setChildDataApi(formData) {
+    return axios.post('/api/info', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+}
+export function createDataEntry(data) {
+    return axios.put('/api/data', data, {
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+export function replaceDataEntry(data) {
+    return axios.post('/api/data', data, {
+        headers: {'Content-Type': 'application/json'},
+    });
+}
+export function deleteDataEntry(data) {
+    return axios.delete('/api/data', {
+        headers: {'Content-Type': 'application/json'},
+        data,
+    });
+}
+export function logoutApi() {
+    return axios.get('/logout');
+}
+export function fetchChildWeightApi() {
+    return axios.get('/api/weight');
+}
+export function fetchChildInoculationsApi() {
+    return axios.get('/api/inoculations');
+}
+export function fetchChildInfectionsApi() {
+    return axios.get('/api/infections');
+}
+export function fetchChildNotesApi() {
+    return axios.get('/api/notes');
+}
+
+// HELPERS
+
 async function getRequest(url = '', data = {}) {
     data = prepareRequestData(data);
     url = `${url}?${qs.stringify(data)}`;
@@ -55,7 +103,7 @@ async function getRequest(url = '', data = {}) {
         throw err;
     }
 }
-async function postRequest(url = '', data = {}) {
+async function postRequest(url = '', data = {}, headers = {}) {
     data = prepareRequestData(data);
 
     try {
@@ -63,7 +111,8 @@ async function postRequest(url = '', data = {}) {
             method: 'POST',
             body: JSON.stringify(data),
             headers: new Headers(({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...headers,
             }))
         });
         const preparedResponse = await prepareResponse(response);

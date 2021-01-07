@@ -12,7 +12,9 @@
     "plugin:react/recommended"
   ],
   "env": {
-    "browser": true
+    "node": false,
+    "browser": true,
+    "es6": true
   },
   "globals": {
     "process": "readonly",

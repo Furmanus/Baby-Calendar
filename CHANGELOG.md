@@ -1,7 +1,11 @@
 # Changelog
 
-Current version is 0.9.0 (2019-02-10)
+Current version is 0.11.0 (2021-01-08)
 
+- 0.11.0 (2021-01-08)
+  - Redesign and refactor application pages
+- 0.10.0 (2020-10-12)
+  - Change login page UI, rewrite and refactor login page code
 - 0.9.0 (2019-02-10)
   - Added notes tab to navbar, where you can add various notes (table with date and description column)
 - 0.8.1 (2019-01-31)

@@ -21,7 +21,6 @@ const {
 const mongoStoreOptions = {
     url: config.mongoDbUrl,
 };
-const PORT = process.env.PORT || httpPort;
 const credentials = {
     key: fs.readFileSync(process.env.CERT_KEY),
     cert: fs.readFileSync(process.env.CERT_PATH),
@@ -30,6 +29,7 @@ const credentials = {
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'client/dist'));
 app.use(express.static(path.resolve(__dirname, '..', 'client/dist')));
+app.use('/info', express.static(path.resolve(__dirname, '..', 'client/dist')));
 app.use(bodyParser.json());
 app.use(expressSession({
     secret: config.sessionConfig.secret,

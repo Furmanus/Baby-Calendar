@@ -1,21 +1,33 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {AppPage} from './containers/AppPage';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
-import {appReducer} from './reducers/app_reducer';
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import {appReducer as mainReducer} from './common/reducers/app_reducer';
 import './styles/app.less';
-import {setApplicationStyle} from '../common/helpers/helpers';
+import {AppPage} from './common/containers/AppPage';
+import {BrowserRouter} from 'react-router-dom';
+import logger from 'redux-logger';
+import {routes} from './routes';
 
-const store = createStore(appReducer, applyMiddleware(thunk));
+const rootReducer = combineReducers({
+    main: mainReducer,
+    ...(routes.reduce((result, route) => {
+        if (route.reducer) {
+            result[route.name] = route.reducer;
+        }
 
-setApplicationStyle();
+        return result;
+    }, {})),
+});
+const middlewares = [thunk, logger]; // TODO conditionally add logger middleware only for development mode
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 ReactDom.render(
     <Provider store={store}>
-        <AppPage/>
+        <BrowserRouter>
+            <AppPage/>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('app')
 );
