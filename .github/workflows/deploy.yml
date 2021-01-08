@@ -35,5 +35,6 @@ jobs:
           script: |
             cd apps/Baby-Calendar
             npm install
+            rm -rf ./client/dist
             npm run build:prod
             pm2 restart all
