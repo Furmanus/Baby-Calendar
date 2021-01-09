@@ -21,10 +21,16 @@ const {
 const mongoStoreOptions = {
     url: config.mongoDbUrl,
 };
-const credentials = {
-    key: fs.readFileSync(process.env.CERT_KEY),
-    cert: fs.readFileSync(process.env.CERT_PATH),
-};
+let credentials;
+
+try {
+    credentials = {
+        key: fs.readFileSync(process.env.CERT_KEY), cert: fs.readFileSync(process.env.CERT_PATH),
+    };
+} catch {
+    console.error('Failed to read SSL cert files');
+    credentials = {};
+}
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'client/dist'));
