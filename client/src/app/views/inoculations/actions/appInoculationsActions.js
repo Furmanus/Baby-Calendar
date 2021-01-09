@@ -1,6 +1,7 @@
 import {
     DELETE_INOCULATION_ENTRY_ATTEMPT,
     DELETE_INOCULATION_ENTRY_CONFIRMED,
+    DELETE_INOCULATION_ENTRY_FAILURE,
     DELETE_INOCULATION_ENTRY_SUCCESS,
     FETCH_INOCULATIONS_ENTRIES,
     FETCH_INOCULATIONS_ENTRIES_FAILURE,
@@ -12,7 +13,6 @@ import {
 import {createDataEntry, deleteDataEntry, fetchChildInoculationsApi, replaceDataEntry} from '../../../../api/api';
 import {closeConfirm, showConfirm, showSnackBarDialog} from '../../../common/actions/app_actions';
 import {appInoculationsManageTranslations as translations} from '../contants/translations';
-import {DELETE_WEIGHT_ENTRY_ATTEMPT_FAILURE} from '../../Weight/constants/actionTypes';
 
 export function fetchInoculationsEntriesAction() {
     return async dispatch => {
@@ -167,6 +167,6 @@ function deleteInoculationSuccess(newList) {
 
 function deleteInoculationFailure() {
     return {
-        type: DELETE_WEIGHT_ENTRY_ATTEMPT_FAILURE,
+        type: DELETE_INOCULATION_ENTRY_FAILURE,
     };
 }

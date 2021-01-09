@@ -1,5 +1,7 @@
 import {
-    DELETE_INOCULATION_ENTRY_CONFIRMED, DELETE_INOCULATION_ENTRY_SUCCESS,
+    DELETE_INOCULATION_ENTRY_CONFIRMED,
+    DELETE_INOCULATION_ENTRY_FAILURE,
+    DELETE_INOCULATION_ENTRY_SUCCESS,
     FETCH_INOCULATIONS_ENTRIES,
     FETCH_INOCULATIONS_ENTRIES_FAILURE,
     FETCH_INOCULATIONS_ENTRIES_SUCCESS,
@@ -7,7 +9,6 @@ import {
     SUBMIT_INOCULATIONS_FORM_FAILURE,
     SUBMIT_INOCULATIONS_FORM_SUCCESS,
 } from '../contants/actionTypes';
-import {DELETE_WEIGHT_ENTRY_ATTEMPT_FAILURE} from '../../Weight/constants/actionTypes';
 
 const initialState = {
     isFetchingInoculationsEntries: false,
@@ -65,7 +66,7 @@ export function appInoculationsReducer(state = initialState, action) {
                 isDeletingEntry: false,
                 inoculationsEntries: action.inoculationsEntries,
             };
-        case DELETE_WEIGHT_ENTRY_ATTEMPT_FAILURE:
+        case DELETE_INOCULATION_ENTRY_FAILURE:
             return {
                 ...state,
                 isDeletingEntry: false,

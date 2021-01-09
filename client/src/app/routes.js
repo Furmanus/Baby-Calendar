@@ -7,8 +7,8 @@ import {
     NOTES_SECTION,
 } from './common/constants/sections';
 import {dashboardTranslations} from './common/constants/translations';
-import {InfoPage} from './views/info/containers/infoPage';
-import {InfoSettingsForm} from './views/infoSettingsForm/containers/infoSettingsForm';
+import {InfoPage} from './views/info/containers/InfoPage';
+import {InfoSettingsForm} from './views/infoSettingsForm/containers/InfoSettingsForm';
 import {AppWeightManage} from './views/weight/containers/AppWeightManage';
 import {WeightIcon} from '../assets/weight';
 import {SyringeIcon} from '../assets/syringe';
