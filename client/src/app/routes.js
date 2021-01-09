@@ -7,21 +7,21 @@ import {
     NOTES_SECTION,
 } from './common/constants/sections';
 import {dashboardTranslations} from './common/constants/translations';
-import {InfoPage} from './views/Info/containers/InfoPage';
-import {InfoSettingsForm} from './views/InfoSettingsForm/containers/InfoSettingsForm';
+import {InfoPage} from './views/info/containers/infoPage';
+import {InfoSettingsForm} from './views/infoSettingsForm/containers/infoSettingsForm';
 import {AppWeightManage} from './views/weight/containers/AppWeightManage';
 import {WeightIcon} from '../assets/weight';
 import {SyringeIcon} from '../assets/syringe';
 import {InfoIcon} from '../assets/info';
 import {appWeightReducer} from './views/weight/reducers/appWeightReducer';
-import {appInoculationsReducer} from './views/Inoculations/reducers/appInoculationsReducer';
-import {AppInoculationsManage} from './views/Inoculations/containers/AppInoculationsManage';
-import {appInfectionsReducer} from './views/Infections/reducers/appInfectionsReducer';
-import {AppInfectionsManage} from './views/Infections/containers/AppInfectionsManage';
+import {appInoculationsReducer} from './views/inoculations/reducers/appInoculationsReducer';
+import {AppInoculationsManage} from './views/inoculations/containers/AppInoculationsManage';
+import {appInfectionsReducer} from './views/infections/reducers/appInfectionsReducer';
+import {AppInfectionsManage} from './views/infections/containers/AppInfectionsManage';
 import {ThermometerIcon} from '../assets/thermometer';
 import {NotesIcon} from '../assets/notes';
-import {appNotesReducer} from './views/Notes/reducers/appNotesReducer';
-import {AppNotesManage} from './views/Notes/containers/AppNotesManage';
+import {appNotesReducer} from './views/notes/reducers/appNotesReducer';
+import {AppNotesManage} from './views/notes/containers/AppNotesManage';
 
 export const routes = [
     {
