@@ -66,7 +66,7 @@ module.exports = env => {
             rules: [
                 {
                     test: /\.js|jsx/,
-                    exclude: /node_modules/,
+                    include: path.resolve(__dirname, 'client', 'src'),
                     loader: 'babel-loader'
                 },
                 {

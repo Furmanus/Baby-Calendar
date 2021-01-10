@@ -10,7 +10,7 @@
     "server:start": "node ./server/index.js",
     "client:start": "webpack --config webpack.config.js",
     "server:watch": "nodemon ./server/index.js",
-    "client:watch": "webpack --config webpack.config.js --env watch",
+    "client:watch": "webpack --config webpack.config.js --env watch --progress",
     "start:watch": "concurrently \"npm run server:watch\" \"npm run client:watch\"",
     "build:dev": "webpack --config webpack.config.js --env NODE_ENV=development",
     "build:prod": "webpack --config webpack.config.js --env NODE_ENV=production",
