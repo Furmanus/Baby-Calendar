@@ -16,16 +16,18 @@ const plugins = [
         dry: false,
     }),
     new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'server/templates/login_template.pug'),
+        template: path.resolve(__dirname, 'server', 'templates', 'login_template.pug'),
         chunks: ['login'],
         filetype: 'pug',
         filename: 'login.pug',
+        favicon: path.resolve(__dirname, 'client', 'src', 'assets', 'favicon.png'),
     }),
     new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'server/templates/app_template.pug'),
+        template: path.resolve(__dirname, 'server', 'templates', 'app_template.pug'),
         chunks: ['app'],
         filetype: 'pug',
         filename: 'app.pug',
+        favicon: path.resolve(__dirname, 'client', 'src', 'assets', 'favicon.png'),
     }),
     new HtmlWebpackPugPlugin(),
     new MiniCssExtractPlugin({
