@@ -12,7 +12,6 @@ const usersRouter = require('./router/users_router');
 const dataRouter = require('./router/data_router');
 const config = require('./config/config');
 const MongoStore = require('connect-mongo')(expressSession);
-const cloudinaryHelper = require('./helpers/cloudinary');
 const {
     httpPort,
     httpsPort,
@@ -44,8 +43,6 @@ app.use(expressSession({
 app.use(router);
 app.use(usersRouter);
 app.use(dataRouter);
-
-cloudinaryHelper.initConfig();
 
 http.createServer(app).listen(httpPort, () => {
     console.log(`Http server is listening at port ${httpPort} in ${envName} mode`);

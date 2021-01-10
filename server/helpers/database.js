@@ -4,7 +4,6 @@ const config = require('../config/config');
 const url = config.mongoDbUrl;
 const constants = require('../constants/database_constats');
 const cryptoHelper = require('./crypto');
-const cloudinaryHelper = require('./cloudinary');
 
 const blankUserDataEntry = {
     childName: '',
@@ -218,19 +217,6 @@ const databaseMethods = {
                 }
                 if (birthDate) {
                     userDataRecord.birthDate = null;
-                }
-                if (imageData) {
-                    const deletionResult = await cloudinaryHelper.removeImage(imageData.public_id);
-
-                    if (deletionResult.result === 'ok') {
-                        userDataRecord.imageData = null;
-                    } else {
-                        callback(500, {
-                            error: true,
-                            message: 'Failed to delete image'
-                        });
-                        return;
-                    }
                 }
                 if (childWeightEntry) {
                     userDataRecord.childWeightEntries = userDataRecord.childWeightEntries.filter(entry => {

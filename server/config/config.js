@@ -7,9 +7,6 @@ const config = {
         sessionConfig: {
             secret: process.env.SESSION_SECRET,
         },
-        cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-        cloudinaryApiSecret: process.env.CLOUDINARY_SECRET,
     },
     production: {
         httpPort: 80,
@@ -19,9 +16,6 @@ const config = {
         sessionConfig: {
             secret: process.env.SESSION_SECRET,
         },
-        cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-        cloudinaryApiSecret: process.env.CLOUDINARY_SECRET,
     }
 };
 const env = process.env.NODE_ENV;
