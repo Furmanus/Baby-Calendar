@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ENV = require('./server/config/config').envName;
 const PRODUCTION = 'production';
+const DEVELOPMENT = 'development';
 
 const plugins = [
     new CleanWebpackPlugin('client/dist/*.*', {
@@ -33,6 +34,7 @@ const plugins = [
     new MiniCssExtractPlugin({
         filename: "[name].[contentHash].css",
     }),
+    new webpack.EnvironmentPlugin(['NODE_ENV', ENV]),
 ];
 
 module.exports = env => {
@@ -100,7 +102,7 @@ module.exports = env => {
                 },
             ],
         },
+        watch: watch || NODE_ENV === DEVELOPMENT,
         plugins,
-        watch,
     };
 };
