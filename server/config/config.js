@@ -7,6 +7,7 @@ const config = {
         sessionConfig: {
             secret: process.env.SESSION_SECRET,
         },
+        envName: process.env.NODE_ENV,
     },
     production: {
         httpPort: 80,
@@ -16,7 +17,8 @@ const config = {
         sessionConfig: {
             secret: process.env.SESSION_SECRET,
         },
-    }
+    },
+    envName: process.env.NODE_ENV,
 };
 const env = process.env.NODE_ENV;
 

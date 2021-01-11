@@ -39,16 +39,15 @@ const plugins = [
 
 module.exports = env => {
     const {
-        NODE_ENV,
         watch,
     } = env;
 
-    if (NODE_ENV !== PRODUCTION) {
+    if (ENV !== PRODUCTION) {
         plugins.push(new ProgressBarPlugin());
     }
 
     return {
-        mode: NODE_ENV || PRODUCTION,
+        mode: ENV || PRODUCTION,
         entry: {
             login: ['babel-polyfill', path.resolve(__dirname, 'client/src/login/entry.js')],
             app: ['babel-polyfill', path.resolve(__dirname, 'client/src/app/app.js')],
@@ -58,7 +57,7 @@ module.exports = env => {
             filename: '[name].[contentHash].js'
         },
         target: 'web',
-        devtool: NODE_ENV === PRODUCTION ? undefined : 'source-map',
+        devtool: ENV === DEVELOPMENT ? 'inline-source-map' : false,
         optimization: {
             splitChunks: {
                 chunks: 'all',
@@ -102,7 +101,7 @@ module.exports = env => {
                 },
             ],
         },
-        watch: watch || NODE_ENV === DEVELOPMENT,
+        watch: watch || ENV === DEVELOPMENT,
         plugins,
     };
 };

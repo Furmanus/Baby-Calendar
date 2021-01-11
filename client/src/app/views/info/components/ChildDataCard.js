@@ -107,8 +107,8 @@ export function ChildDataCard(props) {
 }
 
 ChildDataCard.propTypes = {
-    childName: PropTypes.string.isRequired,
-    birthDate: PropTypes.string.isRequired,
+    childName: PropTypes.string,
+    birthDate: PropTypes.string,
     childImageUrl: PropTypes.string,
     showLoader: PropTypes.bool,
 };

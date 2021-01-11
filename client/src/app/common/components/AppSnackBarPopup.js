@@ -38,7 +38,7 @@ export function AppSnackBarPopup(props) {
 
 AppSnackBarPopup.propTypes = {
     mode: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
     isOpen: PropTypes.bool.isRequired,
     hideDuration: PropTypes.number,
     callback: PropTypes.func,
