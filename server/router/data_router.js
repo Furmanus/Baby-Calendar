@@ -4,6 +4,7 @@ const router = express.Router();
 const databaseHelper = require('../helpers/database');
 const awsHelper = require('../helpers/aws');
 const errorCodes = require('../constants/errors_codes');
+const logMessage = require('../helpers/logger');
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -79,6 +80,7 @@ router.post('/api/info', upload.single('childImage'), async (req, res) => {
             try {
                 fileUrl = await awsHelper.uploadFile(file);
             } catch (error) {
+                logMessage(error, 'error');
                 res.status(500).send(error);
             }
         } else {
