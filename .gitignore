@@ -5,3 +5,4 @@ client/dist
 certs
 backup.json
 backup2.json
+logs.txt

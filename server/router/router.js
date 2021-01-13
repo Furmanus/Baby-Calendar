@@ -1,3 +1,5 @@
+const logError = require('../helpers/logger');
+
 const express = require('express');
 const router = express.Router();
 const databaseHelper = require('../helpers/database');
