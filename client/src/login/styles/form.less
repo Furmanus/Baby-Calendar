@@ -1,16 +1,14 @@
 .form {
-  max-width: 500px;
-
-  @media @smartphone {
-    max-width: unset;
-  }
-
   .flex-center-column();
-  width: 70%;
+  width: 500px;
   padding: 0 30px;
 
+  @media @tablet {
+    width: 400px;
+  }
+
   @media @smartphone {
-    width: 100%;
+    width: 320px;
   }
 
   &-button {
