@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {Card, CardContent, CardMedia, Typography, CardActions, Button, CircularProgress} from '@material-ui/core';
@@ -66,11 +66,11 @@ export function ChildDataCard(props) {
     const history = useHistory();
     const classes = useStyles();
 
-    const onEditButtonClick = e => {
+    const onEditButtonClick = useCallback(e => {
         e.preventDefault();
 
         history.push('/info/settings');
-    };
+    }, []);
 
     return (
         <Card className={classes.container}>

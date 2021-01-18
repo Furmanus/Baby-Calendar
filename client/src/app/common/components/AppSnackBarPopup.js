@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {Grow, Snackbar} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
@@ -22,10 +22,10 @@ export function AppSnackBarPopup(props) {
     } = props;
     const classes = useStyles();
 
-    const onExit = () => {
+    const onExit = useCallback(() => {
         callback();
         resetState();
-    };
+    }, [callback, resetState]);
 
     return (
         <Snackbar open={isOpen} autoHideDuration={hideDuration} onClose={onClose} TransitionComponent={Grow} onExited={onExit}>
